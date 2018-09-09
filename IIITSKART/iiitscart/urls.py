@@ -15,10 +15,17 @@ Including another URLconf
 """
 from django.urls import include,path
 from django.contrib import admin
+from cart import views
 
 
 urlpatterns = [
-   path('', include('cart.urls')),
+##   path('cart/', include('cart.urls')),
    path('admin/', admin.site.urls),
+   path('', views.login, name='login'),
+   path('index/', views.index, name='index'),
+##   path('login/', views.login, name='login'),
+##   path(r'^logout/$', views.logout, name='logout'),
+   path('auth/', include('social_django.urls', namespace='social')),
+   
     
 ]

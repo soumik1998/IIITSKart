@@ -5,4 +5,11 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    
+    return render(request, 'cart/index.html')
+
+def login(request):
+    name=user.username
+
+    
+    return render(request, 'cart/login.html')
