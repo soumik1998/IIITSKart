@@ -14,8 +14,8 @@ def index(request):
         'user': model_to_dict(request.user)
     }, safe=False)
 
-def login(request):
+def signup(request):
     
-    return render(request, 'cart/login.html')
+    return render(request, 'cart/signup.html')
 
 

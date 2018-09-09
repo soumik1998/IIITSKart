@@ -21,7 +21,7 @@ from cart import views
 urlpatterns = [
 ##   path('cart/', include('cart.urls')),
    path('admin/', admin.site.urls),
-   path('', views.login, name='login'),
+   path('', views.signup, name='signup'),
    path('index/', views.index, name='index'),
    path('auth/', include('social_django.urls', namespace='social')),
 ]
