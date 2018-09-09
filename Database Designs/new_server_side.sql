@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS `IIITSCart`.`Login` (
   `username` VARCHAR(30) CHARACTER SET 'utf8' NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `password` VARCHAR(128) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
