@@ -58,7 +58,7 @@ ROOT_URLCONF = 'iiitscart.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./templates',],
+        'DIRS': [''],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,3 +145,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

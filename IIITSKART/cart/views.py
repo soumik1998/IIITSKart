@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 from django.http import HttpResponse
@@ -16,6 +18,9 @@ def index(request):
 
 def signup(request):
     
-    return render(request, 'cart/signup.html')
+    return render(request, 'registration/signup.html')
+
+def home(request):
+    return render(request, 'cart/landing.html')
 
 
