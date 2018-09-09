@@ -8,8 +8,7 @@ from social_django.models import *
 
 
 def index(request):
-    print(request.user.username, request.user.email)
-    print(request.user.social_auth.get(uid=request.user.email))
+
     return JsonResponse({
         'user': model_to_dict(request.user)
     }, safe=False)
@@ -17,5 +16,10 @@ def index(request):
 def login(request):
     
     return render(request, 'cart/login.html')
+
+
+def home(request):
+    return render(request, "cart/landing.html", {})
+
 
 
