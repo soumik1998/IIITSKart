@@ -21,8 +21,11 @@ from cart import views
 urlpatterns = [
 ##   path('cart/', include('cart.urls')),
    path('admin/', admin.site.urls),
-   path('', views.home, name='home'),
+   path('home/', views.home, name='home'),
+   path('dashboard/', views.dashboard,name='dashboard'),
+   path('cart/', include('cart.urls')),
    path('index/', views.index, name='index'),
    path('auth/', include('social_django.urls', namespace='social')),
    path('accounts/', include('django.contrib.auth.urls')),
+   path('login/', views.login, name='login')
 ]

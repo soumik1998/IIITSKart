@@ -122,7 +122,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LOGIN_URL='login'
-LOGIN_REDIRECT_URL='index'
+LOGIN_REDIRECT_URL='dashboard'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='140225818577-6mgfgkh1g98af891beljtbks4vdeajk5.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='mQ5JN9lQlzGVRniWBfRP9Xxo'
 
@@ -144,5 +144,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

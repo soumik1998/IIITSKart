@@ -20,6 +20,12 @@ def signup(request):
     
     return render(request, 'registration/signup.html')
 
+def dashboard(request):
+    return HttpResponse("Welcome to Dashboard")
+
+def login(request):
+    return render(request, 'registration/signup.html')
+
 def home(request):
     return render(request, 'cart/landing.html')
 
