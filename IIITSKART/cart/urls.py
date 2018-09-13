@@ -10,8 +10,8 @@ router.register(r'product', views.ProductViewSet)
 router.register(r'p_review', views.P_reviewViewSet)
 router.register(r'C_review', views.C_reviewViewSet)
 router.register(r'Category', views.CategoryViewSet)
-router.register(r'Superuser',views.Super_UserSerializer)
-router.register(r'Login',views.LoginSerializer)
+router.register(r'Superuser',views.Super_UserViewSet)
+router.register(r'Login',views.LoginViewSet)
 
 urlpatterns = [
     
