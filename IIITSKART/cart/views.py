@@ -5,8 +5,53 @@ from django.http import *
 from django.contrib.auth import logout
 import requests
 
+<<<<<<< HEAD
 def home(request):
     return render(request,'cart/landing.html')
+=======
+from django.shortcuts import render
+from rest_framework import viewsets
+from .models import customer,c_review,p_review,product,login,category,super_user
+from .serializers import CustomerSerializer,C_reviewSerializer,P_reviewSerializer,ProductSerializer,LoginSerializer,CategorySerializer,Super_UserSerializer
+# Create your views here.
+
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = customer.objects.all()
+    serializer_class =  CustomerSerializer
+
+
+class C_reviewViewSet(viewsets.ModelViewSet):
+    queryset = c_review.objects.all()
+    serializer_class =  C_reviewSerializer
+
+
+
+class P_reviewViewSet(viewsets.ModelViewSet):
+    queryset = p_review.objects.all()
+    serializer_class =  P_reviewSerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = product.objects.all()
+    serializer_class =  ProductSerializer
+
+
+class LoginViewSet(viewsets.ModelViewSet):
+    queryset = login.objects.all()
+    serializer_class =  LoginSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = category.objects.all()
+    serializer_class =  CategorySerializer
+
+
+class Super_UserViewSet(viewsets.ModelViewSet):
+    queryset = super_user.objects.all()
+    serializer_class =  Super_UserSerializer
+
+>>>>>>> fb182685c1d9e52cc1b79ab136474fe2b4164e57
 
 def index(request):
     if request.user.is_authenticated: 
