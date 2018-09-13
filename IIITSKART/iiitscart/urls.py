@@ -20,6 +20,7 @@ from cart import views
 
 urlpatterns = [
    path('cart/', include('cart.urls',namespace='cart')),
+   path('home/', views.home , name = 'home'),
    path('', views.sign_up, name='signup'),
    path('loin/',views.loin,name='loin'),
    path('lout/',views.lout,name='lout'),

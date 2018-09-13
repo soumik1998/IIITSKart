@@ -145,5 +145,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-#LOGOUT_REDIRECT_URL='/cart/dashboard'
+LOGOUT_REDIRECT_URL='/cart/landing.html'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

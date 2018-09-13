@@ -5,6 +5,8 @@ from django.http import *
 from django.contrib.auth import logout
 import requests
 
+def home(request):
+    return render(request,'cart/landing.html')
 
 def index(request):
     if request.user.is_authenticated: 
