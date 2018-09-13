@@ -2,8 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-
-    
 class customer(models.Model):
     first_name=models.CharField(max_length=20)
     last_name=models.CharField(max_length=20)
@@ -11,8 +9,7 @@ class customer(models.Model):
     phone=models.IntegerField()
     address=models.TextField()
     blacklist=models.CharField(max_length=10)
-    
-    
+
     def __str__(self):
         return self.email
 
