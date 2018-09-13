@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.http import *
-from django.contrib.auth import logout
-import requests
+from django.contrib.auth import *
+from django.contrib.auth.models import User
 
 from django.shortcuts import render
 from rest_framework import viewsets
@@ -47,6 +47,7 @@ class Super_UserViewSet(viewsets.ModelViewSet):
     queryset = super_user.objects.all()
     serializer_class =  Super_UserSerializer
 
+
 def index(request):
     if request.user.is_authenticated: 
         return JsonResponse({
@@ -59,21 +60,62 @@ def index(request):
 def sign_up(request):
     return render(request, 'registration/signup.html')
 
+
 def lout(request):
     logout(request)
     return  HttpResponse("you are logged out")
 
+
 def loin(request):
+
     if request.user.is_authenticated:
-        return HttpResponseRedirect("/cart/dashboard/")
-         
-    else:   
-        return  HttpResponse("you are already  logged in") 
+        return render(request , 'cart/dashboard.html')
+
+
+def login_page(request):
+    return render(request, 'registration/login.html', {})
+
+
+def profile_val(request):
+
+    try:
+        us = request.POST['username']
+        paswd = request.POST['password']
+        allusers = User.objects.all()
+        for users in allusers:
+            if users.username == us and users.password == paswd:
+                return render(request, 'cart/dashboard.html')
+    except:
+        return render(request , 'cart/error-page.html')
 
 
 def dashboard(request):
-    return HttpResponseRedirect("/cart/index/")
 
+    return HttpResponseRedirect("/cart/index/")
 
 def home(request):
     return render(request,'cart/landing.html')
+
+
+def makeuser(request):
+    if request.method == 'POST':
+        try:
+            if User.objects.filter(username=request.POST['email']).count() == 0:
+                uobj = User()
+                uobj.username=request.POST['username']
+                uobj.first_name = request.POST['f_name']
+                uobj.last_name = request.POST['l_name']
+                uobj.email = request.POST['email']
+                uobj.password = request.POST['password']
+                uobj.save()
+                return redirect( 'cart : dashboard', uobj.name)
+            else:
+                return render(request, 'cart/dashboard.html', {})
+        except MultiValueDictKeyError:
+            return render(request, 'cart/error-page.html', {})
+
+# address = request.POST['address']
+# inst = customer()
+# inst.address = address
+# inst.user = User.objects.get(username=request.user)
+# int.save()

@@ -17,5 +17,9 @@ urlpatterns = [
     
     path('dashboard/', views.dashboard, name='dashboard'),
     path('index/', views.index, name='index'),
-    url(r'^',include(router.urls))
+    url(r'^',include(router.urls)),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('login-view/', views.login_page , name='login_page'),
+    path('profilevalidation/',views.profile_val , name = 'profile_val'),
+    path('makeuser/', views.makeuser, name='makeuser'),
 ]

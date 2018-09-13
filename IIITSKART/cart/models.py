@@ -1,14 +1,19 @@
 from django.db import models
+from datetime import datetime
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 
 class customer(models.Model):
-    first_name=models.CharField(max_length=20)
-    last_name=models.CharField(max_length=20)
-    email=models.EmailField(max_length=70,blank=False, null= True, unique= True)
-    phone=models.IntegerField()
-    address=models.TextField()
-    blacklist=models.CharField(max_length=10)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    email = models.EmailField(max_length=70,blank=False, null= True, unique= True)
+    phone = models.IntegerField()
+    address = models.TextField(max_length=70)
+    blacklist = models.CharField(max_length=10)
+    password = models.CharField(max_length=300)
 
     def __str__(self):
         return self.email
