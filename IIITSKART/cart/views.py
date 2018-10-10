@@ -143,7 +143,21 @@ def receive(request):
 @csrf_exempt
 def send(request):
     if request.method == 'GET':
-        obj = customer.objects.all()
+        class_name = request.GET.get('class_name')
+        print(class_name)
+        if(class_name == 'Customer'):
+            obj = customer.objects.all()
+        if (class_name == 'C_Review'):
+            obj = c_review.objects.all()
+        if (class_name == 'Product'):
+            obj = product.objects.all()
+        if (class_name == 'P_Review'):
+            obj = p_review.objects.all()
+        if (class_name == 'Category'):
+            obj = category.objects.all()
+        if (class_name == 'SuperUser'):
+            obj = super_user.objects.all()
+
         data = serializers.serialize('json', obj)
         jsonResponse = {
             'data': json.loads(data)

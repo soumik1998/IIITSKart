@@ -9,7 +9,7 @@ class customer(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     email = models.EmailField(max_length=70,blank=False, null= True, unique= True)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=20)
     address = models.TextField(max_length=70)
     blacklist = models.CharField(max_length=10)
     def __str__(self):
