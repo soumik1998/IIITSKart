@@ -1,14 +1,19 @@
+import json
+from django.core import serializers
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.http import *
-from django.contrib.auth import *
-from django.contrib.auth.models import User
+from django.contrib.auth import logout
+import requests
+import json
 
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from .models import customer,c_review,p_review,product,login,category,super_user
-from .serializers import CustomerSerializer,C_reviewSerializer,P_reviewSerializer,ProductSerializer,LoginSerializer,CategorySerializer,Super_UserSerializer
+from .models import customer, c_review, p_review, product, login, category, super_user
+from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, LoginSerializer, \
+    CategorySerializer, Super_UserSerializer
 # Create your views here.
 
 
@@ -119,3 +124,39 @@ def makeuser(request):
 # inst.address = address
 # inst.user = User.objects.get(username=request.user)
 # int.save()
+
+@csrf_exempt
+def receive(request):
+    if request.method == 'POST':
+        cust = json.loads(request.body)
+        obj = customer(first_name=cust['first_name'], last_name=cust['last_name'], address=cust['address'],
+                       email=cust['email'], phone=cust['phone'], blacklist=cust['blacklist'])
+        obj.save();
+        print(cust['first_name'])
+
+        return JsonResponse({"status": "post"})
+    else:
+        print('get req')
+        return JsonResponse({"status": "get"})
+
+
+@csrf_exempt
+def send(request):
+    if request.method == 'GET':
+        obj = customer.objects.all()
+        data = serializers.serialize('json', obj)
+        jsonResponse = {
+            'data': json.loads(data)
+        }
+        return JsonResponse(jsonResponse)
+    else:
+        print('Post request')
+        jsonResponse = {
+            'data': []
+        }
+        return JsonResponse(jsonResponse)
+
+
+
+
+
