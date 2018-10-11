@@ -1,0 +1,235 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
+
+
+.item-1, 
+.item-2, 
+.item-3 {
+	position: absolute;
+  display: block;
+	top: 12em;
+  
+  width: 50%;
+  
+  font-size: 2em;
+  animation-delay: 2.5s;
+  animation-fill-mode: backwards;
+	animation-duration: 20s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.item-1{
+	animation-name: anim-1;
+}
+
+.item-2{
+	animation-name: anim-2;
+}
+
+.item-3{
+	animation-name: anim-3;
+}
+
+@keyframes anim-1 {
+	0%, 8.3% { left: -100%; opacity: 0; }
+  8.3%,25% { left: 25%; opacity: 1; }
+  33.33%, 100% { left: 110%; opacity: 0; }
+}
+
+@keyframes anim-2 {
+	0%, 33.33% { left: -100%; opacity: 0; }
+  41.63%, 58.29% { left: 25%; opacity: 1; }
+  66.66%, 100% { left: 110%; opacity: 0; }
+}
+
+@keyframes anim-3 {
+	0%, 66.66% { left: -100%; opacity: 0; }
+  74.96%, 91.62% { left: 25%; opacity: 1; }
+  100% { left: 110%; opacity: 0; }
+}
+
+#overlay_login , #overlay_newbee{
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+form {border: 3px solid #f1f1f1;}
+
+
+
+
+
+button:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+
+
+.navbar {
+  overflow: hidden;
+  background-color: #000; 
+  opacity: 1;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navbar:hover {
+  overflow: hidden;  
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navbar a, i {
+  float: right;
+  display: block;
+  color: #fff;
+  opacity: 1;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.navbar input{
+  margin-top: 5px;
+  padding: 5px 5px;
+  height: 42px; 
+  width:390px;
+  float: right;
+  display: block;
+  color: #f2f2f2;
+  opacity: 1;
+  text-align: left;
+  border:1; 
+  font-size: 17px;
+  background-color: #000; 
+  border-radius: 5px;
+}
+
+.navbar img {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 1px 1px;
+  text-decoration: none;
+}
+
+.navbar a:hover, i:hover, input:hover {
+  background: #fff;
+  color: black;
+}
+.sidebar {
+  height: 100%;
+    width: 230px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 5px;
+    margin-top: 52px;
+    background-color: #2669F2;
+    /*
+    border-right: 2px solid #0072FF;
+    */
+}
+.container {
+    display: block;
+    color: #fff;
+    position: relative;
+    padding-left: 25px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #fff;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #279B6E;
+}
+.footer{
+  color: #747474; 
+  opacity: 0.4;
+}
+.footer:hover{
+  opacity: 0.7;
+  color: #000;
+}
+
+.main {
+  padding: 16px;
+  margin-top: 30px;
+  height: 500px; /* Used in this example to enable scrolling, remove at end */
+}
