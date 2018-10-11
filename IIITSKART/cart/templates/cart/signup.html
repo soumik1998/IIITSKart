@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>SUCCESSFULLY SIGNEDUP</p>
+<form method="post" action="{% url 'cart:makeuser' %}">
+{% csrf_token %}
+    <label for="username">username</label>
+    <input type="text" name="username" value="" id="username">
+    <label for="first_name">first name:</label>
+    <input type="text" name="first_name" value="" id="first_name">
+    <label for="last_name">last name:</label>
+    <input type="text" name="last_name" value="" id="last_name">
+    <label for="email">Email</label>
+    <input type="email" name="email" value="" id="email">
+    <label for="password">Password:</label>
+    <input type="password" name="password" value="" id="password">
+
+<div>
+  <input type="submit" value="signup" />
+  <input type="hidden" name="next" value="{{ next }}" />
+</div>
+</form>>
+</body>
+</html>
