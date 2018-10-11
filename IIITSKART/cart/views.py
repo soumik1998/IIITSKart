@@ -158,6 +158,10 @@ def send(request):
         if (class_name == 'SuperUser'):
             obj = super_user.objects.all()
 
+
+
+            
+
         data = serializers.serialize('json', obj)
         jsonResponse = {
             'data': json.loads(data)
