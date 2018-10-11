@@ -1,7 +1,9 @@
 from django.urls import path
 from django.conf.urls import url,include
 from rest_framework import routers
-
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
 app_name = 'cart'
 router = routers.DefaultRouter(views.CustomerViewSet)
@@ -24,4 +26,4 @@ urlpatterns = [
     path(r'receive/', views.receive, name='receive'),
     path(r'send/', views.send, name='send')
 
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
