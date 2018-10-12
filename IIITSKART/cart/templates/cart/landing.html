@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <title>Landing Page - group 16</title>
 
 </head>
@@ -111,7 +111,7 @@
 <div id="overlay_login" >
  <center>
      <br><br><br>
-  <form style="background-color:#10BD66; width:26%;height: 400px;" method="post" action="{% url 'cart:profile_val' %}">
+  <form style="background-color:#fff; width:26%;height: 400px;" method="post" action="{% url 'cart:profile_val' %}">
 {% csrf_token %}
       <h2><b>Who is there?</b></h2>
 
@@ -149,7 +149,7 @@
   text-align: center;
   border:1;
   font-size: 20px;
-  background-color: #fff;
+  background-color: #0AEEB1;
   border-radius: 5px;" type="submit" value="login" />
   <input type="hidden" name="next" value="{{ next }}" />
 </div>
@@ -169,7 +169,7 @@
  <center>
   <br><br><br><br><br><br>
  <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 0.8s;animation-fill-mode: backwards;"><font size="8">IIITS CART</font></p>
-     <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 1.5s;animation-fill-mode: backwards;"><a style="color: blue;"> Buy </a>|<a style="color: #D3CA09;"> Sell </a>|<a style="color: #17E113;"> Rent</a></p>
+     <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 1.5s;animation-fill-mode: backwards;">Buy | Sell | Rent</p>
 
  <p class="item-1"><b>10121</b> products sold.</p>
 
