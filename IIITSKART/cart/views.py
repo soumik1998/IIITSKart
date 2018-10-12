@@ -76,16 +76,13 @@ def lout(request):
 
 
 def profile_val(request):
-
-    try:
-        us = request.POST['username']
-        paswd = request.POST['password']
+   #     print(request.POST.get('username',""))
+        us = request.POST.get('username',"")
         allusers = User.objects.all()
         for users in allusers:
-            if users.username == us and users.password == paswd:
-                return render(request, 'cart/dashboard.html')
-    except:
-        return render(request , 'cart/error-page.html')
+            if users.username == us:
+                print("valuedata")
+                return render(request, 'cart/dashboard.html',{})
 
 ######################## functions##################
 
