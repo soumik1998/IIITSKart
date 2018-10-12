@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.http import *
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate
 from django.contrib.auth.models import User
 import requests
 import json
@@ -76,13 +76,14 @@ def lout(request):
 
 
 def profile_val(request):
-   #     print(request.POST.get('username',""))
         us = request.POST.get('username',"")
-        allusers = User.objects.all()
-        for users in allusers:
-            if users.username == us:
+        pswd = request.POST.get('password', "")
+        temp=authenticate(username=us,password=pswd)
+        if temp is not None:
                 print("valuedata")
                 return render(request, 'cart/dashboard.html',{})
+        else:
+            return render(request, 'registration/login.html', {})
 
 ######################## functions##################
 
