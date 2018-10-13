@@ -78,7 +78,8 @@ def lout(request):
 def profile_val(request):
         us = request.POST.get('username',"")
         pswd = request.POST.get('password', "")
-        temp=authenticate(username=us,password=pswd)
+        temp=authenticate(request=None,eusername=us , password=pswd)
+        print (temp,us,pswd)
         if temp is not None:
                 print("valuedata")
                 return render(request, 'cart/dashboard.html',{})
