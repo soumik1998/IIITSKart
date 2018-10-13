@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">IIITSKART</string>
+    <string name="title_activity_profile_user">profile_user</string>
+    <string name="title_activity_buy">Buy</string>
+
+    <string name="country_prompt">Category</string>
+
+    <string-array name="country_arrays">
+        <item>Electronics</item>
+        <item>Projects</item>
+        <item>Utilities</item>
+        <item>Books</item>
+
+    </string-array>
+</resources>

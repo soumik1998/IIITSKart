@@ -160,7 +160,7 @@ def send(request):
 
 
 
-            
+
 
         data = serializers.serialize('json', obj)
         jsonResponse = {

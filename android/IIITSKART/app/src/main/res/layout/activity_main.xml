@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="82dp"
+        android:layout_height="78dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="34dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/online_order" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="253dp"
+        android:layout_height="76dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="32dp"
+        android:text="IIITSKART"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:fontFamily="serif" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="75dp"
+        android:layout_marginTop="85dp"
+        android:orientation="vertical"
+        android:weightSum="10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="1.0">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:orientation="horizontal"
+            android:weightSum="15">
+
+            <ImageView
+                android:id="@+id/elctronic"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:onClick="show_Products"
+                android:paddingLeft="40dp"
+                android:paddingRight="20dp"
+                android:paddingTop="30dp"
+                app:srcCompat="@drawable/laptop" />
+
+            <ImageView
+
+                android:id="@+id/project"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:onClick="show_Products"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:paddingTop="30dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/focus" />
+
+            <ImageView
+                android:id="@+id/bikes"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+
+                android:layout_weight="5"
+                android:onClick="show_Products"
+                android:paddingLeft="20dp"
+                android:paddingRight="40dp"
+                android:paddingTop="30dp"
+                app:srcCompat="@drawable/bicycle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:orientation="horizontal"
+            android:weightSum="15">
+
+            <ImageView
+
+                android:id="@+id/utilties"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:onClick="show_Products"
+                android:paddingBottom="30dp"
+                android:paddingLeft="40dp"
+                android:paddingRight="20dp"
+                app:srcCompat="@drawable/pin" />
+
+            <ImageView
+
+                android:id="@+id/book"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:onClick="show_Products"
+                android:paddingBottom="30dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                app:srcCompat="@drawable/book" />
+
+            <ImageView
+
+                android:id="@+id/sports"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:onClick="show_Products"
+                android:paddingBottom="30dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="40dp"
+                app:srcCompat="@drawable/ball" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="63dp"
+        android:layout_marginEnd="284dp"
+        android:layout_marginLeft="99dp"
+        android:layout_marginRight="284dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="503dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/MyAccount_Button"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="27dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginStart="32dp"
+        android:text="My Account"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/SubmitAd_Button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/SubmitAd_Button"
+        android:layout_width="189dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="27dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="14dp"
+        android:text="Submit a Free Ad"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/MyAccount_Button"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/TermUse_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="132dp"
+        android:layout_marginLeft="132dp"
+        android:layout_marginRight="132dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="22dp"
+        android:text="Terms of Use"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:text="Terms of Use" />
+
+</android.support.constraint.ConstraintLayout>
