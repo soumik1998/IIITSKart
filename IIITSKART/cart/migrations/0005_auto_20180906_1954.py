@@ -36,6 +36,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='p_reviewe',
             name='pro_id',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cart.product'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cart.Product'),
         ),
     ]

@@ -4,15 +4,17 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.http import *
-from django.contrib.auth import logout, authenticate
+from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
 import requests
 import json
 
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from .models import customer, c_review, p_review, product, login, category, super_user
+from .models import customer, c_review, p_review, Product, login, category, super_user
 from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, LoginSerializer, \
     CategorySerializer, Super_UserSerializer
 # Create your views here.
@@ -35,7 +37,7 @@ class P_reviewViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = product.objects.all()
+    queryset = Product.objects.all()
     serializer_class =  ProductSerializer
 
 
@@ -72,20 +74,26 @@ def login_page(request):
 
 def logout_view(request):
     logout(request)
-    return  HttpResponse("you are logged out")
+    return render(request,'cart/landing.html', {})
 
+def go_to_dashboard(request):
+    try:
+        return render(request, 'cart/dashboard.html')
+    except:
+        pass
 
 def profile_val(request):
     try:
         us = request.POST['username']
         pt = request.POST['password']
-        allusers = User.objects.all()
-        for users in allusers:
-            if users.username == us and users.password == pt:
-                return render(request,'cart/dashboard.html', {})
+        user = authenticate(username=us, password=pt)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
         return render(request, 'cart/landing.html', {'error': 'Invalid email-id or password', })
-    except MultiValueDictKeyError:
-        return render(request, 'Plant/error-page.html', {})
+
+    except:
+        return render(request, 'cart/error-page.html', {})
 
 
 def makeuser(request):
@@ -99,16 +107,16 @@ def makeuser(request):
                     uobj.first_name = request.POST.get('first_name',"")
                     uobj.last_name = request.POST.get('last_name',"")
                     uobj.email = request.POST.get('email',"")
-                    uobj.password = request.POST.get('password',"")
+                    uobj.set_password(request.POST.get('password',""))
                     uobj.save()
-                    return render(request, 'registration/login.html',{})
+
+                    user = authenticate(username=uobj.username , password=request.POST.get('password',""))
+                    if user is not None:
+                        login(request, user)
+                        return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
                 else:
                     print("else")
                     return render(request, '', {})
-        # except:
-        #     print("except")
-        #     return render(request, 'cart/error-page.html', {})
-####################################################
 
 
 
@@ -147,7 +155,7 @@ def send(request):
         if (class_name == 'C_Review'):
             obj = c_review.objects.all()
         if (class_name == 'Product'):
-            obj = product.objects.all()
+            obj = Product.objects.all()
         if (class_name == 'P_Review'):
             obj = p_review.objects.all()
         if (class_name == 'Category'):

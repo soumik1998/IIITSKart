@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
+
 app_name = 'cart'
 router = routers.DefaultRouter(views.CustomerViewSet)
 router.register(r'customer', views.CustomerViewSet)
@@ -24,6 +25,8 @@ urlpatterns = [
     path('profilevalidation/',views.profile_val , name = 'profile_val'),
     path('makeuser/', views.makeuser, name='makeuser'),
     path(r'receive/', views.receive, name='receive'),
-    path(r'send/', views.send, name='send')
+    path(r'send/', views.send, name='send'),
+    path(r'go-to-dashboard/', views.go_to_dashboard, name='go-to-dashboard'),
+    path(r'logout/$', views.logout_view , name='logout'),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

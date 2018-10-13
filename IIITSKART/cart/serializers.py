@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import customer,c_review,p_review,product,login,category,super_user
+from .models import customer,c_review,p_review,Product,login,category,super_user
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -13,7 +13,7 @@ class C_reviewSerializer(serializers.HyperlinkedModelSerializer):
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model=product
+        model=Product
         fields=('p_id','title','quantity','description','c_id','cat_id')
 class LoginSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
