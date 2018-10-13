@@ -1,7 +1,9 @@
 from django.urls import path
 from django.conf.urls import url,include
 from rest_framework import routers
-
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
 app_name = 'cart'
 router = routers.DefaultRouter(views.CustomerViewSet)
@@ -16,7 +18,6 @@ router.register(r'Login',views.LoginViewSet)
 urlpatterns = [
     
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('index/', views.index, name='index'),
     url(r'^',include(router.urls)),
     path('accounts/', include('django.contrib.auth.urls')),
     path('login-view/', views.login_page , name='login_page'),
@@ -25,4 +26,4 @@ urlpatterns = [
     path(r'receive/', views.receive, name='receive'),
     path(r'send/', views.send, name='send')
 
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

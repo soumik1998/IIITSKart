@@ -1,13 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+  {% load staticfiles %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <title>Landing Page - group 16</title>
+
 </head>
-<body>
-<p>Home Page</p>
 
+<body style=" margin: 0;
+   background: url({% static 'cart/w2.jpg' %}) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
 
-</form>
+<div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; background-color: transparent;">
+  <img src="{% static 'cart/cart-logo.png' %}" width="50" height="53">
+  <a id="login" onclick="on_login()" style="color: #000;" href="#s">login</a>
+  <a id="newbee" onclick="on_newbee()"style="color: #000;" href="#s">newbee</a>
+  <a style="color: #000;" href="#contact">Info</a>
+</div>
+<div id="overlay_newbee" >
+ <center><br><br><br>
+  <form style="background-color:#10BD66; width:26%;height: 550px;" method="post" action="{% url 'cart:makeuser' %}">
+{% csrf_token %}
+     <h2><b>Wow. A new face!</b></h2>
+
+    <input style="margin-top: 5px;
+  padding: 5px 5px;
+  height: 42px;
+  width:290px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 17px;
+  background-color: #fff;
+  border-radius: 5px;"type="text" name="username" value="" id="username" placeholder="Username"><br>
+
+    <input style="margin-top: 5px;
+  padding: 5px 5px;
+  height: 42px;
+  width:290px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 17px;
+  background-color: #fff;
+  border-radius: 5px;type="text" name="first_name" value="" id="first_name"placeholder="Firstname"><br>
+
+    <input style="margin-top: 5px;
+  padding: 5px 5px;
+  height: 42px;
+  width:290px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 17px;
+  background-color: #fff;
+  border-radius: 5px;type="text" name="last_name" value="" id="last_name"placeholder="Lastname"><br>
+
+    <input style="margin-top: 5px;
+  padding: 5px 5px;
+  height: 42px;
+  width:290px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 17px;
+  background-color: #fff;
+  border-radius: 5px;type="email" name="email" value="" id="email"placeholder="Email"><br>
+
+    <input style="margin-top: 5px;
+  padding: 5px 5px;
+  height: 42px;
+  width:290px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 17px;
+  background-color: #fff;
+  border-radius: 5px;type="password" name="password" value="" id="password"placeholder="Password"><br>
+
+<div>
+  <input style="margin-top: 2px;
+  padding: 5px 5px;
+  height: 42px;
+  width:100px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 20px;
+  background-color: #fff;
+  border-radius: 5px;" type="submit" value="signup" /><br>
+  <input type="hidden" name="next" value="{{ next }}" />
+</div>
+  <button onclick="off_newbee()" type="button" class="cancelbtn">Cancel</button>
+</form></center>
+</div>
+
+<div id="overlay_login" >
+ <center>
+     <br><br><br>
+  <form style="background-color:#fff; width:26%;height: 400px;" method="post" action="{% url 'cart:profile_val' %}">
+{% csrf_token %}
+      <h2><b>Who is there?</b></h2>
+
+    <input style="margin-top: 5px;
+  padding: 5px 5px;
+  height: 42px;
+  width:290px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 17px;
+  background-color: #fff;
+  border-radius: 5px;" type="text" name="username" value="" id="username" placeholder="Username"><br>
+
+    <input style="margin-top: 5px;
+  padding: 5px 5px;
+  height: 42px;
+  width:290px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 17px;
+  background-color: #fff;
+  border-radius: 5px;" type="password" name="password" value="" id="password" placeholder="Password">
+      <br>
+<div>
+  <input style="margin-top: 2px;
+  padding: 5px 5px;
+  height: 42px;
+  width:100px;
+  display: block;
+  color: #000;
+  text-align: center;
+  border:1;
+  font-size: 20px;
+  background-color: #0AEEB1;
+  border-radius: 5px;" type="submit" value="login" />
+  <input type="hidden" name="next" value="{{ next }}" />
+</div>
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+  <button style="height: 42px;
+  width:100px;
+  display: block;
+  text-align: center;
+  border:1;
+  border-radius: 5px;" onclick="off_login()" type="button" class="cancelbtn">Cancel</button>
+</form></center>
+</div>
+
+<div class="main" style="color:black;">
+ <center>
+  <br><br><br><br><br><br>
+ <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 0.8s;animation-fill-mode: backwards;"><font size="8">IIITS CART</font></p>
+     <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 1.5s;animation-fill-mode: backwards;">Buy | Sell | Rent</p>
+
+ <p class="item-1"><b>10121</b> products sold.</p>
+
+<p class="item-2"><b>5012</b> costumers.</p>
+
+<p class="item-3"><b>20225</b> products on sale.</p>
+
+ <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+ <p class="w3-animate-zoom footer" style=" animation-delay: 2s;animation-fill-mode: backwards; ">developed at iiit Sri City</p>
+ </center>
+</div>
+
+<script>
+function on_login() {
+    document.getElementById("overlay_login").style.display = "block";
+}
+
+function off_login() {
+    document.getElementById("overlay_login").style.display = "none";
+}
+function on_newbee() {
+    document.getElementById("overlay_newbee").style.display = "block";
+}
+
+function off_newbee() {
+    document.getElementById("overlay_newbee").style.display = "none";
+}
+</script>
+
 </body>
 </html>

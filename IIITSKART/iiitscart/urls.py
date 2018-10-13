@@ -16,16 +16,14 @@ Including another URLconf
 from django.urls import include,path
 from django.contrib import admin
 from cart import views
-from django.conf.urls import include
+from django.conf.urls import url, include
 
 
 urlpatterns = [
-   path('cart/', include('cart.urls',namespace='cart')),
+   path('cart', include('cart.urls')),
    path('', views.home , name = 'home'),
    path('signup/', views.sign_up, name='signup'),
-   path('loin/',views.loin,name='loin'),
    path('lout/',views.lout,name='lout'),
    path('admin/', admin.site.urls),
-   path('auth/', include('social_django.urls', namespace='social')),
    path('accounts/', include('django.contrib.auth.urls')),
 ]
