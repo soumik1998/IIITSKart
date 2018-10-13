@@ -23,7 +23,7 @@ urlpatterns = [
    path('cart', include('cart.urls')),
    path('', views.home , name = 'home'),
    path('signup/', views.sign_up, name='signup'),
-   path('lout/',views.lout,name='lout'),
+   path('lout/',views.logout_view,name='lout'),
    path('admin/', admin.site.urls),
    path('accounts/', include('django.contrib.auth.urls')),
 ]

@@ -57,6 +57,7 @@ class Super_UserViewSet(viewsets.ModelViewSet):
 def home(request):
     return render(request,'cart/landing.html')
 
+
 def sign_up(request):
     return render(request, 'cart/signup.html')
 
@@ -69,24 +70,23 @@ def login_page(request):
     return render(request, 'registration/login.html', {})
 
 
-def lout(request):
+def logout_view(request):
     logout(request)
     return  HttpResponse("you are logged out")
 
 
-
 def profile_val(request):
-        us = request.POST.get('username',"")
-        pswd = request.POST.get('password', "")
-        temp=authenticate(request=None,eusername=us , password=pswd)
-        print (temp,us,pswd)
-        if temp is not None:
-                print("valuedata")
-                return render(request, 'cart/dashboard.html',{})
-        else:
-            return render(request, 'registration/login.html', {})
+    try:
+        us = request.POST['username']
+        pt = request.POST['password']
+        allusers = User.objects.all()
+        for users in allusers:
+            if users.username == us and users.password == pt:
+                return render(request,'cart/dashboard.html', {})
+        return render(request, 'cart/landing.html', {'error': 'Invalid email-id or password', })
+    except MultiValueDictKeyError:
+        return render(request, 'Plant/error-page.html', {})
 
-######################## functions##################
 
 def makeuser(request):
 
