@@ -61,7 +61,7 @@ def home(request):
 
 
 def sign_up(request):
-    return render(request, 'cart/signup.html')
+    return render(request, 'cart/landing.html')
 
 
 def dashboard(request):
@@ -69,16 +69,20 @@ def dashboard(request):
 
 
 def login_page(request):
-    return render(request, 'registration/login.html', {})
+    return render(request, 'cart/landing.html', {})
 
 
 def logout_view(request):
     logout(request)
     return render(request,'cart/landing.html', {})
 
+
+def search(request):
+    return  render(request,'cart/search.html',{})
+
 def go_to_dashboard(request):
     try:
-        return render(request, 'cart/dashboard.html')
+        return render(request, 'cart/dashboard.html',{})
     except:
         pass
 

@@ -8,7 +8,8 @@
   <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <title>user dashboard</title>
+
+  <title>iiits cart</title>
 
 </head>
 
@@ -19,8 +20,9 @@
   -o-background-size: cover;
   background-size: cover;">
 
+
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
-  <a href="#dashboard" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+  <a href="dashboard.html" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
 
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="#news">Profile</a>
@@ -28,11 +30,32 @@
   <a href="{% url 'cart:search' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
   <input type="text" placeholder="Search among 20,000 products">
 </div>
+<div class="sidebar w3-animate-left" style="animation:animateleft 0.5s;animation-fill-mode: backwards;">
+    <h3 style="color: #fff">Category</h3>
+<label class="container">Tech
+  <input type="radio" checked="checked" name="radio">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Study
+  <input type="radio" name="radio">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Furniture
+  <input type="radio" name="radio">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Bike
+  <input type="radio" name="radio">
+  <span class="checkmark"></span>
+</label>
+</div>
 
-<div class="main" style="color:white;">
+<div class="main" style="color:white; margin-left: 230px;">
  <center>
+
  <br><br><br><br>
  </center>
 </div>
+
 </body>
 </html>

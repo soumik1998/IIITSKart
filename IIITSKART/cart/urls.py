@@ -27,6 +27,8 @@ urlpatterns = [
     path(r'receive/', views.receive, name='receive'),
     path(r'send/', views.send, name='send'),
     path(r'go-to-dashboard/', views.go_to_dashboard, name='go-to-dashboard'),
-    path(r'logout/$', views.logout_view , name='logout'),
+    path(r'search/', views.search, name='search'),
+    path(r'logout/', views.logout_view , name='logout'),
+
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
