@@ -79,6 +79,10 @@ def logout_view(request):
 def search(request):
     return  render(request,'cart/search.html',{})
 
+def profile_view(request):
+    return  render(request,'cart/profile.html',{})
+
+
 def go_to_dashboard(request):
     try:
         return render(request, 'cart/dashboard.html',{})

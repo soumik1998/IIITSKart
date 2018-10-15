@@ -8,11 +8,9 @@
   <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <title>user dashboard</title>
 
-
-  <title>Landing Page - group 16</title>
-
-    <style>
+     <style>
 * { box-sizing:border-box; }
 
 
@@ -228,95 +226,42 @@ input:focus ~ .highlight {
   -o-background-size: cover;
   background-size: cover;">
 
-<div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; background-color: transparent;">
-  <img src="{% static 'cart/cart-logo.png' %}" width="50" height="53">
-  <a id="login" onclick="on_login()" style="color: #000;" href="#s">login</a>
-  <a id="newbee" onclick="on_newbee()"style="color: #000;" href="#s">newbee</a>
-  <a style="color: #000;" href="#contact">Info</a>
-</div>
-<div id="overlay_newbee" >
- <center><br>
-  <form method="post" action="{% url 'cart:makeuser' %}">
-{% csrf_token %}
-     <h2><b>Wow. A new face!</b></h2>
+<div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
+  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
 
-    <div class="group">
-    <input type="text" name="username" id="username"><span class="highlight"></span><span class="bar"></span>
-    <label>Usename</label>
-  </div>
-      <div class="group">
-    <input type="text" name="first_name" id="first_name"><span class="highlight"></span><span class="bar"></span>
-    <label>Firstname</label>
-  </div>
-    <div class="group">
-    <input type="text" name="last_name" id="last_name"><span class="highlight"></span><span class="bar"></span>
-    <label>Lastname</label>
-  </div>
-    <div class="group">
-    <input type="email" name="email" id="email"><span class="highlight"></span><span class="bar"></span>
-    <label>Email</label>
-  </div>
-      <div class="group">
-    <input type="password" name="password" id="password"><span class="highlight"></span><span class="bar"></span>
-    <label>Password</label>
-  </div>
-    <button type="submit" class="button buttonBlue">Login
-      <input type="hidden" name="next" value="{{ next }}" />
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-
-  </button>
-  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_newbee()" type="button" >Wrong place?</button>
-
-</form></center>
+  <a href="{% url 'cart:logout' %}">Logout</a>
+  <a href="{% url 'cart:profile' %}">Profile</a>
+  <a href="#contact">Orders</a>
+  <a href="{% url 'cart:search' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
+  <input type="text" placeholder="Search among 20,000 products">
 </div>
 
-<div id="overlay_login" >
-<center>
-     <br><br><br>
-  <form method="post" action="{% url 'cart:profile_val' %}">
-{% csrf_token %}
-
-      <h2><b>ID Please !</b></h2>
-
-    <div class="group">
-    <input type="text" name="username" id="username"><span class="highlight"></span><span class="bar"></span>
-    <label>Usename</label>
-  </div>
-  <div class="group">
-    <input type="password" name="password" id="password"><span class="highlight"></span><span class="bar"></span>
-    <label>Password</label>
-  </div>
-  <button type="submit" class="button buttonBlue">Login
-      <input type="hidden" name="next" value="{{ next }}" />
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-
-  </button>
-
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-
-  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Wrong place?</button>
-</form>
-</>
-</div>
-
-<div class="main" style="color:black;">
+<div class="main" style="color:white;">
  <center>
-  <br><br><br><br><br><br>
- <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 0.8s;animation-fill-mode: backwards;"><font size="8">IIITS CART</font></p>
-     <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 1.5s;animation-fill-mode: backwards;">Buy | Sell | Rent</p>
+     <br><br><br>
+<table border="0" style="width:70%;">
+    <col width="40%">
 
- <p class="item-1"><b>10121</b> products sold.</p>
+  <tr>
+    <center><td><img src="{% static 'cart/user_default.png' %}" width="300" height="400"><br><br>
+    <button type="submit" class="button buttonBlue" style="width: 50%;margin-left: 47px;margin-top: 2px;">Change picture
 
-<p class="item-2"><b>5012</b> costumers.</p>
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
 
-<p class="item-3"><b>20225</b> products on sale.</p>
+  </button>
+    </td></center>
+    <td  colspan="2"><h2 style="color: #000;"><br>Name:<br><br>Email:<br><br>Username:<br><br>Address:</h2><<br><br>
+      <button type="submit" class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
 
- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
- <p class="w3-animate-zoom footer" style=" animation-delay: 2s;animation-fill-mode: backwards; ">developed at iiit Sri City</p>
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+
+  </button>
+      </td>
+  </tr>
+
+</table>
  </center>
 </div>
-
 <script>
 $(window, document, undefined).ready(function() {
 
@@ -353,25 +298,18 @@ $(window, document, undefined).ready(function() {
   });
 
 });
-function on_login() {
-    document.getElementById("overlay_login").style.display = "block";
+function on_edit() {
+    document.getElementById("overlay_edit").style.display = "block";
 }
 
-function off_login() {
-    document.getElementById("overlay_login").style.display = "none";
-}
-function on_newbee() {
-    document.getElementById("overlay_newbee").style.display = "block";
+function off_edit() {
+    document.getElementById("overlay_edit").style.display = "none";
 }
 
-function off_newbee() {
-    document.getElementById("overlay_newbee").style.display = "none";
-}
 $(document).keyup(function(e) {
-  if (e.keyCode == 27) { off_login();off_newbee();}   // esc
+  if (e.keyCode == 27) { off_edit();off_newbee();}   // esc
 });
 
 </script>
-
 </body>
 </html>

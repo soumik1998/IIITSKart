@@ -28,6 +28,7 @@ urlpatterns = [
     path(r'send/', views.send, name='send'),
     path(r'go-to-dashboard/', views.go_to_dashboard, name='go-to-dashboard'),
     path(r'search/', views.search, name='search'),
+    path(r'profile/', views.profile_view, name='profile'),
     path(r'logout/', views.logout_view , name='logout'),
 
 

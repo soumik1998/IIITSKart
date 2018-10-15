@@ -22,10 +22,10 @@
 
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
-  <a href="dashboard.html" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
 
   <a href="{% url 'cart:logout' %}">Logout</a>
-  <a href="#news">Profile</a>
+  <a href="{% url 'cart:profile' %}">Profile</a>
   <a href="#contact">Orders</a>
   <a href="{% url 'cart:search' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
   <input type="text" placeholder="Search among 20,000 products">
