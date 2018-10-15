@@ -98,6 +98,19 @@ def profile_val(request):
     except:
         return render(request, 'cart/error-page.html', {})
 
+def profile_val_api(request):
+    try:
+        us = request.POST['username']
+        pt = request.POST['password']
+        user = authenticate(username=us, password=pt)
+        if user is not None:
+            login(request, user)
+            return "Yes"
+        return "No"
+
+    except:
+        return "Error"
+
 
 def makeuser(request):
 
