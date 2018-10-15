@@ -14,9 +14,8 @@ import json
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from .models import customer, c_review, p_review, Product, login, category, super_user
-from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, LoginSerializer, \
-    CategorySerializer, Super_UserSerializer
+from .models import customer, c_review, p_review, Product, category
+from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, CategorySerializer
 # Create your views here.
 
 
@@ -40,10 +39,10 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class =  ProductSerializer
 
-
-class LoginViewSet(viewsets.ModelViewSet):
-    queryset = login.objects.all()
-    serializer_class =  LoginSerializer
+#
+# class LoginViewSet(viewsets.ModelViewSet):
+#     queryset = login.objects.all()
+#     serializer_class =  LoginSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -51,9 +50,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class =  CategorySerializer
 
 
-class Super_UserViewSet(viewsets.ModelViewSet):
-    queryset = super_user.objects.all()
-    serializer_class =  Super_UserSerializer
+# class Super_UserViewSet(viewsets.ModelViewSet):
+#     queryset = super_user.objects.all()
+#     serializer_class =  Super_UserSerializer
 
 
 def home(request):

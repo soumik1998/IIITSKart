@@ -28,25 +28,25 @@ class c_review(models.Model):
         return self.text    
 
 
-class login(models.Model):
-    username=models.CharField(max_length=30)
-    password=models.CharField(max_length=20)
-    email=models.EmailField(max_length=70,blank=True, null= True, unique= True)
-    created=models.DateTimeField('date published',null=True)
-    modified=models.DateTimeField('date published',null=True)
-    
-    c_id=models.ForeignKey(customer, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.username
+# class login(models.Model):
+#     username=models.CharField(max_length=30)
+#     password=models.CharField(max_length=20)
+#     email=models.EmailField(max_length=70,blank=True, null= True, unique= True)
+#     created=models.DateTimeField('date published',null=True)
+#     modified=models.DateTimeField('date published',null=True)
+#
+#     c_id=models.ForeignKey(customer, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return self.username
 
 
-class super_user(models.Model):
-    username=models.CharField(max_length=20)
-    a_id=models.ForeignKey(login, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.username
+# class super_user(models.Model):
+#     username=models.CharField(max_length=20)
+#     a_id=models.ForeignKey(login, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return self.username
 
 
 class category(models.Model):
