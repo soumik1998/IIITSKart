@@ -24,8 +24,8 @@ h1 { color: #636363; }
 h3 { color: #4a89dc; }
 
 form {
-	width: 380px;
-	margin: 4em auto;
+	width: 480px;
+	margin: 1em auto;
 	padding: 2em 2em 1em 2em;
 	background: #fafafa;
 	border: 5px solid #BDBDBD;a
@@ -236,6 +236,46 @@ input:focus ~ .highlight {
   <input type="text" placeholder="Search among 20,000 products">
 </div>
 
+<div id="overlay_edit" >
+<center>
+     <br><br><br>
+  <form method="post" action="{% url 'cart:profile_val' %}">
+{% csrf_token %}
+
+      <h2><b>Everybody love changes.</b></h2>
+
+    <div class="group">
+    <input type="text" name="email" id="email"><span class="highlight"></span><span class="bar"></span>
+    <label>Email</label>
+  </div>
+      <div class="group">
+    <input type="text" name="firstname" id="firstname"><span class="highlight"></span><span class="bar"></span>
+    <label>Firstname</label>
+  </div>
+      <div class="group">
+    <input type="text" name="lastname" id="lastname"><span class="highlight"></span><span class="bar"></span>
+    <label>Lastname</label>
+  </div>
+      <div class="group">
+    <input type="text" name="address" id="address"><span class="highlight"></span><span class="bar"></span>
+    <label>Address</label>
+  </div>
+
+  <div class="group">
+    <input type="password" name="password" id="password"><span class="highlight"></span><span class="bar"></span>
+    <label>Password</label>
+  </div>
+  <button type="submit" class="button buttonBlue">Save changes
+      <input type="hidden" name="next" value="{{ next }}" />
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+
+  </button>
+
+
+  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Old info is gold info</button>
+</form>
+</div>
+
 <div class="main" style="color:white;">
  <center>
      <br><br><br>
@@ -251,7 +291,7 @@ input:focus ~ .highlight {
   </button>
     </td></center>
     <td  colspan="2"><h2 style="color: #000;"><br>Name:<br><br>Email:<br><br>Username:<br><br>Address:</h2><<br><br>
-      <button type="submit" class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
+      <button onclick="on_edit()"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
 
@@ -307,7 +347,7 @@ function off_edit() {
 }
 
 $(document).keyup(function(e) {
-  if (e.keyCode == 27) { off_edit();off_newbee();}   // esc
+  if (e.keyCode == 27) { off_edit();}   // esc
 });
 
 </script>
