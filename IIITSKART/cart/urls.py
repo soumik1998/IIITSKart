@@ -23,6 +23,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('login-view/', views.login_page , name='login_page'),
     path('profilevalidation/',views.profile_val , name = 'profile_val'),
+    path('profilevalidationapi/', views.profile_val_api, name='profile_val_api'),
     path('makeuser/', views.makeuser, name='makeuser'),
     path(r'receive/', views.receive, name='receive'),
     path(r'send/', views.send, name='send'),
