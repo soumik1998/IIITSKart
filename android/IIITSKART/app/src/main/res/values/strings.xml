@@ -12,4 +12,5 @@
         <item>Books</item>
 
     </string-array>
+    <string name="title_activity_login">Login</string>
 </resources>

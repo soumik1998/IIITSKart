@@ -1,6 +1,5 @@
 package com.nitin.iiitskart;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -11,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.nitin.iiitskart.classes.Customer;
 
 import java.util.ArrayList;
 
