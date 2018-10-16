@@ -98,18 +98,7 @@ def profile_val(request):
     except:
         return render(request, 'cart/error-page.html', {})
 
-def profile_val_api(request):
-    try:
-        us = request.POST['username']
-        pt = request.POST['password']
-        user = authenticate(username=us, password=pt)
-        if user is not None:
-            login(request, user)
-            return "Yes"
-        return "No"
 
-    except:
-        return "Error"
 
 
 def makeuser(request):
@@ -145,10 +134,26 @@ def makeuser(request):
 # inst.address = address
 # inst.user = User.objects.get(username=request.user)
 # int.save()
+@csrf_exempt
+def profile_val_api(request):
+    print("sdsd")
+    if request.method == 'POST':
+        print("sads")
+        cust = json.loads(request.body)
+        print(cust)
+        us = cust['username']
+        pt = cust['password']
+        print(us)
+        print(pt)
+        user = authenticate(username=us, password=pt)
+        if user is not None:
+             return JsonResponse({"status":"Yes"})
+    return JsonResponse({"status":"No"})
 
 @csrf_exempt
 def receive(request):
     if request.method == 'POST':
+
         cust = json.loads(request.body)
         obj = customer(first_name=cust['first_name'], last_name=cust['last_name'], address=cust['address'],
                        email=cust['email'], phone=cust['phone'], blacklist=cust['blacklist'])
