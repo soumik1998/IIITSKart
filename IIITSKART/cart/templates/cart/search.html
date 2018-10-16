@@ -10,6 +10,36 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
   <title>iiits cart</title>
+    <style>
+        .card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 220px;
+  margin: auto 1em ;
+  text-align: center;
+  font-family: arial;
+            float: left;
+  transition: 0.3s;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #2669F2;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+.card:hover {
+    box-shadow: 0px 0px 20px 1px rgba(63,167,245,0.9);
+}
+
+.card button:hover {
+  opacity: 0.8;
+}
+    </style>
 
 </head>
 
@@ -22,10 +52,10 @@
 
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
-  <a href="dashboard.html" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
 
   <a href="{% url 'cart:logout' %}">Logout</a>
-  <a href="#news">Profile</a>
+  <a href="{% url 'cart:profile' %}">Profile</a>
   <a href="#contact">Orders</a>
   <a href="{% url 'cart:search' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
   <input type="text" placeholder="Search among 20,000 products">
@@ -51,10 +81,28 @@
 </div>
 
 <div class="main" style="color:white; margin-left: 230px;">
- <center>
 
- <br><br><br><br>
- </center>
+ <br><br>
+
+    <div class="card">
+         <a href="{% url 'cart:search' %}" style="position: relative;top: 0; left: 0;height: 100%; width: 100%;text-decoration: none">
+  <img src="{% static 'cart/product_default.png' %}" alt="product image not available" style="width:100%">
+  <h2 style="color: #000;display: inline;">Product name</h2>
+             <p style="color: #000;display: inline;"><br>Seller: xyz.<br>Rating: 4.2/5<br>
+  <button>550₹</button></p>
+</a>
+     </div>
+
+    <div class="card">
+         <a href="{% url 'cart:search' %}" style="position: relative;top: 0; left: 0;height: 100%; width: 100%;text-decoration: none">
+  <img src="{% static 'cart/product_default.png' %}" alt="product image not available" style="width:100%">
+  <h2 style="color: #000;display: inline;">Product name</h2>
+             <p style="color: #000;display: inline;"><br>Seller: xyz.<br>Rating: 4.2/5<br>
+  <button>550₹</button></p>
+</a>
+     </div>
+
+<p></p>
 </div>
 
 </body>
