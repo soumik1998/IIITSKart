@@ -80,6 +80,21 @@ def search(request):
     return  render(request,'cart/search.html',{})
 
 def profile_view(request):
+    if request.user.is_authenticated:
+        c_obj=customer()
+        # temp= customer.objects.raw('SELECT * FROM cart_customer')
+        # data = serializers.serialize('json', temp)
+        # value=json.loads(data)
+        # print(value["fields"])
+        #
+        #
+        # c_user = request.user.username
+        # print(c_user)
+        #
+        # cobj=customer()
+        # cobj.phone=request.POST.get('phone', "")
+        # cobj.address=request.POST.get('address', "")
+        # cobj.blacklist=request.POST.get('blacklist', "")
     return  render(request,'cart/profile.html',{})
 
 
