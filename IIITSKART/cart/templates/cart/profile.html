@@ -28,7 +28,7 @@ form {
 	margin: 1em auto;
 	padding: 2em 2em 1em 2em;
 	background: #fafafa;
-	border: 5px solid #BDBDBD;a
+	border: 5px solid #BDBDBD;
     border-radius: 5px;
 	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
     font-family: Helvetica;
@@ -290,7 +290,7 @@ input:focus ~ .highlight {
 
   </button>
     </td></center>
-    <td  colspan="2"><h2 style="color: #000;"><br>Name:<br><br>Email:<br><br>Username: {{ request.user.username }}<br><br>Address:</h2><<br><br>
+    <td  colspan="2"><h2 style="color: #000;"><br>Name:{{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email:<br><br>Username: {{ request.user.username }}<br><br>Address:</h2><<br><br>
       <button onclick="on_edit()"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
