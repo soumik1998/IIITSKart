@@ -236,28 +236,28 @@ input:focus ~ .highlight {
 </div>
 <div id="overlay_newbee" >
  <center><br>
-  <form method="post" action="{% url 'cart:makeuser' %}">
+  <form autocomplete="off" method="post" action="{% url 'cart:makeuser' %}">
 {% csrf_token %}
      <h2><b>Wow. A new face!</b></h2>
 
     <div class="group">
-    <input type="text" name="username" id="username"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="username" id="username" value=" " required autofocus><span class="highlight"></span><span class="bar"></span>
     <label>Usename</label>
   </div>
       <div class="group">
-    <input type="text" name="first_name" id="first_name"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="first_name" id="first_name" required><span class="highlight"></span><span class="bar"></span>
     <label>Firstname</label>
   </div>
     <div class="group">
-    <input type="text" name="last_name" id="last_name"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="last_name" id="last_name" required><span class="highlight"></span><span class="bar"></span>
     <label>Lastname</label>
   </div>
     <div class="group">
-    <input type="email" name="email" id="email"><span class="highlight"></span><span class="bar"></span>
+    <input type="email" name="email" id="email" required><span class="highlight"></span><span class="bar"></span>
     <label>Email</label>
   </div>
       <div class="group">
-    <input type="password" name="password" id="password"><span class="highlight"></span><span class="bar"></span>
+    <input type="password" name="password" id="password"  value=" "required><span class="highlight"></span><span class="bar"></span>
     <label>Password</label>
   </div>
     <button type="submit" class="button buttonBlue">Login
