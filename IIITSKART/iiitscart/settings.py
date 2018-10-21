@@ -129,8 +129,8 @@ AUTHENTICATION_BACKENDS = (
  'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_URL='signup'
-LOGIN_REDIRECT_URL='loin'
+LOGIN_URL='home'
+LOGIN_REDIRECT_URL='home'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='140225818577-6mgfgkh1g98af891beljtbks4vdeajk5.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='mQ5JN9lQlzGVRniWBfRP9Xxo'
 
@@ -152,5 +152,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+AUTH_PROFILE_MODULE = 'cart.customer'
 LOGOUT_REDIRECT_URL='/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

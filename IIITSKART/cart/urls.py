@@ -1,5 +1,5 @@
 from django.urls import path
-from django.conf.urls import url,include
+from django.conf.urls import url, include
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
@@ -19,18 +19,19 @@ router.register(r'Category', views.CategoryViewSet)
 urlpatterns = [
     
     path(r'/dashboard/', views.dashboard, name='dashboard'),
-    url(r'^',include(router.urls)),
+    url(r'^', include(router.urls)),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('login-view/', views.login_page , name='login_page'),
-    path(r'/profilevalidation/',views.profile_val , name = 'profile_val'),
+    path('login-view/', views.login_page, name='login_page'),
+    path(r'/profilevalidation/',views.profile_val , name='profile_val'),
     path(r'/profilevalidationapi/', views.profile_val_api, name='profile_val_api'),
     path(r'/makeuser/', views.makeuser, name='makeuser'),
     path(r'/receive/', views.receive, name='receive'),
     path(r'/send/', views.send, name='send'),
     path(r'/go-to-dashboard/', views.go_to_dashboard, name='go-to-dashboard'),
     path(r'/search/', views.search, name='search'),
-    path(r'/logout/', views.logout_view , name='logout'),
+    path(r'/logout/', views.logout_view, name='logout'),
     path(r'/profile/', views.profile_view, name='profile'),
 
 
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+              + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
