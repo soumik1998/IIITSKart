@@ -1,8 +1,6 @@
 from django.core import serializers
 from django.db import transaction
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.forms.models import model_to_dict
+from django.core.files.storage import FileSystemStorage
 from django.http import *
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
@@ -59,10 +57,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 def home(request):
-    if User.is_authenticated:
-        return render(request, 'cart/dashboard.html')
-    else:
-        return render(request, 'cart/landing.html')
+    return render(request, 'cart/landing.html')
 
 
 def sign_up(request):
@@ -137,6 +132,7 @@ def makeuser(request):
             uobj.last_name = request.POST.get('last_name', "")
             uobj.email = request.POST.get('email', "")
             uobj.set_password(request.POST.get('password', ""))
+            # uobj.customer.phone =
             uobj.save()
 
             user = authenticate(username=uobj.username, password=request.POST.get('password', ""))
@@ -146,6 +142,19 @@ def makeuser(request):
         else:
             print("else")
             return render(request, '', {})
+
+
+def profile_photo_upload(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        print(uploaded_file_url)
+        return render(request, 'cart/profile.html', {'uploaded_file_url': uploaded_file_url})
+
+    return render(request, 'cart/profile.html')
+
 
 
 @transaction.atomic

@@ -72,6 +72,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
@@ -129,10 +130,10 @@ AUTHENTICATION_BACKENDS = (
  'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_URL='home'
-LOGIN_REDIRECT_URL='home'
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='140225818577-6mgfgkh1g98af891beljtbks4vdeajk5.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='mQ5JN9lQlzGVRniWBfRP9Xxo'
+LOGIN_URL = 'home'
+LOGIN_REDIRECT_URL = 'home'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '140225818577-6mgfgkh1g98af891beljtbks4vdeajk5.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'mQ5JN9lQlzGVRniWBfRP9Xxo'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -152,8 +153,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
+
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 AUTH_PROFILE_MODULE = 'cart.customer'
-LOGOUT_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

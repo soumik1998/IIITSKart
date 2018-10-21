@@ -9,7 +9,8 @@ from django.dispatch import receiver
 
 class customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # avatar = models.ImageField(null=False)
+    avatar = models.ImageField(upload_to="profile/", null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=20)
     address = models.TextField(max_length=70)
     blacklist = models.CharField(max_length=10)
