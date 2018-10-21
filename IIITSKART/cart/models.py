@@ -21,7 +21,7 @@ class customer(models.Model):
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
+        instance.customer.save()
 
     def __str__(self):
         return self.user.username
