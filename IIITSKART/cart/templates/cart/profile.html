@@ -283,11 +283,11 @@ input:focus ~ .highlight {
     <col width="40%">
 
   <tr>
-    <center><td><img src="{{ uploaded_file_url }}" width="300" height="400"><br><br>
+    <center><td><img src="{{ MEDIA_URL }}/{{ request.user.customer.avatar }}" width="300" height="400"><br><br>
     <button type="submit" class="button buttonBlue" style="width: 50%;margin-left: 47px;margin-top: 2px;">Change picture
     <form autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
     {% csrf_token %}
-        <input type="file" name="myfile">
+        <input type="file" name="avatar">
         <button type="submit" class="button buttonBlue">Upload
     </form>
 {#Use this line as prompt#}
@@ -299,7 +299,7 @@ input:focus ~ .highlight {
 
   </button>
     </td></center>
-    <td  colspan="2"><h2 style="color: #000;"><br>Name:{{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email:<br><br>Username: {{ request.user.username }}<br><br>Address:</h2><<br><br>
+    <td  colspan="2"><h2 style="color: #000;"><br>Name:{{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email:<br><br>Username: {{ request.user.username }}<br><br>Address:{{ request.user.customer.address }}</h2><<br><br>
       <button onclick="on_edit()"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
