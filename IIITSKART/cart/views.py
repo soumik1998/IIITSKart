@@ -204,23 +204,31 @@ def receive(request):
         return JsonResponse({"status": "get"})
 
 def test(request):
-    temp=category.objects.raw('SELECT * FROM cart_category')
+    temp=customer.objects.raw('SELECT * FROM cart_customer')
     data=serializers.serialize('json',temp)
     value=json.loads(data)
-    print(value[0]['fields']['name'])
+    print(value)
+    print("sdfsdf")
     return  HttpResponse('TET')
 
 @csrf_exempt
 def receiveProduct(request):
     if request.method == 'POST':
         prod = json.loads(request.body)
-        cat_obj=category()
+
+        temp = category.objects.raw('SELECT * FROM cart_category')
+        data = serializers.serialize('json', temp)
+        value = json.loads(data)
+
+        for i in range(len(value)):
+            if(value[i]['fields']['name']== prod['category']):
+                cid=value[i]['pk']
+
+
         pro_obj = Product(  title=prod['title'], quantity=prod['quantity'], description=prod['description'],
-                        price=prod['price'], category=prod['category'])
+                        price=prod['price'], category=cid)
 
         pro_obj.save()
-        print(prod['Tile'])
-
         return JsonResponse({"status": "post"})
     else:
         print('get req')
