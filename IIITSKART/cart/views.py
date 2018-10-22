@@ -146,14 +146,18 @@ def makeuser(request):
 
 
 def profile_photo_upload(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
+    if request.method == 'POST' and request.FILES['avatar']:
+        avatar = request.FILES['avatar']
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
+        filename = fs.save(avatar.name, avatar)
         uploaded_file_url = fs.url(filename)
-        # cins = customer()
-        # cins.avatar = uploaded_file_url
-        # cins.save()
+        print(filename)
+
+        print(uploaded_file_url)
+
+        cins = User.objects.get(username=request.user.username)
+        cins.customer.avatar = filename
+        cins.save()
         print(uploaded_file_url)
         return render(request, 'cart/profile.html', {'uploaded_file_url': uploaded_file_url})
 

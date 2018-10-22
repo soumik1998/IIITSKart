@@ -287,7 +287,7 @@ input:focus ~ .highlight {
     <button type="submit" class="button buttonBlue" style="width: 50%;margin-left: 47px;margin-top: 2px;">Change picture
     <form autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
     {% csrf_token %}
-        <input type="file" name="myfile">
+        <input type="file" name="avatar">
         <button type="submit" class="button buttonBlue">Upload
     </form>
 {#Use this line as prompt#}
