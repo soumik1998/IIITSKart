@@ -131,6 +131,7 @@ def makeuser(request):
             uobj.first_name = request.POST.get('first_name', "")
             uobj.last_name = request.POST.get('last_name', "")
             uobj.email = request.POST.get('email', "")
+            # uobj.customer.avatar =
             uobj.set_password(request.POST.get('password', ""))
             # uobj.customer.phone =
             uobj.save()
@@ -150,6 +151,9 @@ def profile_photo_upload(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
+        # cins = customer()
+        # cins.avatar = uploaded_file_url
+        # cins.save()
         print(uploaded_file_url)
         return render(request, 'cart/profile.html', {'uploaded_file_url': uploaded_file_url})
 

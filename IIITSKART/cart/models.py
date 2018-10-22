@@ -9,11 +9,11 @@ from django.dispatch import receiver
 
 class customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to="profile/", null=True)
+    avatar = models.ImageField(upload_to='profile/', default='media/default-user.png')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=20)
     address = models.TextField(max_length=70)
-    blacklist = models.CharField(max_length=10)
+    blacklist = models.CharField(max_length=10, default='False')
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
