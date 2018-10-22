@@ -8,61 +8,50 @@ from django.dispatch import receiver
 # Create your models here.
 
 class customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    email = models.EmailField(max_length=70,blank=False, null= True, unique= True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='profile', default='media/default-user.png')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=20)
     address = models.TextField(max_length=70)
-    blacklist = models.CharField(max_length=10)
+    blacklist = models.CharField(max_length=10, default='False')
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            customer.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.customer.save()
 
     def __str__(self):
-        return self.email
+        return self.user.username
+
 
 class c_review(models.Model):
-    rating=models.IntegerField()
-    text=models.TextField()
+    rating = models.IntegerField()
+    text = models.TextField()
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.text    
-
-
-# class login(models.Model):
-#     username=models.CharField(max_length=30)
-#     password=models.CharField(max_length=20)
-#     email=models.EmailField(max_length=70,blank=True, null= True, unique= True)
-#     created=models.DateTimeField('date published',null=True)
-#     modified=models.DateTimeField('date published',null=True)
-#
-#     c_id=models.ForeignKey(customer, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.username
-
-
-# class super_user(models.Model):
-#     username=models.CharField(max_length=20)
-#     a_id=models.ForeignKey(login, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.username
+        return self.text
 
 
 class category(models.Model):
-    name=models.CharField(max_length=20)
+    name = models.CharField(max_length=20)
 
     def __str__(self):
         return self.name
 
 
 class Product(models.Model):
-    p_id=models.AutoField(primary_key=True)
-    title=models.CharField(max_length=20)
-    quantity=models.IntegerField(null=False)
-    description=models.TextField()
-    c_id=models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
-    cat_id=models.ForeignKey(category, on_delete=models.CASCADE, null=True, related_name='+')
+    p_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=20)
+    quantity = models.IntegerField(null=False)
+    description = models.TextField()
+    price = models.FloatField()
+    c_id = models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
+    cat_id = models.ForeignKey(category, on_delete=models.CASCADE, null=True, related_name='+')
 
     def __str__(self):
         return self.title
@@ -89,21 +78,9 @@ class OrderItem(models.Model):
 
 
 class p_review(models.Model):
-    rating=models.IntegerField()
-    text=models.TextField()
-    pro_id=models.ForeignKey(Product, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+    text = models.TextField()
+    pro_id = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.text
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
