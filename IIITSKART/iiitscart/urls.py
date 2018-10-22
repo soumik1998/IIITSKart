@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from iiitscart import settings
 
 urlpatterns = [
-   path('cart', include('cart.urls')),
+   path('cart/', include('cart.urls')),
    path('', views.home , name = 'home'),
    path('signup/', views.sign_up, name='signup'),
    path('lout/',views.logout_view,name='lout'),
