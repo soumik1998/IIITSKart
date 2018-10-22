@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sell</title>
+</head>
+<body>
+
+<form method="post" action="{% url 'cart:add_product' %}">
+  Title:<br>
+  <input type="text" name="title" value="title">
+  <br>
+  Quantity:<br>
+  <input type="number" name="quantity" value="quantity">
+  <br>
+    Description:<br>
+  <input type="text" name="description" value="description">
+    <br>
+    Category:<br>
+  <input type="text" name="cat_name" value="cat_name">
+    <br>
+    Price:<br>
+  <input type="number" name="price" value="price">g
+  <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
