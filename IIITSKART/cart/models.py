@@ -49,6 +49,7 @@ class Product(models.Model):
     title = models.CharField(max_length=20)
     quantity = models.IntegerField(null=False)
     description = models.TextField()
+    price = models.FloatField()
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
     cat_id = models.ForeignKey(category, on_delete=models.CASCADE, null=True, related_name='+')
 
