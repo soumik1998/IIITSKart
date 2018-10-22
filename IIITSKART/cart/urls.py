@@ -31,7 +31,8 @@ urlpatterns = [
     path(r'search/', views.search, name='search'),
     path(r'logout/', views.logout_view, name='logout'),
     path(r'profile/', views.profile_view, name='profile'),
+    path(r'receiveProduct/', views.receiveProduct, name='receiveProduct'),
+    path(r'test/', views.test, name='test'),
 
-
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

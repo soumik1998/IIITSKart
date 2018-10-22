@@ -167,9 +167,7 @@ def update_profile(request):
 
 @csrf_exempt
 def profile_val_api(request):
-    print("sdsd")
     if request.method == 'POST':
-        print("sads")
         cust = json.loads(request.body)
         print(cust)
         us = cust['username']
@@ -191,6 +189,29 @@ def receive(request):
                        email=cust['email'], phone=cust['phone'], blacklist=cust['blacklist'])
         obj.save()
         print(cust['first_name'])
+
+        return JsonResponse({"status": "post"})
+    else:
+        print('get req')
+        return JsonResponse({"status": "get"})
+
+def test(request):
+    temp=category.objects.raw('SELECT * FROM cart_category')
+    data=serializers.serialize('json',temp)
+    value=json.loads(data)
+    print(value[0]['fields']['name'])
+    return  HttpResponse('TET')
+
+@csrf_exempt
+def receiveProduct(request):
+    if request.method == 'POST':
+        prod = json.loads(request.body)
+        cat_obj=category()
+        pro_obj = Product(  title=prod['title'], quantity=prod['quantity'], description=prod['description'],
+                        price=prod['price'], category=prod['category'])
+
+        pro_obj.save()
+        print(prod['Tile'])
 
         return JsonResponse({"status": "post"})
     else:
