@@ -235,8 +235,24 @@ input:focus ~ .highlight {
   <a href="{% url 'cart:search' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
   <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products">
 </div>
+<div id="overlay_login" >  <!-- here login is for changing portrait, for some reason new overlay is not getting added to css -->
+    <center>
+     <br><br><br><br><br><br>
+    <form autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2><b>Beautify on your own.</b></h2>
+        <input type="file" name="avatar" required >
+    <button onclick="off_login()" type="submit" class="button buttonBlue">Upload</button>
+    {#Use this line as prompt#}
+{#        {% if uploaded_file_url %}#}
+{#        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>#}
+{#        {% endif %}#}
+            <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Looks doesn't matter</button>
 
-<div id="overlay_edit" >
+</form>
+</div>
+
+    <div id="overlay_edit" >
 <center>
      <br><br><br>
   <form method="post" action="{% url 'cart:profile_val' %}">
@@ -284,16 +300,8 @@ input:focus ~ .highlight {
 
   <tr>
     <center><td><img src="{{ MEDIA_URL }}/{{ request.user.customer.avatar }}" width="300" height="400"><br><br>
-    <button type="submit" class="button buttonBlue" style="width: 50%;margin-left: 47px;margin-top: 2px;">Change picture
-    <form autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-        <input type="file" name="avatar">
-        <button type="submit" class="button buttonBlue">Upload
-    </form>
-{#Use this line as prompt#}
-{#        {% if uploaded_file_url %}#}
-{#        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>#}
-{#        {% endif %}#}
+    <button onclick="on_login()" type="submit" class="button buttonBlue" style="width: 50%;margin-left: 47px;margin-top: 2px;">Change picture
+
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
 
@@ -354,9 +362,16 @@ function on_edit() {
 function off_edit() {
     document.getElementById("overlay_edit").style.display = "none";
 }
+function on_login() {
+    document.getElementById("overlay_login").style.display = "block";
+}
+
+function off_login() {
+    document.getElementById("overlay_login").style.display = "none";
+}
 
 $(document).keyup(function(e) {
-  if (e.keyCode == 27) { off_edit();}   // esc
+  if (e.keyCode == 27) { off_edit();off_login()}   // esc
 });
 
 </script>

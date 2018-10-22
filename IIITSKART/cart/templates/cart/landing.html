@@ -241,7 +241,7 @@ input:focus ~ .highlight {
      <h2><b>Wow. A new face!</b></h2>
 
     <div class="group">
-    <input type="text" name="username" id="username" value=" " required autofocus><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="username" id="username" value="" required autofocus><span class="highlight"></span><span class="bar"></span>
     <label>Usename</label>
   </div>
       <div class="group">
@@ -256,11 +256,15 @@ input:focus ~ .highlight {
     <input type="email" name="email" id="email" required><span class="highlight"></span><span class="bar"></span>
     <label>Email</label>
   </div>
+    <div class="group">
+    <input type="phone" name="phone" id="phone" required><span class="highlight"></span><span class="bar"></span>
+    <label>Phone</label>
+  </div>
       <div class="group">
-    <input type="password" name="password" id="password"  value=" "required><span class="highlight"></span><span class="bar"></span>
+    <input type="password" name="password" id="password" required><span class="highlight"></span><span class="bar"></span>
     <label>Password</label>
   </div>
-    <button type="submit" class="button buttonBlue">Login
+    <button type="submit" class="button buttonBlue">Signup
       <input type="hidden" name="next" value="{{ next }}" />
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
 
