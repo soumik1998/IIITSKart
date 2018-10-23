@@ -1,6 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
 
 
+
 .item-1, 
 .item-2, 
 .item-3 {
@@ -134,7 +135,7 @@ span.psw {
   color: #f2f2f2;
   opacity: 1;
   text-align: left;
-  border:1; 
+  border:1px;
   font-size: 17px;
   background-color: #000; 
   border-radius: 5px;
@@ -245,5 +246,6 @@ span.psw {
   margin-top: 30px;
   height: 500px; /* Used in this example to enable scrolling, remove at end */
 }
+
 
 
