@@ -206,6 +206,7 @@ def search_product(request):
     value=json.loads(data)
 
     main=[]
+    product_name="Saurabh"
     for i in value:
         if(i["fields"]["title"]==product_name):
             cid=i["fields"]["c_id"]
@@ -216,9 +217,6 @@ def search_product(request):
     print(main)
     context={"main":main}
     return render(request, 'cart/search.html', context)
-
-
-
 
 
 @transaction.atomic
@@ -301,20 +299,40 @@ def receiveProduct(request):
 
 
 @csrf_exempt
+def get_products(request):
+    temp = Product.objects.raw('SELECT * FROM cart_product')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    tp=[]
+    dit={}
+    for i in value:
+
+        cid=i["fields"]["c_id"]
+        cobj=customer.objects.get(pk=cid)
+        uid=cobj.user_id
+        uobj=User.objects.get(pk=uid)
+        probj=Product.objects.get(pk=i["pk"])
+        catid=probj.cat_id
+        dt = {"quantity":i["fields"]["quantity"],"username":uobj.username,"title":i["fields"]["title"],"description":i["fields"]["description"],"category":str(catid)}
+        tp.append(dt)
+        # main.append((i["fields"]["quantity"],i["fields"]["title"], uobj.username,i["fields"]["price"]))#productname,customername,productprice
+    dit={"result":tp}
+
+    return JsonResponse(dit)
+
+
+@csrf_exempt
 def send(request):
     if request.method == 'GET':
-        class_name = request.GET.get('class_name')
-        print(class_name)
-        if (class_name == 'Customer'):
-            obj = customer.objects.all()
-        if (class_name == 'C_Review'):
-            obj = c_review.objects.all()
-        if (class_name == 'Product'):
-            obj = Product.objects.all()
-        if (class_name == 'P_Review'):
-            obj = p_review.objects.all()
-        if (class_name == 'Category'):
-            obj = category.objects.all()
+        obj = customer.objects.all()
+        # if (class_name == 'C_Review'):
+        #     obj = c_review.objects.all()
+        # if (class_name == 'Product'):
+        #     obj = Product.objects.all()
+        # if (class_name == 'P_Review'):
+        #     obj = p_review.objects.all()
+        # if (class_name == 'Category'):
+        #     obj = category.objects.all()
 
         data = serializers.serialize('json', obj)
         jsonResponse = {
