@@ -1,14 +1,39 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+  {% load staticfiles %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <title>user dashboard</title>
+
 </head>
-<body>
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+
+<body style=" margin: 0;
+   background: url({% static 'cart/w2.jpg' %}) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
+
+<div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
+  <a href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+
+  <a href="{% url 'cart:logout' %}">Logout</a>
+  <a href="{% url 'cart:profile' %}">Profile</a>
+  <a href="#orders">Orders</a>
+    <a href="{% url 'cart:add_pro' %}">Sell</a>
+  <a href="{% url 'cart:search_product' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
+  <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products">
+</div>
+
+<div class="main" style="color:white;">
+ <center>
+ <br><br><br><br>
+ </center>
+</div>
 </body>
 </html>

@@ -77,8 +77,8 @@ def logout_view(request):
     return render(request, 'cart/landing.html', {})
 
 
-def search(request):
-    return render(request, 'cart/search.html', {})
+# def search(request):
+#     return render(request, 'cart/search.html', {})
 
 
 def add_pro(request):
@@ -205,16 +205,15 @@ def search_product(request):
     data = serializers.serialize('json', temp)
     value=json.loads(data)
 
-    main=[]
+    dt=[]
     for i in value:
         if(i["fields"]["title"]==product_name):
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
-            main.append((i["fields"]["title"], uobj.username,i["fields"]["price"],))#productname,customername,productprice
-    print(main)
-    context={"main":main}
+            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],))#productname,customername,productprice
+    context={"dt":dt}
     return render(request, 'cart/search.html', context)
 
 

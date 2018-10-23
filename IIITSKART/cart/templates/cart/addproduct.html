@@ -226,13 +226,13 @@ input:focus ~ .highlight {
   background-size: cover;">
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
-  <a href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+ <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
 
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
   <a href="#orders">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
-  <a href="{% url 'cart:search' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
+  <a href="{% url 'cart:search_product' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
   <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products">
 </div>
  <div id="overlay_edit" >
