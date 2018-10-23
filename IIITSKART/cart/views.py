@@ -195,8 +195,30 @@ def add_product(request):
         return HttpResponse("added product")
 
 
+def search_product(request):
+    product_name=request.POST.get("name")
+    category_name=request.POST.get("category")
+    price_low=request.POST.get("price_low")
+    price_high = request.POST.get("price_high")
+    rating=request.POST.get("rating")
+    temp= Product.objects.raw('SELECT * FROM cart_product')
+    data = serializers.serialize('json', temp)
+    value=json.loads(data)
 
-        return HttpResponse("added product")
+    main=[]
+    for i in value:
+        if(i["fields"]["title"]==product_name):
+            cid=i["fields"]["c_id"]
+            cobj=customer.objects.get(pk=cid)
+            uid=cobj.user_id
+            uobj=User.objects.get(pk=uid)
+            main.append((i["fields"]["title"], uobj.username,i["fields"]["price"],))#productname,customername,productprice
+    print(main)
+    context={"main":main}
+    return render(request, 'cart/search.html', context)
+
+
+
 
 
 @transaction.atomic

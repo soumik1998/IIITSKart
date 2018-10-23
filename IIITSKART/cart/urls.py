@@ -29,6 +29,7 @@ urlpatterns = [
     path(r'send/', views.send, name='send'),
     path(r'go-to-dashboard/', views.go_to_dashboard, name='go-to-dashboard'),
     path(r'search/', views.search, name='search'),
+    path(r'searchproduct/', views.search_product, name='search_product'),
     path(r'logout/', views.logout_view, name='logout'),
     path(r'profile/', views.profile_view, name='profile'),
     path(r'receiveProduct/', views.receiveProduct, name='receiveProduct'),
