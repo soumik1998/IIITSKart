@@ -60,7 +60,7 @@
   <a href="#contact">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
   <a href="{% url 'cart:search_product' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
-  <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products">
+  <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products" value="{{ query }}">
 </div>
 <div class="sidebar w3-animate-left" style="animation:animateleft 0.5s;animation-fill-mode: backwards;">
     <h3 style="color: #fff">Category</h3>

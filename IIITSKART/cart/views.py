@@ -206,16 +206,23 @@ def search_product(request):
     value=json.loads(data)
 
     dt=[]
+<<<<<<< HEAD
 
     main=[]
 
+=======
+>>>>>>> dbe956f7fc089219b2bcb6fb6539b79e2555f2b8
     for i in value:
         if(i["fields"]["title"]==product_name):
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
+<<<<<<< HEAD
             dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"]))#productname,customername,productprice
+=======
+            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],))#productname,customername,productprice
+>>>>>>> dbe956f7fc089219b2bcb6fb6539b79e2555f2b8
     context={"dt":dt,"query":product_name}
     return render(request, 'cart/search.html', context)
 
