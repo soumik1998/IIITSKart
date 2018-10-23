@@ -207,10 +207,6 @@ def search_product(request):
 
 
     dt=[]
-
-    main=[]
-    product_name="Saurabh"
-
     for i in value:
         if(i["fields"]["title"]==product_name):
             cid=i["fields"]["c_id"]
@@ -218,7 +214,7 @@ def search_product(request):
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],))#productname,customername,productprice
-    context={"dt":dt}
+    context={"dt":dt,"query":product_name}
     return render(request, 'cart/search.html', context)
 
 
