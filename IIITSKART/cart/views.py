@@ -205,7 +205,12 @@ def search_product(request):
     data = serializers.serialize('json', temp)
     value=json.loads(data)
 
+<<<<<<< HEAD
     dt=[]
+=======
+    main=[]
+    product_name="Saurabh"
+>>>>>>> 8a78ac810557c9c9619e466fadca4d6ce94c38b3
     for i in value:
         if(i["fields"]["title"]==product_name):
             cid=i["fields"]["c_id"]
@@ -215,9 +220,6 @@ def search_product(request):
             dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],))#productname,customername,productprice
     context={"dt":dt}
     return render(request, 'cart/search.html', context)
-
-
-
 
 
 @transaction.atomic
@@ -247,7 +249,7 @@ def profile_val_api(request):
 def receive(request):
     if request.method == 'POST':
 
-        cust = json.loads(request.body)
+        custb = json.loads(request.body)
         obj = customer(first_name=cust['first_name'], last_name=cust['last_name'], address=cust['address'],
                        email=cust['email'], phone=cust['phone'], blacklist=cust['blacklist'])
         obj.save()
@@ -274,46 +276,59 @@ def test(request):
 def receiveProduct(request):
     if request.method == 'POST':
         prod = json.loads(request.body)
-        temp = category.objects.raw('SELECT * FROM cart_category')
-        data = serializers.serialize('json', temp)
-        value = json.loads(data)
+        uobj = User.objects.get(username=prod['username'])
+        cobj = customer.objects.get(pk=uobj.customer.id)
+        pro = cobj.product_set.create(title=prod['title'], quantity=prod['quantity'],
+                                      description=prod['description'], price=prod["price"])
 
-        print(prod['quantity'])
+        catobj = category.objects.get(name=prod['category'])
+        print(catobj.id, pro.p_id)
+        pro.cat_id = catobj
+        pro.save()
 
-        for i in range(len(value)):
-            if value[i]['fields']['name']== prod['category']:
-                cid=int(value[i]['pk'])
-
-
-        temp = customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
-        data = serializers.serialize('json', temp)
-        value = json.loads(data)
-        pid = value[0]['pk']
-
-        pro_obj = Product(title=prod['title'], quantity=prod['quantity'], description=prod['description'],price=prod['price'], c_id=cid,p_id=pid)
-
-        pro_obj.save()
         return JsonResponse({"status": "post"})
     else:
         print('get req')
         return JsonResponse({"status": "get"})
 
 
+
+
+@csrf_exempt
+def get_products(request):
+    temp = Product.objects.raw('SELECT * FROM cart_product')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    tp=[]
+    dit={}
+    for i in value:
+
+        cid=i["fields"]["c_id"]
+        cobj=customer.objects.get(pk=cid)
+        uid=cobj.user_id
+        uobj=User.objects.get(pk=uid)
+        probj=Product.objects.get(pk=i["pk"])
+        catid=probj.cat_id
+        dt = {"quantity":i["fields"]["quantity"],"username":uobj.username,"title":i["fields"]["title"],"description":i["fields"]["description"],"category":str(catid)}
+        tp.append(dt)
+        # main.append((i["fields"]["quantity"],i["fields"]["title"], uobj.username,i["fields"]["price"]))#productname,customername,productprice
+    dit={"result":tp}
+
+    return JsonResponse(dit)
+
+
 @csrf_exempt
 def send(request):
     if request.method == 'GET':
-        class_name = request.GET.get('class_name')
-        print(class_name)
-        if (class_name == 'Customer'):
-            obj = customer.objects.all()
-        if (class_name == 'C_Review'):
-            obj = c_review.objects.all()
-        if (class_name == 'Product'):
-            obj = Product.objects.all()
-        if (class_name == 'P_Review'):
-            obj = p_review.objects.all()
-        if (class_name == 'Category'):
-            obj = category.objects.all()
+        obj = customer.objects.all()
+        # if (class_name == 'C_Review'):
+        #     obj = c_review.objects.all()
+        # if (class_name == 'Product'):
+        #     obj = Product.objects.all()
+        # if (class_name == 'P_Review'):
+        #     obj = p_review.objects.all()
+        # if (class_name == 'Category'):
+        #     obj = category.objects.all()
 
         data = serializers.serialize('json', obj)
         jsonResponse = {
