@@ -60,21 +60,16 @@ class Product(models.Model):
 class Order(models.Model):
     order_number = models.AutoField(primary_key=True)
     order_date = models.DateTimeField(default=datetime.now(), blank=False)
-    customer_id = models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
-    total_amount = models.FloatField(null=False)
+    customer_id = models.ForeignKey(customer, related_name='customer', on_delete=models.CASCADE, null=True)
+    seller_id = models.ForeignKey(customer, related_name='seller', on_delete=models.CASCADE, null=True)
+    product_id = models.ForeignKey(Product, related_name='product', on_delete=models.CASCADE, null=True)
+    unitprice = models.FloatField(null=True, default=0)
+    quantity = models.IntegerField(null=True, default=0)
+    total_amount = models.FloatField(null=True, default=0)
+    status = models.IntegerField(default=-1, null=False)
 
     def __str__(self):
         return self.order_number
-
-
-class OrderItem(models.Model):
-    order_id = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    unitprice = models.FloatField(null=False)
-    quantity = models.IntegerField(null=False)
-
-    def __str__(self):
-        return "OrderItem"
 
 
 class p_review(models.Model):
@@ -84,3 +79,13 @@ class p_review(models.Model):
 
     def __str__(self):
         return self.text
+
+
+# class OrderItem(models.Model):
+#     order_id = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+#     product_id = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+#     unitprice = models.FloatField(null=False)
+#     quantity = models.IntegerField(null=False)
+#
+#     def __str__(self):
+#         return "OrderItem"
