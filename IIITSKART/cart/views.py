@@ -204,29 +204,36 @@ def receive(request):
         return JsonResponse({"status": "get"})
 
 def test(request):
-    temp=customer.objects.raw('SELECT * FROM cart_customer')
+    temp=customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
+    # temp = customer.objects.raw('SELECT * FROM cart_customer')
     data=serializers.serialize('json',temp)
     value=json.loads(data)
+
     print(value)
-    print("sdfsdf")
+    # print("sdfsdf")
     return  HttpResponse('TET')
 
 @csrf_exempt
 def receiveProduct(request):
     if request.method == 'POST':
         prod = json.loads(request.body)
-
         temp = category.objects.raw('SELECT * FROM cart_category')
         data = serializers.serialize('json', temp)
         value = json.loads(data)
 
+        print(prod['quantity'])
+
         for i in range(len(value)):
-            if(value[i]['fields']['name']== prod['category']):
-                cid=value[i]['pk']
+            if value[i]['fields']['name']== prod['category']:
+                cid=int(value[i]['pk'])
 
 
-        pro_obj = Product(  title=prod['title'], quantity=prod['quantity'], description=prod['description'],
-                        price=prod['price'], category=cid)
+        temp = customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
+        data = serializers.serialize('json', temp)
+        value = json.loads(data)
+        pid = value[0]['pk']
+
+        pro_obj = Product(title=prod['title'], quantity=prod['quantity'], description=prod['description'],price=prod['price'], c_id=cid,p_id=pid)
 
         pro_obj.save()
         return JsonResponse({"status": "post"})
