@@ -248,7 +248,7 @@ def profile_val_api(request):
 def receive(request):
     if request.method == 'POST':
 
-        cust = json.loads(request.body)
+        custb = json.loads(request.body)
         obj = customer(first_name=cust['first_name'], last_name=cust['last_name'], address=cust['address'],
                        email=cust['email'], phone=cust['phone'], blacklist=cust['blacklist'])
         obj.save()
