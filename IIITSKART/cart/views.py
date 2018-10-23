@@ -81,6 +81,10 @@ def search(request):
     return render(request, 'cart/search.html', {})
 
 
+def add_pro(request):
+    return render(request, 'cart/addproduct.html', {})
+
+
 def profile_view(request):
     if request.user.is_authenticated:
         c_obj = customer()
@@ -162,7 +166,37 @@ def profile_photo_upload(request):
         return render(request, 'cart/profile.html', {'uploaded_file_url': uploaded_file_url})
 
     return render(request, 'cart/profile.html')
+################ functions ############
 
+
+def profile_data(request):
+    temp = User.objects.raw('SELECT * FROM  auth_user')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    print(value[0]["fields"])
+
+    # c_user = request.user.username
+    # print(c_user)
+    return HttpResponse("profile updated")
+
+
+def add_product(request):
+    if request.user.is_authenticated:
+        uobj=User.objects.get(username=request.user.username)
+        cobj = customer.objects.get(pk=uobj.customer.id)
+        pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
+                                    description = request.POST.get("description"), price = request.POST.get("price"))
+
+        catobj=category.objects.get(name=request.POST.get("cat_name"))
+        print(catobj.id,pro.p_id)
+        pro.cat_id=catobj
+        pro.save()
+        # pro1.cat_id=catobj.id
+        return HttpResponse("added product")
+
+
+
+        return HttpResponse("added product")
 
 
 @transaction.atomic
@@ -203,24 +237,41 @@ def receive(request):
         print('get req')
         return JsonResponse({"status": "get"})
 
+
 def test(request):
-    temp=category.objects.raw('SELECT * FROM cart_category')
+    temp=customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
+    # temp = customer.objects.raw('SELECT * FROM cart_customer')
     data=serializers.serialize('json',temp)
     value=json.loads(data)
-    print(value[0]['fields']['name'])
+
+    print(value)
+    # print("sdfsdf")
     return  HttpResponse('TET')
+
 
 @csrf_exempt
 def receiveProduct(request):
     if request.method == 'POST':
         prod = json.loads(request.body)
-        cat_obj=category()
-        pro_obj = Product(  title=prod['title'], quantity=prod['quantity'], description=prod['description'],
-                        price=prod['price'], category=prod['category'])
+        temp = category.objects.raw('SELECT * FROM cart_category')
+        data = serializers.serialize('json', temp)
+        value = json.loads(data)
+
+        print(prod['quantity'])
+
+        for i in range(len(value)):
+            if value[i]['fields']['name']== prod['category']:
+                cid=int(value[i]['pk'])
+
+
+        temp = customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
+        data = serializers.serialize('json', temp)
+        value = json.loads(data)
+        pid = value[0]['pk']
+
+        pro_obj = Product(title=prod['title'], quantity=prod['quantity'], description=prod['description'],price=prod['price'], c_id=cid,p_id=pid)
 
         pro_obj.save()
-        print(prod['Tile'])
-
         return JsonResponse({"status": "post"})
     else:
         print('get req')

@@ -32,6 +32,8 @@ urlpatterns = [
     path(r'logout/', views.logout_view, name='logout'),
     path(r'profile/', views.profile_view, name='profile'),
     path(r'receiveProduct/', views.receiveProduct, name='receiveProduct'),
+    path(r'sellproduct/', views.add_product, name='add_product'),
+    path(r'addpro/', views.add_pro, name='add_pro'),
     path(r'test/', views.test, name='test'),
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \

@@ -35,6 +35,5 @@ public class POSTAPI {
         AddCustomerAPI addCustomerAPI=retrofit.create(AddCustomerAPI.class);
         Call<JsonObject> call=addCustomerAPI.addCustomer(customer);
         call.enqueue(callback);
-
     }
 }
