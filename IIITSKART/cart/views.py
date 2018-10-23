@@ -205,12 +205,12 @@ def search_product(request):
     data = serializers.serialize('json', temp)
     value=json.loads(data)
 
-
+<<<<<<< HEAD
     dt=[]
-
+=======
     main=[]
     product_name="Saurabh"
-
+>>>>>>> 8a78ac810557c9c9619e466fadca4d6ce94c38b3
     for i in value:
         if(i["fields"]["title"]==product_name):
             cid=i["fields"]["c_id"]
