@@ -253,29 +253,22 @@ def test(request):
 def receiveProduct(request):
     if request.method == 'POST':
         prod = json.loads(request.body)
-        temp = category.objects.raw('SELECT * FROM cart_category')
-        data = serializers.serialize('json', temp)
-        value = json.loads(data)
+        uobj = User.objects.get(username=prod['username'])
+        cobj = customer.objects.get(pk=uobj.customer.id)
+        pro = cobj.product_set.create(title=prod['title'], quantity=prod['quantity'],
+                                      description=prod['description'], price=prod["price"])
 
-        print(prod['quantity'])
+        catobj = category.objects.get(name=prod['category'])
+        print(catobj.id, pro.p_id)
+        pro.cat_id = catobj
+        pro.save()
 
-        for i in range(len(value)):
-            if value[i]['fields']['name']== prod['category']:
-                cid=int(value[i]['pk'])
-
-
-        temp = customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
-        data = serializers.serialize('json', temp)
-        value = json.loads(data)
-        pid = value[0]['pk']
-
-        pro_obj = Product(title=prod['title'], quantity=prod['quantity'], description=prod['description'],price=prod['price'], c_id=cid,p_id=pid)
-
-        pro_obj.save()
         return JsonResponse({"status": "post"})
     else:
         print('get req')
         return JsonResponse({"status": "get"})
+
+
 
 
 @csrf_exempt
