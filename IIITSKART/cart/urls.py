@@ -38,7 +38,8 @@ urlpatterns = [
     path(r'test/', views.get_products, name='test'),
     path(r'get_pro/', views.get_products, name='Get_products'),
     path(r'buy_pro/', views.buy_product, name='buy_product'),
-    path(r'sellerinfo/', views.seller_info, name='seller_info')
+    path(r'sellerinfo/', views.seller_info, name='seller_info'),
+    path(r'productdetail/', views.product_detail, name='product_detail')
 
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \

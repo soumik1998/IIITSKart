@@ -288,6 +288,19 @@ def seller_info(request):
     return JsonResponse(dit)
 
 
+def product_detail(request):
+    quantity = request.POST.get("quantity")
+    pk = request.POST.get("pk")
+    pk = 34
+    quantity = 16
+    pobj = Product.objects.get(pk=pk)
+    uobj=User.objects.get(username=pobj.c_id)
+    dt=[]
+    dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username))
+
+    context = {"dt": dt}
+    return render(request, 'cart/profile.html', context)
+
 
 
 ###########################################################################
