@@ -23,7 +23,7 @@ h1 { color: #636363; }
 
 h3 { color: #4a89dc; }
 
-#overlay {
+form {
 	width: 480px;
 	margin: 1em auto;
 	padding: 2em 2em 1em 2em;
@@ -227,26 +227,19 @@ input:focus ~ .highlight {
   background-size: cover;">
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
- <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
 
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
-  <a href="#orders">Orders</a>
+   <a href="#contact">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
-  <form method="post" action="{% url 'cart:search_product' %}" >
-    {% csrf_token %}
-  <button type="submit" href="{% url 'cart:search_product' %}" style="float: right;
-  display: block;border: 0;cursor:pointer;
-  opacity: 1;
-  padding: 0px 0px;" ><i  class="material-icons" >search</i>
-  <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
-</form>
+  <a href="{% url 'cart:search_product' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
+  <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products">
 </div>
 <div id="overlay_login" >  <!-- here login is for changing portrait, for some reason new overlay is not getting added to css -->
     <center>
      <br><br><br><br><br><br>
-    <form id="overlay" autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
+    <form autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <h2><b>Beautify on your own.</b></h2>
         <input type="file" name="avatar" required >
@@ -263,7 +256,7 @@ input:focus ~ .highlight {
     <div id="overlay_edit" >
 <center>
      <br><br><br>
-  <form id="overlay" method="post" action="{% url 'cart:profile_val' %}">
+  <form method="post" action="{% url 'cart:profile_val' %}">
 {% csrf_token %}
 
       <h2><b>Everybody love changes.</b></h2>

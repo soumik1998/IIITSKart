@@ -22,7 +22,7 @@
 
 }
 
-#cardb{
+.card button {
   border: none;
   outline: 0;
   padding: 12px;
@@ -31,14 +31,13 @@
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 20px;
-    margin-bottom: 0px;
+  font-size: 18px;
 }
 .card:hover {
     box-shadow: 0px 0px 20px 1px rgba(63,167,245,0.9);
 }
 
-#cardb:hover {
+.card button:hover {
   opacity: 0.8;
 }
     </style>
@@ -54,29 +53,18 @@
 
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
- <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
 
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
-  <a href="#orders">Orders</a>
+  <a href="#contact">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
-  <form method="post" action="{% url 'cart:search_product' %}" >
-    {% csrf_token %}
-  <button type="submit" href="{% url 'cart:search_product' %}" style="float: right;
-  display: block;border: 0;cursor:pointer;
-  opacity: 1;
-  padding: 0px 0px;" ><i  class="material-icons" >search</i>
-  <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products"value="{{ query }}" required>
-</form>
+  <a href="{% url 'cart:search_product' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
+  <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products" value="{{ query }}">
 </div>
 <div class="sidebar w3-animate-left" style="animation:animateleft 0.5s;animation-fill-mode: backwards;">
     <h3 style="color: #fff">Category</h3>
-<label class="container">Doesn't matter
-  <input type="radio" checked="checked" name="radio">
-  <span class="checkmark"></span>
-</label>
-    <label class="container">Tech
+<label class="container">Tech
   <input type="radio" checked="checked" name="radio">
   <span class="checkmark"></span>
 </label>
@@ -92,36 +80,20 @@
   <input type="radio" name="radio">
   <span class="checkmark"></span>
 </label>
-    <h2>Sort by</h2>
-    <select>
-  <optgroup label="Money matters">
-    <option value="Cheaper the better">Cheaper the better</option>
-    <option value="Premium">Premium</option>
-  </optgroup>
-  <optgroup label="Ratings matter">
-    <option value="Trust critics">Trust critics</option>
-    <option value="Against the crowd">Against the crowd</option>
-  </optgroup>
-</select>
 </div>
 
 <div class="main" style="color:white; margin-left: 230px;">
 
  <br><br>
 {% for i in dt %}
-    <form method="post" action="{% url 'cart:search_product' %}" >
-    {% csrf_token %}
-<button type="submit" href="{% url 'cart:search_product' %}" style="background-color: transparent;border: 0px">
     <div class="card">
          <a href="{% url 'cart:search_product' %}" style="position: relative;top: 0; left: 0;height: 100%; width: 100%;text-decoration: none">
-  <img src="{% static 'cart/product_default.png' %}" alt="{% static 'cart/product_default.png' %}" style="width:100%">
+  <img src="{% static 'cart/product_default.png' %}" alt="product image not available" style="width:100%">
   <h2 style="color: #000;display: inline;">{{ i.0 }}</h2>
-             <p style="color: #000;display: inline;"><br>Seller: {{ i.1}}<br>Rating: 4.2/5</p>
-             <h1 id="cardb">{{ i.2 }}₹</h1>
+             <p style="color: #000;display: inline;"><br>Seller: {{ i.1}}<br>Rating: 4.2/5<br>
+  <button>{{ i.2 }}₹</button></p>
 </a>
      </div>
-</button>
-    </form>
 {% endfor %}
   
 
