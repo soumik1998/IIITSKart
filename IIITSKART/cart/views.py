@@ -1,6 +1,6 @@
 from django.core import serializers
 from django.db import transaction
-from django.core.files.storage import FileSystemStorage
+from django.core.files.storage import FileSystemStorage, default_storage
 from django.http import *
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
@@ -82,7 +82,14 @@ def logout_view(request):
 
 
 def add_pro(request):
-    return render(request, 'cart/addproduct.html', {})
+    temp = category.objects.raw('SELECT * FROM  cart_category')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    dt=[]
+    for i in value:
+        dt.append(i["fields"]["name"])
+    context = {"dt": dt}
+    return render(request, 'cart/addproduct.html', context)
 
 
 def profile_view(request):
@@ -152,7 +159,7 @@ def makeuser(request):
 def profile_photo_upload(request):
     if request.method == 'POST' and request.FILES['avatar']:
         avatar = request.FILES['avatar']
-        fs = FileSystemStorage()
+        fs = FileSystemStorage(location='media/profile')
         filename = fs.save(avatar.name, avatar)
         uploaded_file_url = fs.url(filename)
         print(filename)
@@ -181,13 +188,21 @@ def profile_data(request):
 
 
 def add_product(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.FILES['pro_pic']:
         uobj=User.objects.get(username=request.user.username)
         cobj = customer.objects.get(pk=uobj.customer.id)
         pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
                                     description = request.POST.get("description"), price = request.POST.get("price"))
 
-        catobj=category.objects.get(name=request.POST.get("cat_name"))
+        pro_pic = request.FILES['pro_pic']
+        fs = FileSystemStorage(location='media/product')
+        filename = fs.save(pro_pic.name, pro_pic)
+        uploaded_file_url = fs.url(filename)
+        pro.pro_pic = filename
+        print(filename)
+        print(uploaded_file_url)
+
+        catobj=category.objects.get(name=request.POST.get("category"))
         print(catobj.id,pro.p_id)
         pro.cat_id=catobj
         pro.save()
@@ -212,7 +227,8 @@ def search_product(request):
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
-            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"]))#productname,customername,productprice
+            pobj=Product.objects.get(pk=i["pk"])
+            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"],pobj.pro_pic))#productname,customername,productprice
 
     context={"dt":dt,"query":product_name}
     return render(request, 'cart/search.html', context)

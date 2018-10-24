@@ -30,10 +30,9 @@
     {% csrf_token %}
   <button href="{% url 'cart:search_product' %}" style="float: right;
   display: block;border: 0;color:#3599FF;background-color: #fff;cursor:pointer;
-  opacity: 0;
   padding: 0px 0px;" ><i type="submit" class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:1px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
 </form>
 </div>
 

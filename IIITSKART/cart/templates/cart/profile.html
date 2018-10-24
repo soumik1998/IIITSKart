@@ -23,7 +23,7 @@ h1 { color: #636363; }
 
 h3 { color: #4a89dc; }
 
-form {
+#overlay {
 	width: 480px;
 	margin: 1em auto;
 	padding: 2em 2em 1em 2em;
@@ -233,13 +233,19 @@ input:focus ~ .highlight {
   <a href="{% url 'cart:profile' %}">Profile</a>
    <a href="#contact">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
-  <a href="{% url 'cart:search_product' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
-  <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products">
+    <form method="post" action="{% url 'cart:search_product' %}" >
+    {% csrf_token %}
+  <button href="{% url 'cart:search_product' %}" style="float: right;
+  display: block;border: 0;color:#3599FF;background-color: #fff;cursor:pointer;
+  padding: 0px 0px;" ><i type="submit" class="material-icons" >search</i>
+  <input type="hidden" name="next" value="{{ next }}" /></button>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
+</form>
 </div>
 <div id="overlay_login" >  <!-- here login is for changing portrait, for some reason new overlay is not getting added to css -->
     <center>
      <br><br><br><br><br><br>
-    <form autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
+    <form id="overlay" autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <h2><b>Beautify on your own.</b></h2>
         <input type="file" name="avatar" required >
@@ -256,7 +262,7 @@ input:focus ~ .highlight {
     <div id="overlay_edit" >
 <center>
      <br><br><br>
-  <form method="post" action="{% url 'cart:profile_val' %}">
+  <form id="overlay" method="post" action="{% url 'cart:profile_val' %}">
 {% csrf_token %}
 
       <h2><b>Everybody love changes.</b></h2>
@@ -300,7 +306,7 @@ input:focus ~ .highlight {
     <col width="40%">
 
   <tr>
-    <center><td><img src="{{ MEDIA_URL }}/{{ request.user.customer.avatar }}" width="300" height="400"><br><br>
+    <center><td><img src="{{ MEDIA_URL }}profile/{{ request.user.customer.avatar }}" width="300" height="400"><br><br>
     <button onclick="on_login()" type="submit" class="button buttonBlue" style="width: 50%;margin-left: 47px;margin-top: 2px;">Change picture
 
 
@@ -308,7 +314,7 @@ input:focus ~ .highlight {
 
   </button>
     </td></center>
-    <td  colspan="2"><h2 style="color: #000;"><br>Name:{{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email:<br><br>Username: {{ request.user.username }}<br><br>Address:{{ request.user.customer.address }}</h2><<br><br>
+    <td  colspan="2"><h2 style="color: #000;"><br>Name:{{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email: {{ request.user.email }}<br><br>Username: {{ request.user.username }}<br><br>Address:{{ request.user.customer.address }}</h2><<br><br>
       <button onclick="on_edit()"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>

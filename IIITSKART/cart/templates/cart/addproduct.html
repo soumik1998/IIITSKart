@@ -23,7 +23,7 @@ h1 { color: #636363; }
 
 h3 { color: #4a89dc; }
 
-form {
+#overlay {
 	width: 480px;
 	margin: 1em auto;
 	padding: 2em 2em 1em 2em;
@@ -39,7 +39,7 @@ form {
 	margin-bottom: 20px;
 }
 
-input {
+input{
 	font-size: 18px;
 	padding: 10px 10px 10px 5px;
 	-webkit-appearance: none;
@@ -232,38 +232,55 @@ input:focus ~ .highlight {
   <a href="{% url 'cart:profile' %}">Profile</a>
   <a href="#orders">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
-  <a href="{% url 'cart:search_product' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
-  <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products">
+    <form method="post" action="{% url 'cart:search_product' %}" >
+    {% csrf_token %}
+  <button href="{% url 'cart:search_product' %}" style="float: right;
+  display: block;border: 0;color:#3599FF;background-color: #fff;cursor:pointer;
+  padding: 0px 0px;" ><i type="submit" class="material-icons" >search</i>
+  <input type="hidden" name="next" value="{{ next }}" /></button>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
+</form>
 </div>
  <div id="overlay_edit" >
 <center>
-     <br><br><br>
-  <form method="post" action="{% url 'cart:profile_val' %}">
+     <br>
+  <form id="overlay" method="post" action="{% url 'cart:add_product' %}" enctype="multipart/form-data">
 {% csrf_token %}
 
       <h2><b>Another thing to sell</b></h2>
 
     <div class="group">
-    <input type="text" name="title" id="title"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="title" id="title" required><span class="highlight"></span><span class="bar"></span>
     <label>what is this?</label>
   </div>
       <div class="group">
-    <input type="number" name="quantity" id="quantity"><span class="highlight"></span><span class="bar"></span>
+    <input type="number" name="quantity" id="quantity" required><span class="highlight"></span><span class="bar"></span>
     <label>Quantity</label>
   </div>
-      <div class="group">
-    <input type="text" name="description" id="description"><span class="highlight"></span><span class="bar"></span>
+      <div style="margin-bottom: 0px" class="group">
+    <input type="text" name="description" id="description" required><span class="highlight"></span><span class="bar"></span>
     <label>About it</label>
   </div>
       <div class="group">
-    <input type="text" name="category" id="category"><span class="highlight"></span><span class="bar"></span>
-    <label>Category</label>
+          <h4 style="margin-bottom: 0px;float: left">Category</h4>
+    <select onmouseover="" name="category">
+        {% for i in dt %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+  </select>
+
   </div>
 
-  <div class="group">
-    <input type="number" name="price" id="price"><span class="highlight"></span><span class="bar"></span>
+  <div class="group" style="margin-bottom: 0px">
+    <input type="number" name="price" id="price" required><span class="highlight"></span><span class="bar"></span>
     <label>Everything has a price</label>
   </div>
+      <div class="group">
+          <h3 style="margin-bottom: 0px"><b>Images of product</b></h3>
+    <input type="file" name="pro_pic" id="price" multiple required><span class="highlight"></span><span class="bar"></span>
+    <label></label>
+  </div>
+
   <button type="submit" class="button buttonBlue">Put it online
       <input type="hidden" name="next" value="{{ next }}" />
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
