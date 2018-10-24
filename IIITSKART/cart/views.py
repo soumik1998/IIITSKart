@@ -302,6 +302,19 @@ def product_detail(request):
     return render(request, 'cart/profile.html', context)
 
 
+def seller_review(request):
+    username=request.POST.get("username")
+    review = request.POST.get("review")
+    stars = request.POST.get("rating")
+
+    uobj=User.objects.get(username=username)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+
+    rev=c_review()
+    rev.c_id=cobj
+    rev.text=review
+    rev.rating=stars
+    rev.save()
 
 ###########################################################################
 @transaction.atomic
