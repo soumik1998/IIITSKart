@@ -31,7 +31,6 @@ urlpatterns = [
     # path(r'search/', views.search, name='search'),
     path(r'searchproduct/', views.search_product, name='search_product'),
     path(r'logout/', views.logout_view, name='logout'),
-    path(r'profile/', views.profile_view, name='profile'),
     path(r'receiveProduct/', views.receiveProduct, name='receiveProduct'),
     path(r'sellproduct/', views.add_product, name='add_product'),
     path(r'addpro/', views.add_pro, name='add_pro'),
@@ -40,7 +39,12 @@ urlpatterns = [
     path(r'buy_pro/', views.buy_product, name='buy_product'),
     path(r'sellerinfo/', views.seller_info, name='seller_info'),
     path(r'productdetail/', views.product_detail, name='product_detail'),
+<<<<<<< HEAD
     path(r'profileupdatde/', views.update_profile, name='update_profile')
+=======
+    path(r'sellerreview/', views.seller_review, name='seller_review'),
+    path(r'reportseller/', views.report_seller, name='report_seller')
+>>>>>>> 1c0a17db6e2b5f9a4d14df18b901c620d1676138
 
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \

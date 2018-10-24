@@ -77,10 +77,17 @@ def logout_view(request):
     return render(request, 'cart/landing.html', {})
 
 
+def go_to_dashboard(request):
+    try:
+        return render(request, 'cart/dashboard.html', {})
+    except:
+        pass
+
+
 # def search(request):
 #     return render(request, 'cart/search.html', {})
 
-
+################ functions ############
 def add_pro(request):
     temp = category.objects.raw('SELECT * FROM  cart_category')
     data = serializers.serialize('json', temp)
@@ -92,41 +99,16 @@ def add_pro(request):
     return render(request, 'cart/addproduct.html', context)
 
 
-def profile_view(request):
-    if request.user.is_authenticated:
-        c_obj = customer()
-        # temp= customer.objects.raw('SELECT * FROM cart_customer')
-        # data = serializers.serialize('json', temp)
-        # value=json.loads(data)
-        # print(value["fields"])
-        #
-        #
-        # c_user = request.user.username
-        # print(c_user)
-        #
-        # cobj=customer()
-        # cobj.phone=request.POST.get('phone', "")
-        # cobj.address=request.POST.get('address', "")
-        # cobj.blacklist=request.POST.get('blacklist', "")
-    return render(request, 'cart/profile.html', {})
-
-
-def go_to_dashboard(request):
-    try:
-        return render(request, 'cart/dashboard.html', {})
-    except:
-        pass
-
-
 def profile_val(request):
     try:
         us = request.POST['username']
         pt = request.POST['password']
         user = authenticate(username=us, password=pt)
-        if user is not None:
+        uobj = User.objects.get(username=us)
+        if user is not None and (uobj.customer.blacklist <= 10):
             login(request, user)
             return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
-        return render(request, 'cart/landing.html', {'error': 'Invalid email-id or password', })
+        return render(request, 'cart/landing.html', {'error': 'User Blacklisted or Login Details Incorrect', })
 
     except:
         return render(request, 'cart/error-page.html', {})
@@ -173,7 +155,6 @@ def profile_photo_upload(request):
         return render(request, 'cart/profile.html', {'uploaded_file_url': uploaded_file_url})
 
     return render(request, 'cart/profile.html')
-################ functions ############
 
 
 def profile_data(request):
@@ -299,9 +280,10 @@ def product_detail(request):
     dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username))
 
     context = {"dt": dt}
-    return render(request, 'cart/profile.html', context)
+    return render(request, 'cart/product.html', context)
 
 
+<<<<<<< HEAD
 @transaction.atomic
 def update_profile(request):
     username=request.user.username
@@ -317,6 +299,34 @@ def update_profile(request):
     return HttpResponseRedirect(reverse('cart:profile'))
 
 ###########################################################################
+=======
+def report_seller(request):
+    username=request.POST.get("username")
+    uobj=User.objects.get(username=username)
+    uobj.customer.report_count+=1
+    uobj.save()
+    if(uobj.customer.report_count>=10):
+        uobj.customer.blacklist=True
+    return render(request, 'cart/dashboard.html', {})
+
+
+@csrf_exempt
+def seller_review(request):
+    us = request.POST.get("username")
+    review = request.POST.get("review")
+    stars = request.POST.get("rating")
+
+    uobj=User.objects.get(username=us)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+
+    rev=c_review()
+    rev.c_id=cobj
+    rev.text=review
+    rev.rating=stars
+    rev.save()
+
+    return HttpResponse("review added")
+>>>>>>> 1c0a17db6e2b5f9a4d14df18b901c620d1676138
 
 
 @csrf_exempt

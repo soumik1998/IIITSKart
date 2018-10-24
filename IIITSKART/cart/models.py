@@ -13,6 +13,7 @@ class customer(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=20)
     address = models.TextField(max_length=70)
+    report_count = models.IntegerField(default=0)
     blacklist = models.CharField(max_length=10, default='False')
 
     @receiver(post_save, sender=User)
@@ -50,7 +51,7 @@ class Product(models.Model):
     quantity = models.IntegerField(null=False)
     description = models.TextField()
     price = models.FloatField()
-    pro_pic = models.ImageField(storage='/media/product', default='product/default-user.png')
+    pro_pic = models.ImageField(storage='/media/product', default='product/product_default.png')
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
     cat_id = models.ForeignKey(category, on_delete=models.CASCADE, null=True)
 
