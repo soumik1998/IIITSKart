@@ -1,6 +1,7 @@
 from django.core import serializers
 from django.db import transaction
-from django.core.files.storage import FileSystemStorage
+from django.core.files.storage import FileSystemStorage, default_storage
+from django.core.files.base import ContentFile
 from django.http import *
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
@@ -85,25 +86,6 @@ def add_pro(request):
     return render(request, 'cart/addproduct.html', {})
 
 
-def profile_view(request):
-    if request.user.is_authenticated:
-        c_obj = customer()
-        # temp= customer.objects.raw('SELECT * FROM cart_customer')
-        # data = serializers.serialize('json', temp)
-        # value=json.loads(data)
-        # print(value["fields"])
-        #
-        #
-        # c_user = request.user.username
-        # print(c_user)
-        #
-        # cobj=customer()
-        # cobj.phone=request.POST.get('phone', "")
-        # cobj.address=request.POST.get('address', "")
-        # cobj.blacklist=request.POST.get('blacklist', "")
-    return render(request, 'cart/profile.html', {})
-
-
 def go_to_dashboard(request):
     try:
         return render(request, 'cart/dashboard.html', {})
@@ -152,7 +134,7 @@ def makeuser(request):
 def profile_photo_upload(request):
     if request.method == 'POST' and request.FILES['avatar']:
         avatar = request.FILES['avatar']
-        fs = FileSystemStorage()
+        fs = FileSystemStorage(location='media/profile')
         filename = fs.save(avatar.name, avatar)
         uploaded_file_url = fs.url(filename)
         print(filename)
@@ -166,7 +148,6 @@ def profile_photo_upload(request):
         return render(request, 'cart/profile.html', {'uploaded_file_url': uploaded_file_url})
 
     return render(request, 'cart/profile.html')
-################ functions ############
 
 
 def profile_data(request):
@@ -181,17 +162,24 @@ def profile_data(request):
 
 
 def add_product(request):
-    if request.user.is_authenticated:
+    if (request.user.is_authenticated and request.FILES['pro_pic']):
         uobj=User.objects.get(username=request.user.username)
         cobj = customer.objects.get(pk=uobj.customer.id)
         pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
                                     description = request.POST.get("description"), price = request.POST.get("price"))
 
+        pro_pic = request.FILES['pro_pic']
+        fs = FileSystemStorage(location='media/product')
+        filename = fs.save(pro_pic.name, pro_pic)
+        uploaded_file_url = fs.url(filename)
+        pro.pro_pic = filename
+        print(filename)
+        print(uploaded_file_url)
+
         catobj=category.objects.get(name=request.POST.get("cat_name"))
         print(catobj.id,pro.p_id)
         pro.cat_id=catobj
         pro.save()
-        # pro1.cat_id=catobj.id
         return HttpResponse("added product")
 
 
