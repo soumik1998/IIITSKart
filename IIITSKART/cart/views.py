@@ -316,6 +316,8 @@ def seller_review(request):
     rev.rating=stars
     rev.save()
 
+    return HttpResponse("review added")
+
 ###########################################################################
 @transaction.atomic
 def update_profile(request):
