@@ -11,36 +11,7 @@
 
   <title>iiits cart</title>
     <style>
-        .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 220px;
-  margin: auto 1em ;
-  text-align: center;
-  font-family: arial;
-            float: left;
-  transition: 0.3s;
 
-}
-
-#cardb{
-  border: none;
-  outline: 0;
-  padding: 12px;
-  color: white;
-  background-color: #2669F2;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 20px;
-    margin-bottom: 0px;
-}
-.card:hover {
-    box-shadow: 0px 0px 20px 1px rgba(63,167,245,0.9);
-}
-
-#cardb:hover {
-  opacity: 0.8;
-}
     </style>
 
 </head>
@@ -69,41 +40,7 @@
   <input type="hidden" name="next" value="{{ next }}" /></button>
   <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products"value="{{ query }}" required>
 </form>
-</div>
-<div class="sidebar w3-animate-left" style="animation:animateleft 0.5s;animation-fill-mode: backwards;">
-    <h3 style="color: #fff">Category</h3>
-<label class="container">Doesn't matter
-  <input type="radio" checked="checked" name="radio">
-  <span class="checkmark"></span>
-</label>
-    <label class="container">Tech
-  <input type="radio" checked="checked" name="radio">
-  <span class="checkmark"></span>
-</label>
-<label class="container">Study
-  <input type="radio" name="radio">
-  <span class="checkmark"></span>
-</label>
-<label class="container">Furniture
-  <input type="radio" name="radio">
-  <span class="checkmark"></span>
-</label>
-<label class="container">Bike
-  <input type="radio" name="radio">
-  <span class="checkmark"></span>
-</label>
-    <h2>Sort by</h2>
-    <select>
-  <optgroup label="Money matters">
-    <option value="Cheaper the better">Cheaper the better</option>
-    <option value="Premium">Premium</option>
-  </optgroup>
-  <optgroup label="Ratings matter">
-    <option value="Trust critics">Trust critics</option>
-    <option value="Against the crowd">Against the crowd</option>
-  </optgroup>
-</select>
-</div>
+
 
 <div class="main" style="color:white; margin-left: 230px;">
 
@@ -123,7 +60,7 @@
 </button>
     </form>
 {% endfor %}
-  
+
 
 <p></p>
 </div>

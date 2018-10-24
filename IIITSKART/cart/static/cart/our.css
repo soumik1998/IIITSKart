@@ -101,7 +101,7 @@ span.psw {
 
 .navbar {
   overflow: hidden;
-  background-color: #000;
+  background-color: #3C3C3C;
   opacity: 1;
   position: fixed;
   top: 0;
@@ -127,7 +127,7 @@ span.psw {
 }
 .navbar button {
     float: right;
-    background-color: #000;
+    background-color: #3C3C3C;
 }
 .navbar input{
   margin-top: 5px;
@@ -167,7 +167,7 @@ span.psw {
     overflow-x: hidden;
     padding-top: 5px;
     margin-top: 52px;
-    background-color: #2669F2;
+    background-color: #2AB15E;
     /*
     border-right: 2px solid #0072FF;
     */
