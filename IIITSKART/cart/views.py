@@ -12,7 +12,7 @@ import json
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from .models import customer, c_review, p_review, Product, category
+from .models import customer, c_review, p_review, Product, category,Order
 from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, \
     CategorySerializer
 
@@ -77,8 +77,8 @@ def logout_view(request):
     return render(request, 'cart/landing.html', {})
 
 
-def search(request):
-    return render(request, 'cart/search.html', {})
+# def search(request):
+#     return render(request, 'cart/search.html', {})
 
 
 def add_pro(request):
@@ -205,20 +205,76 @@ def search_product(request):
     data = serializers.serialize('json', temp)
     value=json.loads(data)
 
-    main=[]
-    product_name="Saurabh"
+    dt=[]
     for i in value:
         if(i["fields"]["title"]==product_name):
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
-            main.append((i["fields"]["title"], uobj.username,i["fields"]["price"],))#productname,customername,productprice
-    print(main)
-    context={"main":main}
+            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"]))#productname,customername,productprice
+
+    context={"dt":dt,"query":product_name}
     return render(request, 'cart/search.html', context)
 
 
+def buy_product(request):
+
+    quantity=request.POST.get("quantity")
+    pk=34
+    quantity=16
+    pobj=Product.objects.get(pk=pk)
+    if(pobj.quantity>=quantity):
+        uname=request.user.username
+        uobj=User.objects.get(username=uname)
+        cobj = customer.objects.get(pk=uobj.customer.id)
+        t_amt=quantity*pobj.price
+        orderobj = Order()
+
+        uobj1=User.objects.get(username=pobj.c_id)
+        sobj = customer.objects.get(pk=uobj1.customer.id)
+
+        orderobj.customer_id = cobj
+        orderobj.seller_id = sobj
+        orderobj.product_id=pobj
+        orderobj.total_amount=t_amt
+        orderobj.unitprice=pobj.price
+        orderobj.quantity=quantity
+        orderobj.save()
+
+        pobj.quantity=pobj.quantity-quantity
+        pobj.save()
+        return HttpResponse("buy successful")
+    else:
+        return HttpResponse("quantity exceeded")
+
+
+def seller_info(request):
+    temp = Order.objects.raw('SELECT * FROM cart_order')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+
+    dit={}
+    tp=[]
+    for i in value:
+        if(i["fields"]["seller_id"]):
+            sel_id=i["fields"]["seller_id"]
+            product_id = i["fields"]["product_id"]
+            sobj=customer.objects.get(pk=sel_id)
+            u_id=sobj.user_id
+            uobj=User.objects.get(pk=u_id)
+            pobj = Product.objects.get(pk=product_id)
+            dt={"seller_name":uobj.username,"product_name":pobj.title}
+            tp.append(dt)
+
+    dit = {"result": tp}
+
+    return JsonResponse(dit)
+
+
+
+
+###########################################################################
 @transaction.atomic
 def update_profile(request):
     # user = User.objects.get(pk=user_id)
@@ -312,6 +368,8 @@ def get_products(request):
     dit={"result":tp}
 
     return JsonResponse(dit)
+
+
 
 
 @csrf_exempt

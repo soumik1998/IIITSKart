@@ -28,7 +28,7 @@ urlpatterns = [
     path(r'receive/', views.receive, name='receive'),
     path(r'send/', views.send, name='send'),
     path(r'go-to-dashboard/', views.go_to_dashboard, name='go-to-dashboard'),
-    path(r'search/', views.search, name='search'),
+    # path(r'search/', views.search, name='search'),
     path(r'searchproduct/', views.search_product, name='search_product'),
     path(r'logout/', views.logout_view, name='logout'),
     path(r'profile/', views.profile_view, name='profile'),
@@ -36,7 +36,9 @@ urlpatterns = [
     path(r'sellproduct/', views.add_product, name='add_product'),
     path(r'addpro/', views.add_pro, name='add_pro'),
     path(r'test/', views.get_products, name='test'),
-    path(r'get_pro/', views.get_products, name='Get_products')
+    path(r'get_pro/', views.get_products, name='Get_products'),
+    path(r'buy_pro/', views.buy_product, name='buy_product'),
+    path(r'sellerinfo/', views.seller_info, name='seller_info')
 
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \

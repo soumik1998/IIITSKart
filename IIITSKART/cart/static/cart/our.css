@@ -2,15 +2,15 @@
 
 
 
-.item-1, 
-.item-2, 
+.item-1,
+.item-2,
 .item-3 {
 	position: absolute;
   display: block;
 	top: 12em;
-  
+
   width: 50%;
-  
+
   font-size: 2em;
   animation-delay: 2.5s;
   animation-fill-mode: backwards;
@@ -101,7 +101,7 @@ span.psw {
 
 .navbar {
   overflow: hidden;
-  background-color: #000; 
+  background-color: #000;
   opacity: 1;
   position: fixed;
   top: 0;
@@ -109,7 +109,7 @@ span.psw {
 }
 
 .navbar:hover {
-  overflow: hidden;  
+  overflow: hidden;
   position: fixed;
   top: 0;
   width: 100%;
@@ -125,10 +125,14 @@ span.psw {
   text-decoration: none;
   font-size: 17px;
 }
+.navbar button {
+    float: right;
+    background-color: #000;
+}
 .navbar input{
   margin-top: 5px;
   padding: 5px 5px;
-  height: 42px; 
+  height: 42px;
   width:390px;
   float: right;
   display: block;
@@ -137,7 +141,7 @@ span.psw {
   text-align: left;
   border:1px;
   font-size: 17px;
-  background-color: #000; 
+  background-color: #000;
   border-radius: 5px;
 }
 
@@ -233,7 +237,7 @@ span.psw {
   background: #279B6E;
 }
 .footer{
-  color: #747474; 
+  color: #747474;
   opacity: 0.4;
 }
 .footer:hover{
