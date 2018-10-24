@@ -22,6 +22,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('login-view/', views.login_page, name='login_page'),
     path(r'profilevalidation/', views.profile_val, name='profile_val'),
+    path(r'profile/', views.profile_view, name='profile'),
     path(r'profile_photo_upload/', views.profile_photo_upload, name='profile_photo_upload'),
     path(r'profilevalidationapi/', views.profile_val_api, name='profile_val_api'),
     path(r'makeuser/', views.makeuser, name='makeuser'),
@@ -39,12 +40,10 @@ urlpatterns = [
     path(r'buy_pro/', views.buy_product, name='buy_product'),
     path(r'sellerinfo/', views.seller_info, name='seller_info'),
     path(r'productdetail/', views.product_detail, name='product_detail'),
-<<<<<<< HEAD
-    path(r'profileupdatde/', views.update_profile, name='update_profile')
-=======
+    path(r'profileupdatde/', views.update_profile, name='update_profile'),
     path(r'sellerreview/', views.seller_review, name='seller_review'),
-    path(r'reportseller/', views.report_seller, name='report_seller')
->>>>>>> 1c0a17db6e2b5f9a4d14df18b901c620d1676138
+    path(r'reportseller/', views.report_seller, name='report_seller'),
+
 
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \

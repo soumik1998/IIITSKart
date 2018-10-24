@@ -84,10 +84,10 @@ def go_to_dashboard(request):
         pass
 
 
-# def search(request):
-#     return render(request, 'cart/search.html', {})
+def profile_view(request):
+    return render(request, 'cart/profile.html', {})
 
-################ functions ############
+
 def add_pro(request):
     temp = category.objects.raw('SELECT * FROM  cart_category')
     data = serializers.serialize('json', temp)
@@ -105,11 +105,14 @@ def profile_val(request):
         pt = request.POST['password']
         user = authenticate(username=us, password=pt)
         uobj = User.objects.get(username=us)
-        if user is not None and (uobj.customer.blacklist <= 10):
+        print(uobj.customer.blacklist)
+        if user is not None and uobj.customer.blacklist == 'False':
             login(request, user)
-            return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
-        return render(request, 'cart/landing.html', {'error': 'User Blacklisted or Login Details Incorrect', })
-
+            print(user)
+            # return render(reverse('cart:go-to-dashboard'))
+            return render(request, 'cart/dashboard.html', {})
+        else:
+            return render(request, 'cart/landing.html', {'error': 'User Blacklisted or Login Details Incorrect', })
     except:
         return render(request, 'cart/error-page.html', {})
 
@@ -283,7 +286,7 @@ def product_detail(request):
     return render(request, 'cart/product.html', context)
 
 
-<<<<<<< HEAD
+
 @transaction.atomic
 def update_profile(request):
     username=request.user.username
@@ -299,7 +302,7 @@ def update_profile(request):
     return HttpResponseRedirect(reverse('cart:profile'))
 
 ###########################################################################
-=======
+
 def report_seller(request):
     username=request.POST.get("username")
     uobj=User.objects.get(username=username)
@@ -326,7 +329,6 @@ def seller_review(request):
     rev.save()
 
     return HttpResponse("review added")
->>>>>>> 1c0a17db6e2b5f9a4d14df18b901c620d1676138
 
 
 @csrf_exempt
