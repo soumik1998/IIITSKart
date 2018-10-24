@@ -115,7 +115,7 @@ span.psw {
   width: 100%;
 }
 
-.navbar a, i {
+.navbar a, i{
   float: right;
   display: block;
   color: #fff;
@@ -127,7 +127,8 @@ span.psw {
 }
 .navbar button {
     float: right;
-    background-color: #000;
+    background-color: transparent;
+
 }
 .navbar input{
   margin-top: 5px;

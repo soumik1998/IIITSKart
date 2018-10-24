@@ -302,14 +302,21 @@ def product_detail(request):
     return render(request, 'cart/profile.html', context)
 
 
-
-###########################################################################
 @transaction.atomic
 def update_profile(request):
-    # user = User.objects.get(pk=user_id)
-    # user.profile.bio = 'lul'
-    # user.save()
-    return render(request, 'cart/dashboard.html')
+    username=request.user.username
+    uobj=User.objects.get(username=username)
+    uobj.first_name=request.POST.get("firstname")
+    uobj.last_name=request.POST.get("lastname")
+    uobj.customer.phone=request.POST.get("phone")
+    uobj.customer.address=request.POST.get("address")
+    uobj.email=request.POST.get("email")
+    uobj.save()
+    print("insight")
+
+    return HttpResponseRedirect(reverse('cart:profile'))
+
+###########################################################################
 
 
 @csrf_exempt

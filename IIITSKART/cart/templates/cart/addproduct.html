@@ -234,9 +234,9 @@ input:focus ~ .highlight {
     <a href="{% url 'cart:add_pro' %}">Sell</a>
     <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
-  <button href="{% url 'cart:search_product' %}" style="float: right;
-  display: block;border: 0;color:#3599FF;background-color: #fff;cursor:pointer;
-  padding: 0px 0px;" ><i type="submit" class="material-icons" >search</i>
+  <button type="submit" href="{% url 'cart:search_product' %}"
+          style="border: 0;background-color: #3C3C3C;cursor:pointer;padding: 0px 0px;" >
+      <i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
   <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
 </form>
