@@ -23,7 +23,7 @@ h1 { color: #636363; }
 
 h3 { color: #4a89dc; }
 
-form {
+#overlay {
 	width: 480px;
 	margin: 1em auto;
 	padding: 2em 2em 1em 2em;
@@ -232,13 +232,20 @@ input:focus ~ .highlight {
   <a href="{% url 'cart:profile' %}">Profile</a>
   <a href="#orders">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
-  <a href="{% url 'cart:search_product' %}" style="padding: 0px 0px;" ><i class="material-icons" >search</i></a>
-  <input style="border:1px solid #fff;" type="text" placeholder="Search among 20,000 products">
+  <form method="post" action="{% url 'cart:search_product' %}" >
+    {% csrf_token %}
+  <button type="submit" href="{% url 'cart:search_product' %}" style="float: right;
+  display: block;border: 0;cursor:pointer;
+  opacity: 1;
+  padding: 0px 0px;" ><i  class="material-icons" >search</i>
+  <input type="hidden" name="next" value="{{ next }}" /></button>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
+</form>
 </div>
  <div id="overlay_edit" >
 <center>
-     <br><br><br>
-  <form method="post" action="{% url 'cart:profile_val' %}">
+     <br>
+  <form id="overlay" method="post" action="{% url 'cart:profile_val' %}">
 {% csrf_token %}
 
       <h2><b>Another thing to sell</b></h2>
@@ -260,10 +267,19 @@ input:focus ~ .highlight {
     <label>Category</label>
   </div>
 
-  <div class="group">
+  <div class="group" style="margin-bottom: 0px;">
     <input type="number" name="price" id="price"><span class="highlight"></span><span class="bar"></span>
     <label>Everything has a price</label>
   </div>
+      <div class="group">
+          <h3 style="margin-bottom: 0px;"><b>Images</b></h3>
+      <input type="file" name="avatar" required multiple><span class="highlight"></span><span class="bar"></span>
+    <label></label>
+    {#Use this line as prompt#}
+{#        {% if uploaded_file_url %}#}
+{#        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>#}
+{#        {% endif %}#}
+          </div>
   <button type="submit" class="button buttonBlue">Put it online
       <input type="hidden" name="next" value="{{ next }}" />
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
