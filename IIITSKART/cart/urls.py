@@ -31,6 +31,7 @@ urlpatterns = [
     # path(r'search/', views.search, name='search'),
     path(r'searchproduct/', views.search_product, name='search_product'),
     path(r'logout/', views.logout_view, name='logout'),
+    path(r'profile/', views.profile_view, name='profile'),
     path(r'receiveProduct/', views.receiveProduct, name='receiveProduct'),
     path(r'sellproduct/', views.add_product, name='add_product'),
     path(r'addpro/', views.add_pro, name='add_pro'),

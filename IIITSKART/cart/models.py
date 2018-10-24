@@ -3,14 +3,13 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.conf import settings
 
 
 # Create your models here.
 
 class customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(storage='/media/profile', default='profile/default-user.png')
+    avatar = models.ImageField(upload_to='profile', default='media/default-user.png')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=20)
     address = models.TextField(max_length=70)
@@ -51,7 +50,6 @@ class Product(models.Model):
     quantity = models.IntegerField(null=False)
     description = models.TextField()
     price = models.FloatField()
-    pro_pic = models.ImageField(storage='/media/product', default='product/default-user.png')
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
     cat_id = models.ForeignKey(category, on_delete=models.CASCADE, null=True)
 
