@@ -1,6 +1,6 @@
 from django.core import serializers
 from django.db import transaction
-from django.core.files.storage import FileSystemStorage, default_storage
+from django.core.files.storage import FileSystemStorage
 from django.http import *
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
@@ -77,26 +77,38 @@ def logout_view(request):
     return render(request, 'cart/landing.html', {})
 
 
+# def search(request):
+#     return render(request, 'cart/search.html', {})
+
+
+def add_pro(request):
+    return render(request, 'cart/addproduct.html', {})
+
+
+def profile_view(request):
+    if request.user.is_authenticated:
+        c_obj = customer()
+        # temp= customer.objects.raw('SELECT * FROM cart_customer')
+        # data = serializers.serialize('json', temp)
+        # value=json.loads(data)
+        # print(value["fields"])
+        #
+        #
+        # c_user = request.user.username
+        # print(c_user)
+        #
+        # cobj=customer()
+        # cobj.phone=request.POST.get('phone', "")
+        # cobj.address=request.POST.get('address', "")
+        # cobj.blacklist=request.POST.get('blacklist', "")
+    return render(request, 'cart/profile.html', {})
+
+
 def go_to_dashboard(request):
     try:
         return render(request, 'cart/dashboard.html', {})
     except:
         pass
-
-
-def profile_view(request):
-    return render(request, 'cart/profile.html', {})
-
-
-def add_pro(request):
-    temp = category.objects.raw('SELECT * FROM  cart_category')
-    data = serializers.serialize('json', temp)
-    value = json.loads(data)
-    dt=[]
-    for i in value:
-        dt.append(i["fields"]["name"])
-    context = {"dt": dt}
-    return render(request, 'cart/addproduct.html', context)
 
 
 def profile_val(request):
@@ -123,7 +135,7 @@ def makeuser(request):
             uobj.first_name = request.POST.get('first_name', "")
             uobj.last_name = request.POST.get('last_name', "")
             uobj.email = request.POST.get('email', "")
-            uobj.customer.blacklist = False
+            # uobj.customer.avatar =
             uobj.set_password(request.POST.get('password', ""))
             # uobj.customer.phone =
             uobj.save()
@@ -140,7 +152,7 @@ def makeuser(request):
 def profile_photo_upload(request):
     if request.method == 'POST' and request.FILES['avatar']:
         avatar = request.FILES['avatar']
-        fs = FileSystemStorage(location='media/profile')
+        fs = FileSystemStorage()
         filename = fs.save(avatar.name, avatar)
         uploaded_file_url = fs.url(filename)
         print(filename)
@@ -154,6 +166,7 @@ def profile_photo_upload(request):
         return render(request, 'cart/profile.html', {'uploaded_file_url': uploaded_file_url})
 
     return render(request, 'cart/profile.html')
+################ functions ############
 
 
 def profile_data(request):
@@ -168,21 +181,13 @@ def profile_data(request):
 
 
 def add_product(request):
-    if request.user.is_authenticated and request.FILES['pro_pic']:
+    if request.user.is_authenticated:
         uobj=User.objects.get(username=request.user.username)
         cobj = customer.objects.get(pk=uobj.customer.id)
         pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
                                     description = request.POST.get("description"), price = request.POST.get("price"))
 
-        pro_pic = request.FILES['pro_pic']
-        fs = FileSystemStorage(location='media/product')
-        filename = fs.save(pro_pic.name, pro_pic)
-        uploaded_file_url = fs.url(filename)
-        pro.pro_pic = filename
-        print(filename)
-        print(uploaded_file_url)
-
-        catobj=category.objects.get(name=request.POST.get("category"))
+        catobj=category.objects.get(name=request.POST.get("cat_name"))
         print(catobj.id,pro.p_id)
         pro.cat_id=catobj
         pro.save()
@@ -207,8 +212,7 @@ def search_product(request):
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
-            pobj=Product.objects.get(pk=i["pk"])
-            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"],pobj.pro_pic))#productname,customername,productprice
+            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"]))#productname,customername,productprice
 
     context={"dt":dt,"query":product_name}
     return render(request, 'cart/search.html', context)
@@ -268,62 +272,15 @@ def seller_info(request):
     return JsonResponse(dit)
 
 
-def product_detail(request):
-    quantity = request.POST.get("quantity")
-    pk = request.POST.get("pk")
-    pk = 34
-    quantity = 16
-    pobj = Product.objects.get(pk=pk)
-    uobj=User.objects.get(username=pobj.c_id)
-    dt=[]
-    dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username))
-
-    context = {"dt": dt}
-    return render(request, 'cart/product.html', context)
 
 
-
+###########################################################################
 @transaction.atomic
 def update_profile(request):
-    username=request.user.username
-    uobj=User.objects.get(username=username)
-    uobj.first_name=request.POST.get("firstname")
-    uobj.last_name=request.POST.get("lastname")
-    uobj.customer.phone=request.POST.get("phone")
-    uobj.customer.address=request.POST.get("address")
-    uobj.email=request.POST.get("email")
-    uobj.save()
-    print("insight")
-
-    return HttpResponseRedirect(reverse('cart:profile'))
-
-
-def report_seller(request):
-    username=request.POST.get("username")
-    uobj=User.objects.get(username=username)
-    uobj.customer.report_count+=1
-    uobj.save()
-    if(uobj.customer.report_count>=10):
-        uobj.customer.blacklist = True
-    return render(request, 'cart/dashboard.html', {})
-
-
-@csrf_exempt
-def seller_review(request):
-    us = request.POST.get("username")
-    review = request.POST.get("review")
-    stars = request.POST.get("rating")
-
-    uobj=User.objects.get(username=us)
-    cobj=customer.objects.get(pk=uobj.customer.id)
-
-    rev=c_review()
-    rev.c_id=cobj
-    rev.text=review
-    rev.rating=stars
-    rev.save()
-
-    return HttpResponse("review added")
+    # user = User.objects.get(pk=user_id)
+    # user.profile.bio = 'lul'
+    # user.save()
+    return render(request, 'cart/dashboard.html')
 
 
 @csrf_exempt
@@ -344,7 +301,6 @@ def profile_val_api(request):
 @csrf_exempt
 def receive(request):
     if request.method == 'POST':
-
         custb = json.loads(request.body)
         obj = customer(first_name=cust['first_name'], last_name=cust['last_name'], address=cust['address'],
                        email=cust['email'], phone=cust['phone'], blacklist=cust['blacklist'])
@@ -356,15 +312,12 @@ def receive(request):
         print('get req')
         return JsonResponse({"status": "get"})
 
-
 def test(request):
     temp=customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
     # temp = customer.objects.raw('SELECT * FROM cart_customer')
     data=serializers.serialize('json',temp)
     value=json.loads(data)
-
     print(value)
-    # print("sdfsdf")
     return  HttpResponse('TET')
 
 
@@ -405,11 +358,41 @@ def get_products(request):
         uobj=User.objects.get(pk=uid)
         probj=Product.objects.get(pk=i["pk"])
         catid=probj.cat_id
-        dt = {"quantity":i["fields"]["quantity"],"username":uobj.username,"title":i["fields"]["title"],"description":i["fields"]["description"],"category":str(catid)}
+        dt = {"quantity":i["fields"]["quantity"],"username":uobj.username,"title":i["fields"]["title"],"price":i["fields"]["price"],"description":i["fields"]["description"],"category":str(catid)}
         tp.append(dt)
-        # main.append((i["fields"]["quantity"],i["fields"]["title"], uobj.username,i["fields"]["price"]))#productname,customername,productprice
     dit={"result":tp}
 
+    return JsonResponse(dit)
+
+
+@csrf_exempt
+def get_userdetails(request):
+    temp = c_review.objects.raw('SELECT * FROM cart_c_review')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    tp=[]
+    dit={}
+    for i in value:
+
+        cid=i["fields"]["c_id"]
+        cobj=customer.objects.get(pk=cid)
+        uid=cobj.user_id
+        print(uid,cobj.address)
+
+        uobj=User.objects.get(pk=uid)
+        custRevObj=c_review.objects.get(pk=i["pk"])
+
+        catid=custRevObj.c_id
+
+
+        rev=custRevObj.text
+        print(catid,rev)
+        if (str(catid )=='chinmay'):
+            print("sdfsdf")
+            dt={"text":custRevObj.text,"rating":custRevObj.rating}
+            tp.append(dt)
+    dit={"username":str(catid),"address":cobj.address,"phone":cobj.phone,"result":tp}
+    print(dit)
     return JsonResponse(dit)
 
 
