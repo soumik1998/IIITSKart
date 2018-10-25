@@ -15,7 +15,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,46 +39,11 @@ public class postApiTables {
         @POST("cart/receiveProduct/")
         Call<JsonObject> addProduct(@Body ProductClass productClass);
     }
-    public static void addProduct(Uri filePath,ProductClass productClass, Callback<JsonObject> callback){
+    public static void addProduct(ProductClass productClass, Callback<JsonObject> callback){
         AddProductAPI addProductAPI=retrofit.create(AddProductAPI.class);
         Call<JsonObject> call=addProductAPI.addProduct(productClass);
         call.enqueue(callback);
     }
-    private interface Service {
-        @Multipart
-        @POST("cart/receiveProduct/")
-        Call<ResponseBody> postImage(@Part MultipartBody.Part image, @Part("name") RequestBody name);
-    }
-
-
-    public static void addPhotoApi(Uri filePath,Callback<ResponseBody> callback)
-    {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Service service = new Retrofit.Builder().baseUrl(baseUrl).client(client).build().create(Service.class);
-
-        File file = new File(filePath.getPath());
-
-        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
-
-        retrofit2.Call<okhttp3.ResponseBody> req = service.postImage(body, name);
-        req.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // Do Something
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
-    }
-}
+   }
 
 
