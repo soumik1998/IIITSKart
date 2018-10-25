@@ -104,15 +104,11 @@ def profile_val(request):
         us = request.POST['username']
         pt = request.POST['password']
         user = authenticate(username=us, password=pt)
-        uobj = User.objects.get(username=us)
-        print(uobj.customer.blacklist)
-        if user is not None and uobj.customer.blacklist == 'False':
+        if user is not None:
             login(request, user)
-            print(user)
-            # return render(reverse('cart:go-to-dashboard'))
-            return render(request, 'cart/dashboard.html', {})
-        else:
-            return render(request, 'cart/landing.html', {'error': 'User Blacklisted or Login Details Incorrect', })
+            return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
+        return render(request, 'cart/landing.html', {'error': 'Invalid email-id or password', })
+
     except:
         return render(request, 'cart/error-page.html', {})
 
