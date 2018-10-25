@@ -69,9 +69,10 @@ class Order(models.Model):
     quantity = models.IntegerField(null=True, default=0)
     total_amount = models.FloatField(null=True, default=0)
     status = models.IntegerField(default=-1, null=False)
+    var = "Order"
 
     def __str__(self):
-        return self.order_number
+        return self.var
 
 
 class p_review(models.Model):

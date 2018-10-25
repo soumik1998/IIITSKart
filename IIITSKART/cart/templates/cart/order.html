@@ -224,7 +224,7 @@ input:focus ~ .highlight {
     opacity: 0;
   }
 }
-        tr:nth-child(odd) {background-color: #D3FFF8;}
+               tr:nth-child(odd) {background-color: #D3FFF8;}
 table {
     border-bottom: 3px solid transparent;
     width: 100%;
@@ -246,7 +246,7 @@ table {
 <a href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><i class="material-icons" onclick="window.history.go(1); return false;"  >arrow_forward_ios</i></a>
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
-  <a href="{% url 'cart:cact_buy' %}">Orders</a>
+  <a href="#orders">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
     <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
@@ -257,66 +257,15 @@ table {
   <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
 </form>
 </div>
- <div id="overlay_edit" >
-<center>
-  <form id="overlay" method="post" action="{% url 'cart:add_product' %}" enctype="multipart/form-data">
-{% csrf_token %}
-
-      <h2><b>Another thing to sell</b></h2>
-
-    <div class="group">
-    <input type="text" name="title" id="title" required><span class="highlight"></span><span class="bar"></span>
-    <label>what is this?</label>
-  </div>
-      <div class="group">
-    <input type="number" name="quantity" id="quantity" required><span class="highlight"></span><span class="bar"></span>
-    <label>Quantity</label>
-  </div>
-      <div style="margin-bottom: 0px" class="group">
-    <input type="text" name="description" id="description" required><span class="highlight"></span><span class="bar"></span>
-    <label>About it</label>
-  </div>
-      <div class="group">
-          <h4 style="margin-bottom: 0px;float: left">Category</h4>
-    <select onmouseover="" name="category">
-        {% for i in dt1 %}
-    <option value="{{ i }}">{{ i }}</option>
-    {% endfor %}
-  </select>
-
-  </div>
-
-  <div class="group" style="margin-bottom: 0px">
-    <input type="number" name="price" id="price" required><span class="highlight"></span><span class="bar"></span>
-    <label>Everything has a price</label>
-  </div>
-      <div class="group">
-          <h3 style="margin-bottom: 0px"><b>Images of product</b></h3>
-    <input type="file" name="pro_pic" id="price" multiple required><span class="highlight"></span><span class="bar"></span>
-    <label></label>
-  </div>
-
-  <button type="submit" class="button buttonBlue">Put it online
-      <input type="hidden" name="next" value="{{ next }}" />
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-
-  </button>
-
-
-  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Its mine.Only mine.</button>
-</form>
-</div>
 
 <div class="main" style="color:#000000;">
 
  <br>
-     <button onclick="on_edit()"  class="button buttonBlue" style="width: 15%;margin-top: 0.5%;height: 60px;border-radius: 15px;font-size: large">
-         Sell something</button>
-         <h2 style="color: #2A5FDB"><b> Sold products:</b></h2>
+         <h2 style="color: #2A5FDB"><b> Bought products:</b><br></h2>
 <table>
     {% for i in dt %}
   <tr style="" class="w3-animate-opacity">
-    <td><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Buyer : {{ i.3 }}<br>₹ {{ i.2 }} | Quantity: {{ i.1 }}</td>
+    <td><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Seller: {{ i.3 }}<br>₹ {{ i.2 }} | Quantity: {{ i.1 }}</td>
   </tr>
     {% endfor %}
 </table>
@@ -358,13 +307,6 @@ $(window, document, undefined).ready(function() {
   });
 
 });
-function on_edit() {
-    document.getElementById("overlay_edit").style.display = "block";
-}
-
-function off_edit() {
-    document.getElementById("overlay_edit").style.display = "none";
-}
 
 
 $(document).keyup(function(e) {

@@ -89,18 +89,8 @@ def profile_view(request):
 
 
 def customer_act(request):
-    return render(request,'cart/abc.html',{})
+    return render(request,'cart/order.html',{})
 
-
-def add_pro(request):
-    temp = category.objects.raw('SELECT * FROM  cart_category')
-    data = serializers.serialize('json', temp)
-    value = json.loads(data)
-    dt=[]
-    for i in value:
-        dt.append(i["fields"]["name"])
-    context = {"dt": dt}
-    return render(request, 'cart/addproduct.html', context)
 
 
 def profile_val(request):
@@ -309,12 +299,22 @@ def customer_activity_sell(request):
         if(i["fields"]["seller_id"]==id):
             pobj = Product.objects.get(pk=i["fields"]["product_id"])
             temp = i["fields"]["order_date"]
+            cid = i["fields"]["customer_id"]
+            cobj1 = customer.objects.get(pk=cid)
+            uobj1=User.objects.get(pk=cobj1.user_id)
             ind = temp.find("T")
-            temp = temp[:ind]
-            dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj.username, temp))
-    return HttpResponse(dt)
-    context = {"dt": dt}
-    # return render(request, 'cart/orders.html', context)
+            date = temp[:ind]
+            dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date))
+
+
+    temp = category.objects.raw('SELECT * FROM  cart_category')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    dt1=[]
+    for i in value:
+        dt1.append(i["fields"]["name"])
+    context = {"dt1": dt1,"dt":dt}
+    return render(request, 'cart/addproduct.html', context)
 
 
 def customer_activity_buy(request):
@@ -332,14 +332,16 @@ def customer_activity_buy(request):
         if i["fields"]["customer_id"] == id:
             if(i["fields"]["product_id"]):
                 pobj = Product.objects.get(pk=i["fields"]["product_id"])
+                sid=i["fields"]["seller_id"]
+                cobj1=customer.objects.get(pk=sid)
+                uobj1=User.objects.get(pk=cobj1.user_id)
                 temp = i["fields"]["order_date"]
                 ind = temp.find("T")
-                temp = temp[:ind]
-                dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj.username, temp))
+                date = temp[:ind]
+                dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date))
 
-    return HttpResponse(dt)
     context = {"dt": dt}
-    # return render(request, 'cart/orders.html', context)
+    return render(request, 'cart/order.html', context)
 
 
 @transaction.atomic

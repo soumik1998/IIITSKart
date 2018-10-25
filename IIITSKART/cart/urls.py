@@ -33,7 +33,6 @@ urlpatterns = [
       path(r'logout/', views.logout_view, name='logout'),
       path(r'receiveProduct/', views.receiveProduct, name='receiveProduct'),
       path(r'sellproduct/', views.add_product, name='add_product'),
-      path(r'addpro/', views.add_pro, name='add_pro'),
       path(r'test/', views.test_api, name='test'),
       path(r'get_user/', views.get_userdetails, name='test'),
       path(r'get_pro/', views.get_products, name='Get_products'),
@@ -45,7 +44,7 @@ urlpatterns = [
       path(r'seller_reviewApi/', views.seller_review_api, name='seller_review'),
       path(r'reportseller/', views.report_seller, name='report_seller'),
       path(r'customeract/', views.customer_act, name='customer_act'),
-      path(r'cactsell/', views.customer_activity_sell, name='cact_sell'),
+      path(r'addpro/', views.customer_activity_sell, name='add_pro'),
       path(r'cactbuy/', views.customer_activity_buy, name='cact_buy'),
 
 

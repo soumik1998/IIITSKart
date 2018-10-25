@@ -2,6 +2,11 @@
 <html>
 <head>
   {% load staticfiles %}
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
@@ -54,7 +59,8 @@
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
   <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
-
+<a href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back_ios</i></a>
+<a href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><i class="material-icons" onclick="window.history.go(1); return false;"  >arrow_forward_ios</i></a>
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
   <a href="#contact">Orders</a>
@@ -68,7 +74,7 @@
   <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" value="{{ query }}" required>
 </form>
 </div>
-<div class="sidebar w3-animate-left" style="animation:animateleft 0.5s;animation-fill-mode: backwards;">
+<div class="sidebar w3-animate-left" style="animation:animateleft 0.5s;animation-fill-mode: backwards;display: none">
     <h3 style="color: #fff">Category</h3>
 <label class="container">Tech
   <input type="radio" checked="checked" name="radio">
@@ -88,13 +94,13 @@
 </label>
 </div>
 
-<div class="main" style="color:white; margin-left: 230px;">
+<div class="main" style="color:white; margin-left: 10px;">
 
  <br><br>
 <div id="noresult" style="display: none"><h1 style="color: #E12B2B; margin-left: 200px">Search for products, not for IMORTALITY !!!</h1></div>
 {% for i in dt %}
 
-    <div style="" class="card w3-animate-top">
+    <div class="card w3-animate-top">
     <form style="cursor: pointer" method="post" action="{% url 'cart:product_detail' %}" >
     {% csrf_token %}
     <input style="display: none" name="pk" value="{{ i.5 }}">
@@ -103,7 +109,7 @@
   <img src="{{ MEDIA_URL }}product/{{ i.4 }}" style="width:100%;height: 250px" onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
   <h2 style="color: #000;display: inline;">{{ i.0 }}</h2>
              <p style="color: #000;display: inline;"><br>Seller: {{ i.1}}<br>Rating: 4.2/5<br>
-        <div id="cb">{{ i.2 }}₹</div></p>
+        <div id="cb">₹ {{ i.2 }}</div></p>
 
 
       <input type="hidden" name="next" value="{{ next }}" /></button>
@@ -117,7 +123,6 @@
 </body>
 
     {% if dt %}
-    Number of athletes: {{ dt|length }}
 {% else %}
         <script>
     document.getElementById("noresult").style.display = "block";
