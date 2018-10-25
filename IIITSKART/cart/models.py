@@ -14,7 +14,7 @@ class customer(models.Model):
     phone = models.CharField(max_length=20)
     address = models.TextField(max_length=70)
     report_count = models.IntegerField(default=0)
-    blacklist = models.CharField(max_length=10, default='False')
+    blacklist = models.CharField(max_length=10, default="False")
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):

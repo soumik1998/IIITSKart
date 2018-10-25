@@ -123,7 +123,7 @@ def makeuser(request):
             uobj.first_name = request.POST.get('first_name', "")
             uobj.last_name = request.POST.get('last_name', "")
             uobj.email = request.POST.get('email', "")
-            # uobj.customer.avatar =
+            uobj.customer.blacklist = False
             uobj.set_password(request.POST.get('password', ""))
             # uobj.customer.phone =
             uobj.save()
@@ -297,7 +297,6 @@ def update_profile(request):
 
     return HttpResponseRedirect(reverse('cart:profile'))
 
-###########################################################################
 
 def report_seller(request):
     username=request.POST.get("username")
@@ -305,7 +304,7 @@ def report_seller(request):
     uobj.customer.report_count+=1
     uobj.save()
     if(uobj.customer.report_count>=10):
-        uobj.customer.blacklist=True
+        uobj.customer.blacklist = True
     return render(request, 'cart/dashboard.html', {})
 
 
