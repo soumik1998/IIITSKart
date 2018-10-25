@@ -43,6 +43,10 @@ urlpatterns = [
       path(r'profileupdatde/', views.update_profile, name='update_profile'),
       path(r'sellerreview/', views.seller_review, name='seller_review'),
       path(r'reportseller/', views.report_seller, name='report_seller'),
+      path(r'customeract/', views.customer_act, name='customer_act'),
+      path(r'cactsell/', views.customer_activity_sell, name='cact_sell'),
+      path(r'cactbuy/', views.customer_activity_buy, name='cact_buy'),
+
 
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
