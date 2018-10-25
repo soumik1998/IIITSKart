@@ -2,15 +2,21 @@
     <string name="app_name">IIITSKART</string>
     <string name="title_activity_profile_user">profile_user</string>
     <string name="title_activity_buy">Buy</string>
+    <string name="activity_main">MainActivity</string>
 
     <string name="country_prompt">Category</string>
 
     <string-array name="country_arrays">
         <item>Electronics</item>
         <item>Projects</item>
+        <item>Bikes</item>
+        <item>Sports</item>
         <item>Utilities</item>
         <item>Books</item>
 
     </string-array>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_sell_product">sellProduct</string>
+    <string name="title_activity_product_page">productPage</string>
+    <string name="title_activity_profile_page_own">profilePageOwn</string>
 </resources>

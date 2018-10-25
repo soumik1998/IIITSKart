@@ -18,6 +18,7 @@ import retrofit2.Response;
 public class Login extends Activity {
     EditText userName;
     EditText Password;
+    String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -29,7 +30,9 @@ public class Login extends Activity {
     }
 
     public void Sign_up(View view){
-        String username=userName.getText().toString();
+        Log.i("Nitinwa","fgggggggggggggggggggggd");
+
+        username=userName.getText().toString();
         String password=Password.getText().toString();
 
         LoginApi.validate(new Login_class(username, password), new Callback<JsonObject>() {
@@ -44,16 +47,17 @@ public class Login extends Activity {
                     Log.i("Nitinwa","fgggggggggggggggggggggd");
                     Toast.makeText(getApplicationContext(),"Logged IN",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Login.this, MainActivity.class);
+                    intent.putExtra("Username",username);
                     startActivity(intent);
 
                 }
                 if(resp1.equals("No")){
                     Toast.makeText(getApplicationContext(),"Invalid credentials",Toast.LENGTH_LONG).show();
                 }
-//                if(resp=="Error"){
-//                    Toast.makeText(getApplicationContext(),"Error Occured",Toast.LENGTH_LONG).show();
-//                }
-//
+                if(resp=="Error"){
+                    Toast.makeText(getApplicationContext(),"Error Occured",Toast.LENGTH_LONG).show();
+                }
+
             }
 
             @Override

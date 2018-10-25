@@ -1,16 +1,18 @@
 package com.nitin.iiitskart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.nitin.iiitskart.classes.Customer;
 
 import java.util.ArrayList;
 
@@ -19,34 +21,72 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Buy extends Activity {
+    String username;
+    Integer[] imageId = {
+            R.drawable.photo,
+            R.drawable.pin,
+            R.drawable.ball,
+            R.drawable.bicycle,
+            R.drawable.focus,
+            R.drawable.laptop,
+            R.drawable.book
 
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
-         String query_table="Customer";
-        getApi.getList(query_table, new Callback<JsonObject>() {
+        username= getIntent().getStringExtra("Username");
+
+        Log.i("Chinmaya1", "asdasdbajg");
+
+        getApi.getList(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                ArrayList<String>  stringArray = new ArrayList<String>();
+                final ArrayList<String>  stringArray = new ArrayList<String>();
+                final ArrayList<ProductClass>  ProductArrayList = new ArrayList<ProductClass>();
 
                 JsonObject res = response.body();
-                JsonArray jsonArray = res.getAsJsonArray("data");
-                for (JsonElement jsonElement : jsonArray) {
-                    JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    JsonObject customer = jsonObject.getAsJsonObject("fields");
-//                    Log.i(MainActivity.class.toString(), customer.toString());
+                Log.e("Chinmaya1",res.toString());
 
-                    Customer customerObj = new Gson().fromJson(customer, Customer.class);
-                    Log.i(getClass().toString(), customerObj.getFirst_name());
+                JsonArray jsonArray = res.getAsJsonArray("result");
+                for (JsonElement jsonElement : jsonArray) {
+                    JsonObject product = jsonElement.getAsJsonObject();
+
+                    Log.i("Chinmaya1",product.toString());
+                    ProductClass productObj = new Gson().fromJson(product, ProductClass.class);
+                   Log.i("Chinmaya1", productObj.getTitle()+productObj.getUsername());
+
+                    stringArray.add(productObj.getTitle());
+                    ProductArrayList.add(productObj);
                 }
 
-                for (JsonElement jsonElement : jsonArray) {
-                    stringArray.add(jsonElement.getAsJsonObject().toString());
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(Buy.this,android.R.layout.simple_list_item_1,stringArray);
-                ListView listView = (ListView) findViewById(R.id.listView);
+
+
+
+
+                final String[] array = stringArray.toArray(new String[stringArray.size()]);
+                final ProductClass[] productArray=ProductArrayList.toArray(new ProductClass[ProductArrayList.size()]);
+                ListView listView = (ListView) findViewById(R.id.listViewReview);
+                CustomList adapter = new CustomList(Buy.this, array,imageId);
                 listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(Buy.this, "You Clicked at " + productArray[+ position].getPrice(), Toast.LENGTH_SHORT).show();
+                        Intent myIntent = new Intent(Buy.this, productPage.class);
+
+                        myIntent.putExtra("Username",username);
+                        myIntent.putExtra("Seller_Username",productArray[+ position].getUsername());
+                        myIntent.putExtra("Title",productArray[+ position].getTitle());
+                        myIntent.putExtra("Description",productArray[+ position].getDescription());
+                        myIntent.putExtra("Category",productArray[+ position].getCategory());
+                        myIntent.putExtra("Quantity",productArray[+ position].getQuantity());
+                        myIntent.putExtra("Price",productArray[+ position].getPrice());
+                        startActivity(myIntent);
+                    }
+                });
 
 
             }

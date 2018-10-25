@@ -16,20 +16,34 @@ public class getApi {
 
     private static Gson gson=new GsonBuilder().setLenient().create();
     private static final String baseUrl="http://192.168.43.39:8000/";
-    private static final String Cart_url="cart/receive/";
 
-    private static Retrofit retrofit=new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).build();
-
-
+    //Adding the list of product
     private interface AddCustomerAPI {
         @Headers("Content-Type:application/json")
-        @GET("cart/send/")
-        Call<JsonObject> getList(@Query("class_name") String class_name);
+        @GET("cart/get_pro/")
+        Call<JsonObject> getList();
     }
-    public static void getList(String class_name,Callback<JsonObject> callback ){
+    public static void getList(Callback<JsonObject> callback ){
 
+        final String Cart_url="cart/receive/";
+        Retrofit retrofit=new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).build();
         AddCustomerAPI addCustomerAPI=retrofit.create(AddCustomerAPI.class);
-        Call<JsonObject> call = addCustomerAPI.getList(class_name);
+        Call<JsonObject> call = addCustomerAPI.getList();
+        call.enqueue(callback);
+    }
+//-----------------------------------------------------------------
+    //Retrieving the customer Details
+    private interface GetCustomerDetailAPI {
+        @Headers("Content-Type:application/json")
+        @GET("cart/get_user/")
+        Call<JsonObject> getCustDetails(@Query("seller_usernamename") String seller_username);
+    }
+    public static void getCustDetails(String seller_username,Callback<JsonObject> callback ){
+
+        final String Cart_url="cart/receive/";
+        Retrofit retrofit=new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).build();
+        GetCustomerDetailAPI getCustomerDetailAPI=retrofit.create(GetCustomerDetailAPI.class);
+        Call<JsonObject> call = getCustomerDetailAPI.getCustDetails(seller_username);
         call.enqueue(callback);
     }
 }

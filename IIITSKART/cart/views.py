@@ -357,15 +357,16 @@ def receive(request):
         return JsonResponse({"status": "get"})
 
 
-def test(request):
-    temp=customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
-    # temp = customer.objects.raw('SELECT * FROM cart_customer')
-    data=serializers.serialize('json',temp)
-    value=json.loads(data)
+def test_api(request):
+    if request.method == 'POST':
+        prod = json.loads(request.body)
+        print(prod['category'])
 
-    print(value)
-    # print("sdfsdf")
-    return  HttpResponse('TET')
+        return JsonResponse({"status": "post"})
+    else:
+        print('get req')
+        return JsonResponse({"status": "get"})
+
 
 
 @csrf_exempt
@@ -464,3 +465,23 @@ def get_userdetails(request):
     dit={"username":str(catid),"address":cobj.address,"phone":cobj.phone,"result":tp}
     print(dit)
     return JsonResponse(dit)
+
+@csrf_exempt
+def seller_review_api(request):
+    rev = json.loads(request.body)
+
+    us = rev["username"]
+    review = rev["text"]
+    stars = rev["rating"]
+
+    uobj=User.objects.get(username=us)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+
+    rev=c_review()
+    rev.c_id=cobj
+    rev.text=review
+    rev.rating=stars
+    rev.save()
+    print("gfhfhg")
+    return HttpResponse("review added")
+
