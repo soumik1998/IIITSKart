@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load staticfiles %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <title>iiits cart</title>
+    <style>
+        input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+
+   opacity: 1;
+
+}
+        .checked {
+    color: orange;
+}
+.button {
+  position: relative;
+  display: inline-block;
+  padding: 12px 24px;
+  margin: .3em 0 1em 0;
+  width: 100%;
+  vertical-align: middle;
+  color: #fff;
+  font-size: 16px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+  letter-spacing: 1px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #3160B6;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.button:focus { outline: 0; }
+
+
+/* Button modifiers */
+
+.buttonBlue {
+  background: #4a89dc;
+  text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+}
+
+.buttonBlue:hover { background: #357bd8; }
+
+
+/* Ripples container */
+
+.ripples {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+
+/* Ripples circle */
+
+.ripplesCircle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.ripples.is-active .ripplesCircle {
+  animation: ripples .4s ease-in;
+}
+
+
+/* Ripples animation */
+
+@keyframes ripples {
+  0% { opacity: 0; }
+
+  25% { opacity: 1; }
+
+  100% {
+    width: 200%;
+    padding-bottom: 200%;
+    opacity: 0;
+  }
+}
+
+
+
+
+    </style>
+
+</head>
+
+<body style=" margin: 0;
+   background: url({% static 'cart/w2.jpg' %}) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
+
+
+<div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
+  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+
+  <a href="{% url 'cart:logout' %}">Logout</a>
+  <a href="{% url 'cart:profile' %}">Profile</a>
+  <a href="#contact">Orders</a>
+    <a href="{% url 'cart:add_pro' %}">Sell</a>
+  <form method="post" action="{% url 'cart:search_product' %}" >
+    {% csrf_token %}
+  <button onclick="" style="float: right;
+  display: block;border: 0;background-color: transparent;cursor:pointer;
+  padding: 0px 0px;" ><i class="material-icons" >search</i>
+  <input type="hidden" name="next" value="{{ next }}" /></button>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" value="{{ query }}" required>
+</form>
+</div>
+
+<div class="main" style="color:white; margin-left: 230px;">
+
+ <br><br>
+    <table border="0" style="width:70%;">
+    <col width="40%">
+
+  <tr>
+    <center><td ><img src="{{ MEDIA_URL }}product/{{ dt.5 }}" width="400" height="500"><br><br>
+
+
+    </td></center>
+   <form method="post" action="{% url 'cart:buy_product' %}" >
+    {% csrf_token %}
+    <td  colspan="2" style="padding-left: 40px;"><p style="color: dodgerblue;font-size: 40px;font-family: 'Lucida Bright';margin-bottom: 0px;margin-top: 0px;">{{ dt.0 }}</p>
+        <h2 style="color: #000;">Seller: {{ dt.4 }}
+            {% for i in  dt.6 %}
+        <span class="fa fa-star checked"></span>
+        {% endfor %}
+    {% for i in  dt.7 %}
+        <span class="fa fa-star "></span>
+        {% endfor %}
+        <br><b>{{ dt.2 }}₹</b><br>
+        Description: {{ dt.3 }}<br></h2>
+        <br><br>
+    <input style="display: none" name="pk" value="{{dt.9}}">
+      <button type="submit"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Buy
+
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+ <input type="hidden" name="next" value="{{ next }}" />
+  </button><input name="quantity" style="width: 100px;height: 48px;border: none;text-align: center" type="number" value="1" max="{{ dt.1 }}" required>
+      </td>
+   </form>
+  </tr>
+
+</table>
+
+
+<h2 style="color: #3a3a3a">Reviews on seller:</h2>
+<p style="color: #000000">{{ dt.8 }}</p>
+<p>sdfghj<br><br><br><br><br><br><br></p>
+</div>
+
+</body>
+</html>

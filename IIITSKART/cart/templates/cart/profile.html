@@ -137,83 +137,83 @@ input:focus ~ .highlight {
 
 /* Button */
 
-.button {
-  position: relative;
-  display: inline-block;
-  padding: 12px 24px;
-  margin: .3em 0 1em 0;
-  width: 100%;
-  vertical-align: middle;
-  color: #fff;
-  font-size: 16px;
-  line-height: 20px;
-  -webkit-font-smoothing: antialiased;
-  text-align: center;
-  letter-spacing: 1px;
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid #3160B6;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.button:focus { outline: 0; }
+    .button {
+      position: relative;
+      display: inline-block;
+      padding: 12px 24px;
+      margin: .3em 0 1em 0;
+      width: 100%;
+      vertical-align: middle;
+      color: #fff;
+      font-size: 16px;
+      line-height: 20px;
+      -webkit-font-smoothing: antialiased;
+      text-align: center;
+      letter-spacing: 1px;
+      background: transparent;
+      border: 0;
+      border-bottom: 2px solid #3160B6;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .button:focus { outline: 0; }
 
 
-/* Button modifiers */
+    /* Button modifiers */
 
-.buttonBlue {
-  background: #4a89dc;
-  text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
-}
+    .buttonBlue {
+      background: #4a89dc;
+      text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+    }
 
-.buttonBlue:hover { background: #357bd8; }
-
-
-/* Ripples container */
-
-.ripples {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: transparent;
-}
+    .buttonBlue:hover { background: #357bd8; }
 
 
-/* Ripples circle */
+    /* Ripples container */
 
-.ripplesCircle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.ripples.is-active .ripplesCircle {
-  animation: ripples .4s ease-in;
-}
+    .ripples {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
+    }
 
 
-/* Ripples animation */
+    /* Ripples circle */
 
-@keyframes ripples {
-  0% { opacity: 0; }
+    .ripplesCircle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+    }
 
-  25% { opacity: 1; }
+    .ripples.is-active .ripplesCircle {
+      animation: ripples .4s ease-in;
+    }
 
-  100% {
-    width: 200%;
-    padding-bottom: 200%;
-    opacity: 0;
-  }
-}
+
+    /* Ripples animation */
+
+    @keyframes ripples {
+      0% { opacity: 0; }
+
+      25% { opacity: 1; }
+
+      100% {
+        width: 200%;
+        padding-bottom: 200%;
+        opacity: 0;
+      }
+    }
 
         </style>
 
@@ -242,7 +242,7 @@ input:focus ~ .highlight {
   <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
 </form>
 </div>
-<div id="overlay_login" >  <!-- here login is for changing portrait, for some reason new overlay is not getting added to css -->
+<div class="w3-animate-opacity" id="overlay_login" >  <!-- here login is for changing portrait, for some reason new overlay is not getting added to css -->
     <center>
      <br><br><br><br><br><br>
     <form id="overlay" autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
@@ -259,7 +259,7 @@ input:focus ~ .highlight {
 </form>
 </div>
 
-    <div id="overlay_edit" >
+    <div class="w3-animate-opacity" id="overlay_edit" >
 <center>
      <br><br><br>
   <form id="overlay" method="post" action="{% url 'cart:update_profile' %}">
@@ -315,7 +315,7 @@ input:focus ~ .highlight {
 
   </button>
     </td></center>
-    <td  colspan="2"><h2 style="color: #000;"><br>Name: {{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email: {{ request.user.email }}<br><br>Username: {{ request.user.username }}<br><br>Address:{{ request.user.customer.address }}</h2><br><br>
+    <td  colspan="2"><h2 style="color: #000;"><br>Name: {{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email: {{ request.user.email }}<br><br>Username: {{ request.user.username }}<br><br>Address: {{ request.user.customer.address }}</h2><br><br>
       <button onclick="on_edit()"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>

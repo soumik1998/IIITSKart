@@ -213,7 +213,8 @@ def search_product(request):
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
-            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"],pobj.pro_pic))#productname,customername,productprice
+            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"],pobj.pro_pic,i["pk"]))#productname,customername,productprice
+            print(i["pk"])
 
     context={"dt":dt,"query":product_name}
     return render(request, 'cart/search.html', context)
@@ -221,9 +222,10 @@ def search_product(request):
 
 def buy_product(request):
 
-    quantity=request.POST.get("quantity")
-    pk=34
-    quantity=16
+    quantity=int(request.POST.get("quantity"))
+    pk=int(request.POST.get("pk"))
+
+    print(type(pk),type(quantity))
     pobj=Product.objects.get(pk=pk)
     if(pobj.quantity>=quantity):
         uname=request.user.username
@@ -274,14 +276,20 @@ def seller_info(request):
 
 
 def product_detail(request):
-    quantity = request.POST.get("quantity")
     pk = request.POST.get("pk")
-    pk = 34
-    quantity = 16
     pobj = Product.objects.get(pk=pk)
     uobj=User.objects.get(username=pobj.c_id)
+    # print(uobj.customer.id)
+    revobj=c_review.objects.get(pk=uobj.customer.id)
     dt=[]
-    dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username))
+    rate=[]
+    d_rate=[]
+    for i in range(revobj.rating):
+        rate.append(i)
+    for i in range(5-revobj.rating):
+        d_rate.append(i)
+
+    dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,revobj.text,pk))
 
     context = {"dt": dt}
     return render(request, 'cart/product.html', context)
@@ -344,7 +352,6 @@ def update_profile(request):
     uobj.customer.address=request.POST.get("address")
     uobj.email=request.POST.get("email")
     uobj.save()
-    print("insight")
 
     return HttpResponseRedirect(reverse('cart:profile'))
 
