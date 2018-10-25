@@ -3,6 +3,8 @@
     package="com.nitin.iiitskart">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,22 +13,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".profile_user"
             android:label="@string/title_activity_profile_user" />
         <activity
             android:name=".Buy"
-            android:label="@string/title_activity_buy"></activity>
+            android:label="@string/title_activity_buy" />
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".sellProduct"
+            android:label="@string/title_activity_sell_product" />
+        <activity
+            android:name=".productPage"
+            android:label="@string/title_activity_product_page" />
+        <activity
+            android:name=".profilePageOwn"
+            android:label="@string/title_activity_profile_page_own"></activity>
     </application>
 
 </manifest>

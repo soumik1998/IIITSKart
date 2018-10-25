@@ -88,6 +88,10 @@ def profile_view(request):
     return render(request, 'cart/profile.html', {})
 
 
+def customer_act(request):
+    return render(request,'cart/abc.html',{})
+
+
 def add_pro(request):
     temp = category.objects.raw('SELECT * FROM  cart_category')
     data = serializers.serialize('json', temp)
@@ -123,7 +127,7 @@ def makeuser(request):
             uobj.first_name = request.POST.get('first_name', "")
             uobj.last_name = request.POST.get('last_name', "")
             uobj.email = request.POST.get('email', "")
-            uobj.customer.blacklist = False
+            # uobj.customer.blacklist = 'False'
             uobj.set_password(request.POST.get('password', ""))
             # uobj.customer.phone =
             uobj.save()
@@ -139,6 +143,7 @@ def makeuser(request):
 
 def profile_photo_upload(request):
     if request.method == 'POST' and request.FILES['avatar']:
+        print(request.FILES['avatar'])
         avatar = request.FILES['avatar']
         fs = FileSystemStorage(location='media/profile')
         filename = fs.save(avatar.name, avatar)
@@ -290,6 +295,52 @@ def product_detail(request):
     return render(request, 'cart/product.html', context)
 
 
+def customer_activity_sell(request):
+    uname=request.user.username
+    uobj=User.objects.get(username=uname)
+    id=uobj.customer.id
+
+    temp = Order.objects.raw('SELECT * FROM cart_order')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+
+    dt=[]
+    for i in value:
+        if(i["fields"]["seller_id"]==id):
+            pobj = Product.objects.get(pk=i["fields"]["product_id"])
+            temp = i["fields"]["order_date"]
+            ind = temp.find("T")
+            temp = temp[:ind]
+            dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj.username, temp))
+    return HttpResponse(dt)
+    context = {"dt": dt}
+    # return render(request, 'cart/orders.html', context)
+
+
+def customer_activity_buy(request):
+    uname=request.user.username
+    uobj=User.objects.get(username=uname)
+    id=uobj.customer.id
+
+    temp = Order.objects.raw('SELECT * FROM cart_order')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    # return HttpResponse(value)
+    dt=[]
+    # return HttpResponse(value)
+    for i in value:
+        if i["fields"]["customer_id"] == id:
+            if(i["fields"]["product_id"]):
+                pobj = Product.objects.get(pk=i["fields"]["product_id"])
+                temp = i["fields"]["order_date"]
+                ind = temp.find("T")
+                temp = temp[:ind]
+                dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj.username, temp))
+
+    return HttpResponse(dt)
+    context = {"dt": dt}
+    # return render(request, 'cart/orders.html', context)
+
 
 @transaction.atomic
 def update_profile(request):
@@ -364,15 +415,16 @@ def receive(request):
         return JsonResponse({"status": "get"})
 
 
-def test(request):
-    temp=customer.objects.raw('SELECT cart_customer.id FROM cart_customer inner join auth_user on cart_customer.user_id = auth_user.id and auth_user.username="chinmay"')
-    # temp = customer.objects.raw('SELECT * FROM cart_customer')
-    data=serializers.serialize('json',temp)
-    value=json.loads(data)
+def test_api(request):
+    if request.method == 'POST':
+        prod = json.loads(request.body)
+        print(prod['category'])
 
-    print(value)
-    # print("sdfsdf")
-    return  HttpResponse('TET')
+        return JsonResponse({"status": "post"})
+    else:
+        print('get req')
+        return JsonResponse({"status": "get"})
+
 
 
 @csrf_exempt
@@ -471,3 +523,23 @@ def get_userdetails(request):
     dit={"username":str(catid),"address":cobj.address,"phone":cobj.phone,"result":tp}
     print(dit)
     return JsonResponse(dit)
+
+@csrf_exempt
+def seller_review_api(request):
+    rev = json.loads(request.body)
+
+    us = rev["username"]
+    review = rev["text"]
+    stars = rev["rating"]
+
+    uobj=User.objects.get(username=us)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+
+    rev=c_review()
+    rev.c_id=cobj
+    rev.text=review
+    rev.rating=stars
+    rev.save()
+    print("gfhfhg")
+    return HttpResponse("review added")
+
