@@ -1,12 +1,14 @@
 package com.nitin.iiitskart;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.io.File;
+import java.io.StringReader;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -44,5 +46,6 @@ public class POSTAPI {
         Call<JsonObject> call = addCustomerReviewAPI.addCustomerReview(c_review);
         call.enqueue(callback);
     }
-
 }
+
+

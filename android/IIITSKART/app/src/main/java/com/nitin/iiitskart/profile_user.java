@@ -55,7 +55,6 @@ public class profile_user extends Activity {
                 final ArrayList<String> ratingArrayList = new ArrayList<String>();
                 final ArrayList<String>  textArrayList = new ArrayList<String>();
 
-
                 JsonObject res=response.body();
                 Customer customerObj = new Gson().fromJson(res, Customer.class);
                 Log.i("NitinwaAddress",customerObj.getAddress());

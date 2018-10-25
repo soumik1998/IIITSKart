@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +64,7 @@ public class sellProduct extends Activity {
         String Description=description.getText().toString();
         float Price=Float.parseFloat(price.getText().toString());
 
-        postApiTables.addProduct(filePath,new ProductClass(Title, Description, Category, Quantity, Price,Username), new Callback<JsonObject>() {
+        postApiTables.addProduct(new ProductClass(Title,Description,Category,Quantity,Price,Username), new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.i("NitinwaResponse",response.toString());
@@ -75,7 +76,8 @@ public class sellProduct extends Activity {
                 Log.e("NitinwaResponse",t.getMessage().toString());
 
             }
-        });
+
+                 });
 
     }
 
