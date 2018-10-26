@@ -289,14 +289,24 @@ def product_detail(request):
     pk = request.POST.get("pk")
     pobj = Product.objects.get(pk=pk)
     uobj=User.objects.get(username=pobj.c_id)
-    # print(uobj.customer.id)
-    revobj=c_review.objects.get(pk=uobj.customer.id)
+    cobj = customer.objects.get(pk=uobj.customer.id)
+    temp = c_review.objects.raw('SELECT * FROM cart_c_review')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    print(value)
+    rat_temp=[]
+    for i in value:
+        if(i["fields"]["c_id"]==int(uobj.customer.id)):
+            revpk=i["pk"]
+            rat_temp.append(i["fields"]["rating"])
+    avg_rating=int(abs(sum(rat_temp)/len(rat_temp)))
+    revobj=c_review.objects.get(pk=int(revpk))
     dt=[]
     rate=[]
     d_rate=[]
-    for i in range(revobj.rating):
+    for i in range(avg_rating):
         rate.append(i)
-    for i in range(5-revobj.rating):
+    for i in range(5-avg_rating):
         d_rate.append(i)
 
     dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,revobj.text,pk))
