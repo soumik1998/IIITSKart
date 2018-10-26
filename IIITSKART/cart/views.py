@@ -83,10 +83,20 @@ def go_to_dashboard(request):
         data = serializers.serialize('json', temp)
         value = json.loads(data)
         dt=[]
+        dt1=[]
         for i in value:
-                dt.append(i["fields"]["title"])
+            dt.append(i["fields"]["title"])
 
-        context = {"num": len(dt)}
+            cid = i["fields"]["c_id"]
+            cobj = customer.objects.get(pk=cid)
+            uid = cobj.user_id
+            uobj = User.objects.get(pk=uid)
+            pobj = Product.objects.get(pk=i["pk"])
+            dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"], pobj.pro_pic,i["pk"]))  # productname,customername,productprice
+        print(dt1)
+        context = {"num": len(dt),"dt1":dt1[:10]}
+
+
         return render(request, 'cart/dashboard.html', context)
 
 def profile_view(request):
@@ -286,6 +296,7 @@ def seller_info(request):
 
 
 def product_detail(request):
+    flag=0
     pk = request.POST.get("pk")
     pobj = Product.objects.get(pk=pk)
     uobj=User.objects.get(username=pobj.c_id)
@@ -299,20 +310,39 @@ def product_detail(request):
         if(i["fields"]["c_id"]==int(uobj.customer.id)):
             revpk=i["pk"]
             rat_temp.append(i["fields"]["rating"])
-    avg_rating=int(abs(sum(rat_temp)/len(rat_temp)))
-    revobj=c_review.objects.get(pk=int(revpk))
-    dt=[]
-    rate=[]
-    d_rate=[]
-    for i in range(avg_rating):
-        rate.append(i)
-    for i in range(5-avg_rating):
-        d_rate.append(i)
 
-    dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,revobj.text,pk))
+    if(len(rat_temp)>0):
+        avg_rating=abs(sum(rat_temp)/len(rat_temp))
+    else:
+        avg_rating=0.0
+    if(flag==1):
+        revobj=c_review.objects.get(pk=int(revpk))
+        dt=[]
+        rate=[]
+        d_rate=[]
+        for i in range(int(avg_rating)):
+            rate.append(i)
+        for i in range(5-int(avg_rating)):
+            d_rate.append(i)
 
-    context = {"dt": dt}
-    return render(request, 'cart/product.html', context)
+        dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,revobj.text,pk,avg_rating))
+
+        context = {"dt": dt}
+        return render(request, 'cart/product.html', context)
+    else:
+        dt=[]
+        rate=[]
+        d_rate=[]
+        for i in range(int(avg_rating)):
+            rate.append(i)
+        for i in range(5-int(avg_rating)):
+            d_rate.append(i)
+
+        dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,"not reviewed yet",pk,avg_rating))
+
+        context = {"dt": dt}
+        return render(request, 'cart/product.html', context)
+
 
 
 def customer_activity_sell(request):
