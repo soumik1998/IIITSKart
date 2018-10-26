@@ -224,7 +224,7 @@ input:focus ~ .highlight {
     opacity: 0;
   }
 }
-        tr:nth-child(odd) {background-color: #D3FFF8;}
+        tr:nth-child(odd) {background-color: rgba(255, 255, 255, .4);}
 table {
     border-bottom: 3px solid transparent;
     width: 100%;
@@ -252,7 +252,7 @@ table {
           style="border: 0;background-color: #3C3C3C;cursor:pointer;padding: 0px 0px;" >
       <i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
 </form>
     <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
@@ -314,9 +314,11 @@ table {
          <h2 style="color: #2A5FDB"><b> Sold products:</b></h2>
 <table>
     {% for i in dt %}
-  <tr style="" class="w3-animate-opacity">
-    <td><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Buyer : {{ i.3 }}<br>₹ {{ i.2 }} | Quantity: {{ i.1 }}</td>
+  <tr style="height: 120px" class="w3-animate-opacity">
+    <td style="padding-left: 30px"><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Buyer : {{ i.3 }} &nbsp;
+        <div style="color: #4CAF50;display:inline;">₹ {{ i.2 }} </div>| Quantity: {{ i.1 }}</td>
   </tr>
+        <tr style="height: 12px"><p></p></tr>
     {% endfor %}
 </table>
 

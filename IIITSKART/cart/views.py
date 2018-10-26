@@ -20,6 +20,7 @@ from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSeriali
 # Create your views here.
 
 
+
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = customer.objects.all()
     serializer_class = CustomerSerializer
@@ -78,14 +79,24 @@ def logout_view(request):
 
 
 def go_to_dashboard(request):
-    try:
-        return render(request, 'cart/dashboard.html', {})
-    except:
-        pass
+        temp = Product.objects.raw('SELECT * FROM  cart_product')
+        data = serializers.serialize('json', temp)
+        value = json.loads(data)
+        dt=[]
+        for i in value:
+                dt.append(i["fields"]["title"])
 
+        context = {"num": len(dt)}
+        return render(request, 'cart/dashboard.html', context)
 
 def profile_view(request):
-    return render(request, 'cart/profile.html', {})
+    temp = Product.objects.raw('SELECT * FROM  cart_product')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    num = []
+    for i in value:
+        num.append(i["fields"]["title"])
+    return render(request, 'cart/profile.html', {"num":len(num)})
 
 
 def customer_act(request):
@@ -181,6 +192,8 @@ def add_product(request):
         print(catobj.id,pro.p_id)
         pro.cat_id=catobj
         pro.save()
+
+
         # pro1.cat_id=catobj.id
         return render(request,'cart/success.html',{'msg':" Product Added Successfully"})
 
@@ -206,7 +219,14 @@ def search_product(request):
             dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"],pobj.pro_pic,i["pk"]))#productname,customername,productprice
             print(i["pk"])
 
-    context={"dt":dt,"query":product_name}
+    temp = Product.objects.raw('SELECT * FROM  cart_product')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    num = []
+    for i in value:
+        num.append(i["fields"]["title"])
+    context={"dt":dt,"query":product_name,"num":len(num)}
+
     return render(request, 'cart/search.html', context)
 
 
@@ -313,7 +333,16 @@ def customer_activity_sell(request):
     dt1=[]
     for i in value:
         dt1.append(i["fields"]["name"])
-    context = {"dt1": dt1,"dt":dt}
+
+    temp = Product.objects.raw('SELECT * FROM  cart_product')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    num = []
+    for i in value:
+        num.append(i["fields"]["title"])
+
+    dt.reverse()
+    context = {"dt1": dt1,"dt":dt,"num":len(num)}
     return render(request, 'cart/addproduct.html', context)
 
 
@@ -339,8 +368,15 @@ def customer_activity_buy(request):
                 ind = temp.find("T")
                 date = temp[:ind]
                 dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date))
+    temp = Product.objects.raw('SELECT * FROM  cart_product')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    num = []
+    for i in value:
+        num.append(i["fields"]["title"])
 
-    context = {"dt": dt}
+    dt.reverse()
+    context = {"dt": dt,"num":len(num)}
     return render(request, 'cart/order.html', context)
 
 

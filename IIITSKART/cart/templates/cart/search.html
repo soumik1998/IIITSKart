@@ -69,7 +69,7 @@
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" value="{{ query }}" required>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
 </form>
 <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
