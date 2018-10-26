@@ -84,6 +84,18 @@ class p_review(models.Model):
         return self.text
 
 
+class profile_history(models.Model):
+    c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
+    email = models.CharField(max_length=50)
+    firstname = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    address = models.CharField(max_length=70)
+    phone = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.email
+
+
 # class OrderItem(models.Model):
 #     order_id = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
 #     product_id = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)

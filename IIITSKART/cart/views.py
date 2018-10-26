@@ -12,7 +12,7 @@ import json
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from .models import customer, c_review, p_review, Product, category,Order
+from .models import customer, c_review, p_review, Product, category,Order,profile_history
 from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, \
     CategorySerializer
 
@@ -346,6 +346,9 @@ def customer_activity_buy(request):
 
 @transaction.atomic
 def update_profile(request):
+
+
+    history_profile(request)
     username=request.user.username
     uobj=User.objects.get(username=username)
     uobj.first_name=request.POST.get("firstname")
@@ -356,6 +359,22 @@ def update_profile(request):
     uobj.save()
 
     return HttpResponseRedirect(reverse('cart:profile'))
+
+
+
+def history_profile(request):
+
+    username=request.user.username
+    uobj=User.objects.get(username=username)
+    cobj = customer.objects.get(pk=uobj.customer.id)
+    tobj=profile_history()
+    tobj.c_id=cobj
+    tobj.firstname=uobj.first_name
+    tobj.lastname=uobj.last_name
+    tobj.phone=uobj.customer.phone
+    tobj.address=uobj.customer.address
+    tobj.email=uobj.email
+    tobj.save()
 
 
 def report_seller(request):
