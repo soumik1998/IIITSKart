@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <title>success</title>
+    <style>
+        $circle-length: 151px;
+$check-length: 36px;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  align-items: center;
+  background-color: #35297B;
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes scaleAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes drawCircle {
+  0% {
+    stroke-dashoffset: $circle-length;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawCheck {
+  0% {
+    stroke-dashoffset: $check-length;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#successAnimationCircle {
+  stroke-dasharray: $circle-length $circle-length;
+  stroke: #FFF;
+}
+
+#successAnimationCheck {
+  stroke-dasharray: $check-length $check-length;
+  stroke: #FFF;
+}
+
+#successAnimationResult {
+  fill: #FFF;
+  opacity: 0;
+}
+
+#successAnimation.animated {
+  animation: 1s ease-out 0s 1 both scaleAnimation;
+
+  #successAnimationCircle {
+    animation: 1s cubic-bezier(0.77, 0, 0.175, 1) 0s 1 both drawCircle,
+               0.3s linear 0.9s 1 both fadeOut;
+  }
+
+  #successAnimationCheck {
+    animation: 1s cubic-bezier(0.77, 0, 0.175, 1) 0s 1 both drawCheck,
+               0.3s linear 0.9s 1 both fadeOut;
+  }
+
+  #successAnimationResult {
+    animation: 0.3s linear 0.9s both fadeIn;
+  }
+}
+    </style>
+</head>
+
+<svg id="successAnimation" class="animated" xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 70 70">
+  <path id="successAnimationResult" fill="#D8D8D8" d="M35,60 C21.1928813,60 10,48.8071187 10,35 C10,21.1928813 21.1928813,10 35,10 C48.8071187,10 60,21.1928813 60,35 C60,48.8071187 48.8071187,60 35,60 Z M23.6332378,33.2260427 L22.3667622,34.7739573 L34.1433655,44.40936 L47.776114,27.6305926 L46.223886,26.3694074 L33.8566345,41.59064 L23.6332378,33.2260427 Z"/>
+  <circle id="successAnimationCircle" cx="35" cy="35" r="24" stroke="#979797" stroke-width="2" stroke-linecap="round" fill="transparent"/>
+  <polyline id="successAnimationCheck" stroke="#979797" stroke-width="2" points="23 34 34 43 47 27" fill="transparent"/>
+</svg>
+<h2 style="color: #FFFFFF;position: fixed;margin-top: 15%;font-family: Bahnschrift;font-size: 300%">{{ msg }}</h2>
+<div style="position: absolute;margin-top: 20%;">
+    <center>
+<button style="border: 2px solid white;background-color: transparent;padding: 0px 0px;cursor: pointer;" >
+    <i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></button>
+<a href="{% url 'cart:go-to-dashboard' %}"><button  style="border: 2px solid white;background-color: transparent;padding: 0px 0px;cursor: pointer;" >
+    <i class="material-icons" >home</i></button></a>
+</center>
+</div>
+</html>

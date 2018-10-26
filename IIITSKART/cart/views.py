@@ -182,7 +182,7 @@ def add_product(request):
         pro.cat_id=catobj
         pro.save()
         # pro1.cat_id=catobj.id
-        return HttpResponse("added product")
+        return render(request,'cart/success.html',{'msg':" Product Added Successfully"})
 
 
 def search_product(request):
@@ -237,9 +237,9 @@ def buy_product(request):
 
         pobj.quantity=pobj.quantity-quantity
         pobj.save()
-        return HttpResponse("buy successful")
+        return render(request, 'cart/success.html', {'msg': "Order Placed Successfully"})
     else:
-        return HttpResponse("quantity exceeded")
+        return render(request, 'cart/error.html', {'msg': "Product Quantity Exceeded"})
 
 
 def seller_info(request):
@@ -355,7 +355,7 @@ def update_profile(request):
     uobj.email=request.POST.get("email")
     uobj.save()
 
-    return HttpResponseRedirect(reverse('cart:profile'))
+    return render(request, 'cart/success.html', {'msg': "Update Successful"})
 
 
 def report_seller(request):

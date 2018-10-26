@@ -27,8 +27,6 @@
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
   <a href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
-<a href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back_ios</i></a>
-<a href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><i class="material-icons" onclick="window.history.go(1); return false;"  >arrow_forward_ios</i></a>
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
  <a href="{% url 'cart:cact_buy' %}">Orders</a>
@@ -42,6 +40,7 @@
   <input type="hidden" name="next" value="{{ next }}" /></button>
   <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" required>
 </form>
+    <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
 
 <div class="main" style="color:white;">
