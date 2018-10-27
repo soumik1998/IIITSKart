@@ -224,8 +224,10 @@ def search_product(request):
     value=json.loads(data)
 
     dt=[]
+    uobj=User.objects.get(username=request.user.username)
+    cid=uobj.customer.id
     for i in value:
-        if(i["fields"]["title"]==product_name):
+        if(i["fields"]["title"]==product_name and (i["fields"]["c_id"] != cid)) :
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
