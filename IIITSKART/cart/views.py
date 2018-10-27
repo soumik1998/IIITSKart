@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.db import transaction
 from django.core.files.storage import FileSystemStorage, default_storage
@@ -78,6 +79,7 @@ def logout_view(request):
     return render(request, 'cart/landing.html', {})
 
 
+@login_required
 def go_to_dashboard(request):
         temp = Product.objects.raw('SELECT * FROM  cart_product')
         data = serializers.serialize('json', temp)
@@ -99,6 +101,8 @@ def go_to_dashboard(request):
 
         return render(request, 'cart/dashboard.html', context)
 
+
+@login_required
 def profile_view(request):
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
@@ -152,6 +156,7 @@ def makeuser(request):
             return render(request, '', {})
 
 
+@login_required
 def profile_photo_upload(request):
     if request.method == 'POST' and request.FILES['avatar']:
         print(request.FILES['avatar'])
