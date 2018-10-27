@@ -353,6 +353,18 @@ select {
   transform: rotateY(180deg);
   z-index: 1;
 }
+.imgBox { /* now a container for the image */
+    display: inline-block; /* shrink wrap to image */
+    overflow: hidden; /* hide the excess */
+  }
+  .imgBox img {
+    display: block; /* no whitespace */
+    transition: .3s ease-in-out;
+  }
+  .imgBox:hover img {
+    transform: scale(1.2);
+      filter: saturate(200%);
+  }
 
 
 
