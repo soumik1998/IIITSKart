@@ -233,12 +233,7 @@ table {
 
 </head>
 
-<body style=" margin: 0;
-   background: url({% static 'cart/w2.jpg' %}) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;">
+<body >
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
      <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
@@ -246,7 +241,7 @@ table {
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
   <a href="{% url 'cart:cact_buy' %}">Orders</a>
-    <a href="{% url 'cart:add_pro' %}">Sell</a>
+    <a style="color: #000000;background-color: #FFFFFF" href="{% url 'cart:add_pro' %}">Sell</a>
     <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
   <button type="submit" href="{% url 'cart:search_product' %}"
@@ -313,15 +308,16 @@ table {
      <button onclick="on_edit()"  class="button buttonBlue" style="width: 15%;margin-top: 0.5%;height: 60px;border-radius: 15px;font-size: large">
          Sell something</button>
          <h2 style="color: #2A5FDB"><b> Sold products:</b></h2>
-<table>
+<center>
+    <table style="width: 80%;">
     {% for i in dt %}
-  <tr style="height: 120px" class="w3-animate-opacity">
+  <tr style="height: 120px;background-color: rgba(112, 196, 255, 0.2);" class="w3-animate-opacity">
     <td style="padding-left: 30px"><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Buyer : {{ i.3 }} &nbsp;
-        <div style="color: #4CAF50;display:inline;">₹ {{ i.2 }} | Quantity: {{ i.1 }}</td>
+        <div style="color: #4CAF50;display:inline;">₹ {{ i.2 }} | Quantity: {{ i.1 }}</div></td>
   </tr>
         <tr style="height: 12px"><p></p></tr>
     {% endfor %}
-</table>
+</table></center>
 
 </div>
 <script>
