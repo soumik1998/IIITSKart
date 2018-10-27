@@ -222,19 +222,18 @@ def search_product(request):
     temp= Product.objects.raw('SELECT * FROM cart_product')
     data = serializers.serialize('json', temp)
     value=json.loads(data)
-
     dt=[]
-    uobj=User.objects.get(username=request.user.username)
-    cid=uobj.customer.id
+    uobj_tmp=User.objects.get(username=request.user.username)
+    cid_tmp=uobj_tmp.customer.id
     for i in value:
-        if(i["fields"]["title"]==product_name and (i["fields"]["c_id"] != cid)) :
+        if((product_name.lower() in (str(i["fields"]["title"].lower()))) and (i["fields"]["c_id"] != cid_tmp)) :
+            print("yes")
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
             dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"],pobj.pro_pic,i["pk"]))#productname,customername,productprice
-            print(i["pk"])
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
