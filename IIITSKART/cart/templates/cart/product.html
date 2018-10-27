@@ -123,7 +123,7 @@ input[type=number]::-webkit-outer-spin-button {
   <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
-  <a href="#contact">Orders</a>
+  <a href="{% url 'cart:cact_buy' %}">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
   <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}

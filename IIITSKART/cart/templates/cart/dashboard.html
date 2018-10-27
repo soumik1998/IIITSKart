@@ -16,11 +16,11 @@
 </style>
 </head>
 
-<body >
+<body>
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
     <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
-  <a class="active_nav" href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="color: #4a89dc;float: left;padding: 14px 0px;">of <b>{{ request.user.username }}</b></div></a>
+  <a class="active_nav" href="#from_dashboard_to_dashboard!_congrats!" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="color: #4a89dc;float: left;padding: 14px 0px;">of <b>{{ request.user.username }}&nbsp;</b></div></a>
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
  <a href="{% url 'cart:cact_buy' %}">Orders</a>
@@ -41,24 +41,31 @@
  <center>
  <br><br>
  <h2 style="color: #3f51b5">Latest Products</h2>
+  </center>
      {% for i in dt1 %}
-
-    <div class="card w3-animate-top" style="z-index: -1">
-    <form style="cursor: pointer" method="post" action="{% url 'cart:product_detail' %}" >
+    <form style="cursor: pointer;border: none;" method="post" action="{% url 'cart:product_detail' %}" >
     {% csrf_token %}
     <input style="display: none" name="pk" value="{{ i.5 }}">
-  <button style="border: none;background-color: transparent" type="submit">
+  <button style="border: none;background-color: transparent;padding: 0px;" >
+<div class="flip-card w3-animate-top" style="animation-delay: 0.5s;animation-fill-mode: backwards;">
 
-  <img src="{{ MEDIA_URL }}product/{{ i.4 }}" style="width:100%;height: 250px" onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
-  <h2 style="color: #000;display: inline;">{{ i.0 }}</h2>
-             <p style="color: #000;display: inline;"><br>Seller: {{ i.1}}<br>Rating: 4.2/5<br>
-        <div id="cb">₹ {{ i.2 }}</div></p>
-
-
-      <input type="hidden" name="next" value="{{ next }}" /></button>
-    </form></div>
+  <div class="flip-card-inner">
+    <div class="flip-card-front">
+        <img src="{{ MEDIA_URL }}product/{{ i.4 }}" style="width:100%;height: 80%;" onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
+  <h2 style="color: #FFFFFF;background-color: #118AEC;padding: 3%;margin-top: 0px;">{{ i.0 }}</h2>
+    </div>
+    <div class="flip-card-back">
+        <br><br>
+      <h1><div >₹ {{ i.2 }}</div></h1>
+      <p>Seller: {{ i.1}}<br>Rating: static value</p>
+    </div>
+  </div>
+      <input type="hidden" name="next" value="{{ next }}" />
+</div>
+    </button>
+    </form>
 {% endfor %}
- </center>
+
 </div>
 </body>
 </html>

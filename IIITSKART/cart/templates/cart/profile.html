@@ -224,18 +224,13 @@ input:focus ~ .highlight {
 
 </head>
 
-<body style=" margin: 0;
-   background: url({% static 'cart/w2.jpg' %}) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;">
+<body>
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
      <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
   <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
   <a href="{% url 'cart:logout' %}">Logout</a>
-  <a href="{% url 'cart:profile' %}">Profile</a>
+  <a style="color: #000000;background-color: #FFFFFF;border-top-left-radius: 5%;border-top-right-radius: 5%;" href="{% url 'cart:profile' %}">Profile</a>
 <a href="{% url 'cart:cact_buy' %}">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
     <form method="post" action="{% url 'cart:search_product' %}" >
