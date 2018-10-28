@@ -32,22 +32,22 @@
   padding: 0px 0px;" href="{% url 'cart:search_product' %}">
       <i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
+  <input style="width:50%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
 </form>
     <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
 
 <div class="main" style="color:white;">
- <center>
  <br><br>
- <h2 style="color: #3f51b5">Latest Products</h2>
-  </center>
+ <h2 style="color: #3f51b5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latest Products<i class="material-icons" style="color: #3599FF;float: none;padding: 0px;font-size: 40px;vertical-align: text-top">keyboard_arrow_down</i></h2>
+<div style="background-color: transparent">
      {% for i in dt1 %}
-    <form style="cursor: pointer;border: none;" method="post" action="{% url 'cart:product_detail' %}" >
+     <form style="cursor: pointer;border: none;padding: 0px;width: 250px;height: 300px;margin:1%;display: inline;"
+           method="post" action="{% url 'cart:product_detail' %}" >
     {% csrf_token %}
     <input style="display: none" name="pk" value="{{ i.5 }}">
-  <button style="border: none;background-color: transparent;padding: 0px;" >
-<div class="flip-card w3-animate-top" style="animation-delay: 0.5s;animation-fill-mode: backwards;">
+  <button style="border: none;background-color: transparent;padding: 0px;cursor: pointer;" >
+<div class="flip-card w3-animate-top" style="animation-delay: 0.8s;animation-fill-mode: backwards;">
 
   <div class="flip-card-inner">
     <div class="flip-card-front">
@@ -64,7 +64,10 @@
 </div>
     </button>
     </form>
+
 {% endfor %}
+</div>
+</div>
 
 </div>
 </body>
