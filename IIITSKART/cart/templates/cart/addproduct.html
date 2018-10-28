@@ -241,14 +241,14 @@ table {
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
   <a href="{% url 'cart:cact_buy' %}">Orders</a>
-    <a style="color: #000000;background-color: #FFFFFF" href="{% url 'cart:add_pro' %}">Sell</a>
+    <a style="color: #000000;background-color: #FFFFFF;border-top-left-radius: 5%;border-top-right-radius: 5%;" href="{% url 'cart:add_pro' %}">Sell</a>
     <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
   <button type="submit" href="{% url 'cart:search_product' %}"
           style="border: 0;background-color: #3C3C3C;cursor:pointer;padding: 0px 0px;" >
       <i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
+  <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
 </form>
     <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
@@ -300,19 +300,21 @@ table {
 
   <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Its mine.Only mine.</button>
 </form>
+</center>
 </div>
 
 <div class="main" style="color:#000000;">
 
  <br>
-     <button onclick="on_edit()"  class="button buttonBlue" style="width: 15%;margin-top: 0.5%;height: 60px;border-radius: 15px;font-size: large">
+    <button onclick="on_edit()"  class="button buttonBlue" style="width: 15%;margin-left: 10%; margin-top: 0.5%;height: 60px;border-radius: 10px;font-size: large">
          Sell something</button>
-         <h2 style="color: #2A5FDB"><b> Sold products:</b></h2>
+
+         <h2 style="color: #2A5FDB;margin-left: 10%"><b> Sold products:</b></h2>
 <center>
     <table style="width: 80%;">
     {% for i in dt %}
   <tr style="height: 120px;background-color: rgba(112, 196, 255, 0.2);" class="w3-animate-opacity">
-    <td style="padding-left: 30px"><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Buyer : {{ i.3 }} &nbsp;
+    <td style="padding-left: 30px;border-radius: 10px;"><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Buyer : {{ i.3 }} &nbsp;
         <div style="color: #4CAF50;display:inline;">₹ {{ i.2 }} | Quantity: {{ i.1 }}</div></td>
   </tr>
         <tr style="height: 12px"><p></p></tr>

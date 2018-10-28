@@ -22,10 +22,10 @@
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
      <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
-  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}&nbsp;</div></a>
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
-  <a href="#contact">Orders</a>
+  <a href="{% url 'cart:cact_buy' %}">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
   <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
@@ -33,7 +33,7 @@
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
+  <input style="width:50%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
 </form>
 <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
@@ -62,21 +62,29 @@
  <br><br>
 <div id="noresult" style="display: none"><h1 style="color: #E12B2B; margin-left: 30%">We don't have that ! Hit the search again.</h1></div>
 {% for i in dt %}
-
-    <div class="card w3-animate-top">
-    <form style="cursor: pointer" method="post" action="{% url 'cart:product_detail' %}" >
+     <form style="cursor: pointer;border: none;padding: 0px;width: 250px;height: 300px;margin:1%;display: inline;"
+           method="post" action="{% url 'cart:product_detail' %}" >
     {% csrf_token %}
     <input style="display: none" name="pk" value="{{ i.5 }}">
-  <button style="border: none;background-color: transparent" type="submit">
+  <button style="border: none;background-color: transparent;padding: 0px;cursor: pointer;" >
+<div class="flip-card w3-animate-top" style="animation-delay: 0.8s;animation-fill-mode: backwards;">
 
-  <img src="{{ MEDIA_URL }}product/{{ i.4 }}" style="width:100%;height: 250px" onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
-  <h2 style="color: #000;display: inline;">{{ i.0 }}</h2>
-             <p style="color: #000;display: inline;"><br>Seller: {{ i.1}}<br>Rating: 4.2/5<br>
-        <div id="cb">₹ {{ i.2 }}</div></p>
+  <div class="flip-card-inner">
+    <div class="flip-card-front">
+        <img src="{{ MEDIA_URL }}product/{{ i.4 }}" style="width:100%;height: 80%;" onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
+  <h2 style="color: #FFFFFF;background-color: #118AEC;padding: 3%;margin-top: 0px;">{{ i.0 }}</h2>
+    </div>
+    <div class="flip-card-back">
+        <br><br>
+      <h1><div >₹ {{ i.2 }}</div></h1>
+      <p>Seller: {{ i.1}}<br>Rating: static value</p>
+    </div>
+  </div>
+      <input type="hidden" name="next" value="{{ next }}" />
+</div>
+    </button>
+    </form>
 
-
-      <input type="hidden" name="next" value="{{ next }}" /></button>
-    </form></div>
 {% endfor %}
   
 
