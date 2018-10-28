@@ -145,8 +145,9 @@ def makeuser(request):
             uobj.set_password(request.POST.get('password', ""))
             uobj.save()
 
-            # uobj=User.objects.get(username=request.POST.get('username', ""))
-            # uobj.customer.blacklist = False
+            cobj=User.objects.get(username=request.POST.get('username', ""))
+            cobj.customer.blacklist = False
+            cobj.save()
 
             user = authenticate(username=uobj.username, password=request.POST.get('password', ""))
             if user is not None:
