@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "701453978758",
+    "firebase_url": "https://chat-f3a4d.firebaseio.com",
+    "project_id": "chat-f3a4d",
+    "storage_bucket": "chat-f3a4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701453978758:android:db22cdf56f38df2e",
+        "android_client_info": {
+          "package_name": "com.nitin.iiitskart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701453978758-c1fttmq6ovdna1ftcja7plbb7fdsaadf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nitin.iiitskart",
+            "certificate_hash": "d11eff7a133d9227be87261176413dd991fce799"
+          }
+        },
+        {
+          "client_id": "701453978758-958ggt37lba9ud6nkhldr12k4s4kiatb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNqFV4nq1UwIg-TAUMFNxp-H48c96laXE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701453978758-958ggt37lba9ud6nkhldr12k4s4kiatb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
