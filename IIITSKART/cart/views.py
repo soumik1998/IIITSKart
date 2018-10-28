@@ -142,10 +142,11 @@ def makeuser(request):
             uobj.first_name = request.POST.get('first_name', "")
             uobj.last_name = request.POST.get('last_name', "")
             uobj.email = request.POST.get('email', "")
-            # uobj.customer.blacklist = 'False'
             uobj.set_password(request.POST.get('password', ""))
-            # uobj.customer.phone =
             uobj.save()
+
+            # uobj=User.objects.get(username=request.POST.get('username', ""))
+            # uobj.customer.blacklist = False
 
             user = authenticate(username=uobj.username, password=request.POST.get('password', ""))
             if user is not None:
@@ -219,21 +220,47 @@ def search_product(request):
     price_low=request.POST.get("price_low")
     price_high = request.POST.get("price_high")
     rating=request.POST.get("rating")
+
+    category_name="all"
+    price_low=0
+    price_high=100000000
+    rating=0
+
     temp= Product.objects.raw('SELECT * FROM cart_product')
     data = serializers.serialize('json', temp)
     value=json.loads(data)
     dt=[]
+
     uobj_tmp=User.objects.get(username=request.user.username)
     cid_tmp=uobj_tmp.customer.id
+    cobj_temp= customer.objects.get(pk=cid_tmp)
+
     for i in value:
-        if((product_name.lower() in (str(i["fields"]["title"].lower()))) and (i["fields"]["c_id"] != cid_tmp)) :
+        catobj=category.objects.get(pk=i["fields"]["cat_id"])
+        if(category_name=="all"):
+            cat_name="all"
+        else:
+            cat_name=catobj.name
+
+        crevobj=c_review.objects.get(c_id=cobj_temp)
+        if(not(crevobj.rating)):
+            frating=0
+        else:
+            frating=crevobj.rating
+        print(i["fields"]["title"],product_name)
+        if((product_name.lower() in (str(i["fields"]["title"].lower())))
+                and (i["fields"]["c_id"] != cid_tmp)
+                and(int(i["fields"]["price"])>price_low)
+                and (int(crevobj.rating)<price_high)
+                and (frating>=rating)
+                and (cat_name==category_name)) :
             print("yes")
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
-            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"],pobj.pro_pic,i["pk"]))#productname,customername,productprice
+            dt.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"],pobj.pro_pic, i["pk"]))#productname,customername,productprice
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
