@@ -34,15 +34,6 @@ class customer(models.Model):
         return self.user.username
 
 
-class c_review(models.Model):
-    rating = models.IntegerField(default=0)
-    text = models.TextField()
-    c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.text
-
-
 class category(models.Model):
     name = models.CharField(max_length=20)
 
@@ -99,6 +90,15 @@ class p_review(models.Model):
         return self.text
 
 
+class c_review(models.Model):
+    rating = models.IntegerField(default=0)
+    text = models.TextField()
+    o_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
+
+
 class profile_history(models.Model):
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
     email = models.CharField(max_length=50)
@@ -128,5 +128,14 @@ class user_wishlist(models.Model):
 
     def __str__(self):
         return self.var
+
+
+class seller_report(models.Model):
+    customer_id = models.ForeignKey(customer, related_name="customerid", on_delete=models.CASCADE)
+    seller_id = models.ForeignKey(customer, related_name="sellerid", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "SELLER REPORTS"
+
 
 
