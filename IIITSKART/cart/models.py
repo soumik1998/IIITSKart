@@ -93,7 +93,8 @@ class p_review(models.Model):
 class c_review(models.Model):
     rating = models.IntegerField(default=0)
     text = models.TextField()
-    o_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+    b_id = models.ForeignKey(customer, related_name="BUYER", on_delete=models.CASCADE)
+    s_id = models.ForeignKey(customer, related_name="SELLER", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.text
