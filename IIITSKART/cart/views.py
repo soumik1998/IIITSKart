@@ -117,7 +117,6 @@ def customer_act(request):
     return render(request,'cart/order.html',{})
 
 
-
 def profile_val(request):
     try:
         us = request.POST['username']
@@ -145,17 +144,25 @@ def makeuser(request):
             uobj.set_password(request.POST.get('password', ""))
             uobj.save()
 
-            cobj=User.objects.get(username=request.POST.get('username', ""))
-            cobj.customer.blacklist = False
-            cobj.save()
+            uobj_tmp=User.objects.get(username=request.POST.get('username', ""))
+            uobj_tmp.customer.blacklist = False
+            uobj_tmp.save()
+
+            cobj=customer.objects.get(pk=uobj_tmp.customer.id)
+
+            revobj=c_review()
+            revobj.rating=0
+            revobj.c_id=cobj
+            revobj.save()
 
             user = authenticate(username=uobj.username, password=request.POST.get('password', ""))
             if user is not None:
                 login(request, user)
                 return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
+
         else:
             print("else")
-            return render(request, '', {})
+            return render(request, 'cart/landing.html', {})
 
 
 @login_required
