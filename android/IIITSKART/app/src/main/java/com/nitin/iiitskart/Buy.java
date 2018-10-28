@@ -74,7 +74,7 @@ public class Buy extends Activity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(Buy.this, "You Clicked at " + productArray[+ position].getPrice(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Buy.this, "You Clicked at " + productArray[+ position].getUsername(), Toast.LENGTH_SHORT).show();
                         Intent myIntent = new Intent(Buy.this, productPage.class);
 
                         myIntent.putExtra("Username",username);
