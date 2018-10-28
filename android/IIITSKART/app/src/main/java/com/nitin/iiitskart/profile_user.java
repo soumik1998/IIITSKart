@@ -1,6 +1,7 @@
 package com.nitin.iiitskart;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -48,7 +49,10 @@ public class profile_user extends Activity {
 
 
         username= getIntent().getStringExtra("Username");
-        seller_username=getIntent().getStringExtra("Seller_Username");
+        seller_username=getIntent().getStringExtra("Seller_username");
+
+        Log.i("Nitin12",username+seller_username);
+
         getApi.getCustDetails(seller_username, new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -61,7 +65,6 @@ public class profile_user extends Activity {
                 phoneText.setText(customerObj.getPhone());
                 addressText.setText(customerObj.getAddress());
                 usernameText.setText(customerObj.getUsername().toUpperCase());
-
                 JsonArray jsonArray = res.getAsJsonArray("result");
                 for (JsonElement jsonElement : jsonArray) {
                     JsonObject product = jsonElement.getAsJsonObject();
@@ -105,7 +108,7 @@ public class profile_user extends Activity {
 
         Button submit = (Button) myDialog.findViewById(R.id.submit);
         TextView rate=myDialog.findViewById(R.id.RATE);
-        String rate_string="Rate "+username;
+        String rate_string="Rate "+seller_username;
         rate.setText(rate_string);
         popup_rating_spinner = myDialog.findViewById(R.id.rating);
         popup_review_editText = (EditText) myDialog.findViewById(R.id.reviewText);
@@ -120,14 +123,15 @@ public class profile_user extends Activity {
                 pop_rating=popup_rating_spinner.getSelectedItem().toString();
                 pop_review=popup_review_editText.getText().toString();
                 myDialog.dismiss();
+                sendReviewToserver(seller_username,pop_rating,pop_review);
+                Log.i("Seller_srname",seller_username);
                 //your login calculation goes here
             }
         });
-        sendReviewToserver(seller_username,pop_rating,pop_review);
 
     }
     void sendReviewToserver(String seller_username,String pop_rating,String pop_review){
-        POSTAPI.addCustomerReview(new C_review(pop_rating,pop_review,username), new Callback<JsonObject>() {
+        POSTAPI.addCustomerReview(new C_review(pop_rating,pop_review,seller_username), new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.i(getClass().toString(),response.toString());
@@ -144,7 +148,7 @@ public class profile_user extends Activity {
 
     void initializeSpinner(){
         ArrayList<String> qunatity = new ArrayList<String>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 5; i++) {
             qunatity.add(Integer.toString(i));
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
@@ -154,6 +158,13 @@ public class profile_user extends Activity {
         popup_rating_spinner.setAdapter(spinnerArrayAdapter);
 
 
+    }
+
+    public void Chat(View view){
+        Intent myIntent = new Intent(profile_user.this, chat.class);
+        myIntent.putExtra("Username",username);
+        myIntent.putExtra("Seller_username",seller_username);
+        startActivity(myIntent);
     }
 
 }

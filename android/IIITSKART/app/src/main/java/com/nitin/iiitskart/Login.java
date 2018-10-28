@@ -1,6 +1,8 @@
 package com.nitin.iiitskart;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -19,6 +21,7 @@ public class Login extends Activity {
     EditText userName;
     EditText Password;
     String username;
+    String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -26,6 +29,19 @@ public class Login extends Activity {
         setContentView(R.layout.activity_login);
         userName=findViewById(R.id.userEditText);
         Password=findViewById(R.id.passEditText);
+        SharedPreferences sharedPreferences=getSharedPreferences("userinfo",Context.MODE_PRIVATE);
+        username=sharedPreferences.getString("username","");
+        password=sharedPreferences.getString("password","");
+        userName.setText(username);
+        Password.setText(password);
+
+        if(username.length() > 0 && password.length() >0){
+            
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            intent.putExtra("Username",username);
+            startActivity(intent);
+
+        }
 
     }
 
@@ -33,7 +49,8 @@ public class Login extends Activity {
         Log.i("Nitinwa","fgggggggggggggggggggggd");
 
         username=userName.getText().toString();
-        String password=Password.getText().toString();
+        password=Password.getText().toString();
+
 
         LoginApi.validate(new Login_class(username, password), new Callback<JsonObject>() {
             @Override
@@ -44,6 +61,12 @@ public class Login extends Activity {
                 Log.e("Nitinwa", resp1);
 
                 if(resp1.equals("Yes")){
+                    SharedPreferences sharedPreferences=getSharedPreferences("userinfo",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putString("username",username);
+                    editor.putString("password",password);
+                    editor.apply();
+
                     Log.i("Nitinwa","fgggggggggggggggggggggd");
                     Toast.makeText(getApplicationContext(),"Logged IN",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Login.this, MainActivity.class);
