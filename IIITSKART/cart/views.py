@@ -98,8 +98,11 @@ def go_to_dashboard(request):
             uid = cobj.user_id
             uobj = User.objects.get(pk=uid)
             pobj = Product.objects.get(pk=i["pk"])
-            revobj = c_review.objects.get(s_id=cid)
-            rating=revobj.rating
+            try:
+                revobj = c_review.objects.get(s_id=cid)
+                rating=revobj.rating
+            except:
+                rating=0
 
 
             if(uobj.username not in request.user.username):
