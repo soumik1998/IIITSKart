@@ -59,7 +59,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 def home(request):
-    return render(request, 'cart/landing.html')
+    if User.is_authenticated:
+        return render(request, 'cart/dashboard.html')
+    else:
+        return render(request, 'cart/landing.html')
 
 
 def sign_up(request):
@@ -90,15 +93,18 @@ def go_to_dashboard(request):
             dt.append(i["fields"]["title"])
 
             cid = i["fields"]["c_id"]
+            print(cid)
             cobj = customer.objects.get(pk=cid)
             uid = cobj.user_id
             uobj = User.objects.get(pk=uid)
             pobj = Product.objects.get(pk=i["pk"])
-            sid=pobj.c_id
-            sobj=customer.objects.get(pk=sid)
-            revobj=c_review.objects.get(c_id=sobj)
+            revobj = c_review.objects.get(s_id=cid)
+            rating=revobj.rating
+
+
             if(uobj.username not in request.user.username):
-                dt1.append((i["fields"]["tsitle"], uobj.username, i["fields"]["price"], i["pk"], pobj.pro_pic,i["pk"],revobj.rating))  # productname,customername,productprice
+                dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"], pobj.pro_pic,i["pk"],rating))
+                # productname,customername,productprice
         dt1.reverse()
         context = {"num": len(dt),"dt1":dt1[:10]}
 
@@ -154,10 +160,6 @@ def makeuser(request):
 
             cobj=customer.objects.get(pk=uobj_tmp.customer.id)
 
-            revobj=c_review()
-            revobj.rating=0
-            revobj.c_id=cobj
-            revobj.save()
 
             user = authenticate(username=uobj.username, password=request.POST.get('password', ""))
             if user is not None:
@@ -253,18 +255,10 @@ def search_product(request):
             cat_name="all"
         else:
             cat_name=catobj.name
-
-        crevobj=c_review.objects.get(c_id=cobj_temp)
-        if(not(crevobj.rating)):
-            frating=0
-        else:
-            frating=crevobj.rating
-        print(i["fields"]["title"],product_name)
         if((product_name.lower() in (str(i["fields"]["title"].lower())))
                 and (i["fields"]["c_id"] != cid_tmp)
                 and(int(i["fields"]["price"])>price_low)
-                and (int(crevobj.rating)<price_high)
-                and (frating>=rating)
+                and (int(i["fields"]["price"])<price_high)
                 and (cat_name==category_name)) :
             print("yes")
             cid=i["fields"]["c_id"]
@@ -272,7 +266,8 @@ def search_product(request):
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
-            dt.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"],pobj.pro_pic, i["pk"]))#productname,customername,productprice
+            revobj=c_review.objects.get(s_id=cid)
+            dt.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"],pobj.pro_pic, i["pk"],revobj.rating))#productname,customername,productprice
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
@@ -352,11 +347,12 @@ def product_detail(request):
     print(value)
     rat_temp=[]
     for i in value:
-        if(i["fields"]["c_id"]==int(uobj.customer.id)):
+        if(i["fields"]["s_id"]==int(uobj.customer.id)):
             revpk=i["pk"]
             rat_temp.append(i["fields"]["rating"])
 
     if(len(rat_temp)>0):
+        flag=1
         avg_rating=abs(sum(rat_temp)/len(rat_temp))
     else:
         avg_rating=0.0
