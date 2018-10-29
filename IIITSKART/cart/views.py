@@ -105,7 +105,7 @@ def go_to_dashboard(request):
 
 
             if(uobj.username not in request.user.username):
-                dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"], pobj.pro_pic,i["pk"],rating))
+                dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], pobj.pro_pic,i["pk"],rating))
                 # productname,customername,productprice
         dt1.reverse()
         context = {"num": len(dt),"dt1":dt1[:10]}
@@ -246,11 +246,10 @@ def search_product(request):
     data = serializers.serialize('json', temp)
     value=json.loads(data)
     dt=[]
-
+    # return HttpResponse(value)
     uobj_tmp=User.objects.get(username=request.user.username)
     cid_tmp=uobj_tmp.customer.id
     cobj_temp= customer.objects.get(pk=cid_tmp)
-
     for i in value:
         catobj=category.objects.get(pk=i["fields"]["cat_id"])
         if(category_name=="all"):
@@ -273,7 +272,7 @@ def search_product(request):
                 rating=revobj.rating
             except:
                 rating=0
-            dt.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"],pobj.pro_pic, i["pk"],rating))#productname,customername,productprice
+            dt.append((i["fields"]["title"], uobj.username, i["fields"]["price"],pobj.pro_pic, i["pk"],rating))#productname,customername,productprice
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
@@ -344,6 +343,7 @@ def seller_info(request):
 def product_detail(request):
     flag=0
     pk = request.POST.get("pk")
+    print(pk)
     pobj = Product.objects.get(pk=pk)
     uobj=User.objects.get(username=pobj.c_id)
     temp = c_review.objects.raw('SELECT * FROM cart_c_review')
@@ -369,8 +369,9 @@ def product_detail(request):
         avg_rating=abs(sum(rat_temp)/len(rat_temp))
     else:
         avg_rating=0.0
+
+
     if(flag==1):
-        print("flag1s")
         dt=[]
         rate=[]
         d_rate=[]
@@ -520,14 +521,61 @@ def report_seller(request):
 
 def add_to_wishlist(request):
     pid=request.POST.get("pk")
+    pid=8
     uname=request.user.username
     uobj=User.objects.get(username=uname)
     cobj=customer.objects.get(pk=uobj.customer.id)
     pobj=Product.objects.get(pk=pid)
+
     wl=user_wishlist()
     wl.c_id=cobj
     wl.wish=pobj
     wl.save()
+
+    return HttpResponse("added to wlist")
+
+def view_wishlist(request):
+    uname=request.user.username
+    uobj=User.objects.get(username=uname)
+
+
+    dt=[]
+
+    temp = user_wishlist.objects.raw('SELECT * FROM  cart_user_wishlist')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    for i in value:
+        if(uobj.customer.id==i["fields"]["c_id"]):
+            print("in")
+            pobj = Product.objects.get(pk=i["fields"]["wish"])
+            sid = pobj.c_id_id
+            sobj = customer.objects.get(pk=sid)
+            uid=sobj.user_id
+            uobj1=User.objects.get(pk=uid)
+            revobj=c_review.objects.all().filter(s_id=sobj)
+            #print("rttr",revobj)
+            temp=[]
+            for j in revobj:
+                print(j.rating)
+                temp.append(j.rating)
+            if(len(temp)==0):
+                rating=0
+            else:
+                rating=sum(temp)/len(temp)
+            dt.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic,rating))
+            print(dt)
+    return HttpResponse("hohoywwwwwwwwwww")
+
+
+
+
+
+
+
+
+
+
+
 
 
 #######################################################################
