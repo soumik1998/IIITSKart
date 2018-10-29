@@ -75,10 +75,10 @@ class Order(models.Model):
     created_by = models.CharField(default="User", max_length=20, blank=False)
     modified_by = models.CharField(default="User Modified", max_length=20, blank=False)
     modified_on = models.DateTimeField(default=datetime.now(), blank=False)
-    var = "Order"
+
 
     def __str__(self):
-        return self.var
+        return str(self.order_number)
 
 
 class p_review(models.Model):
@@ -123,12 +123,9 @@ class search_history(models.Model):
 class user_wishlist(models.Model):
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
     wish = models.ForeignKey(Product, on_delete=models.CASCADE)
-    price = models.FloatField(default=0)
-    quantity = models.IntegerField(default=0)
-    var = "wishlist"
 
     def __str__(self):
-        return self.var
+        return str(self.c_id)
 
 
 class seller_report(models.Model):
@@ -136,7 +133,7 @@ class seller_report(models.Model):
     seller_id = models.ForeignKey(customer, related_name="sellerid", on_delete=models.CASCADE)
 
     def __str__(self):
-        return "SELLER REPORTS"
+        return str(self.seller_id)
 
 
 

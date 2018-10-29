@@ -7,13 +7,12 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-import requests
 import json
 
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from .models import customer, c_review, p_review, Product, category,Order,profile_history
+from .models import customer, c_review, p_review, Product, category,Order,profile_history,user_wishlist
 from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, \
     CategorySerializer
 
@@ -518,6 +517,20 @@ def report_seller(request):
     return render(request, 'cart/dashboard.html', {})
 
 
+
+def add_to_wishlist(request):
+    pid=request.POST.get("pk")
+    uname=request.user.username
+    uobj=User.objects.get(username=uname)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+    pobj=Product.objects.get(pk=pid)
+    wl=user_wishlist()
+    wl.c_id=cobj
+    wl.wish=pobj
+    wl.save()
+
+
+#######################################################################
 @csrf_exempt
 def seller_review(request):
     us = request.POST.get("username")
