@@ -595,36 +595,30 @@ def send(request):
         return JsonResponse(jsonResponse)
 
 
+
 @csrf_exempt
 def get_userdetails(request):
+    sel_usr=request.GET.get("seller_username")
+    print(sel_usr)
+    uobj=User.objects.get(username=sel_usr)
     temp = c_review.objects.raw('SELECT * FROM cart_c_review')
     data = serializers.serialize('json', temp)
     value = json.loads(data)
-    tp=[]
-    dit={}
+    tp = []
+    dit = {}
     for i in value:
-
-        cid=i["fields"]["c_id"]
-        cobj=customer.objects.get(pk = cid)
-        uid=cobj.user_id
-        print(uid,cobj.address)
-        uobj = User.objects.get(pk = uid)
-        custRevObj = c_review.objects.get(pk = i["pk"])
-        catid = custRevObj.c_id
-        rev = custRevObj.text
-        print(catid,rev)
-        if (str(catid )=='chinmay'):
-            print("sdfsdf")
-            dt={"text":custRevObj.text,"rating":custRevObj.rating}
-            tp.append(dt)
-    dit={"username":str(catid),"address":cobj.address,"phone":cobj.phone,"result":tp}
+        if(i["fields"]["c_id"]== uobj.customer.id):
+                custRevObj=c_review.objects.get(pk=int(i["pk"]))
+                dt = {"text": custRevObj.text, "rating": custRevObj.rating}
+                tp.append(dt)
+    dit = {"username": uobj.username, "address": uobj.customer.address, "phone": uobj.customer.phone, "result": tp}
     print(dit)
     return JsonResponse(dit)
 
 @csrf_exempt
 def seller_review_api(request):
     rev = json.loads(request.body)
-
+    print("sgdshdg")
     us = rev["username"]
     review = rev["text"]
     stars = rev["rating"]
