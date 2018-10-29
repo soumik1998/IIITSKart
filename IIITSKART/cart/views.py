@@ -58,7 +58,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 def home(request):
-    if User.is_authenticated:
+    if User.is_authenticated == True and User.is_anonymous == False and User.is_active == True:
         return render(request, 'cart/dashboard.html')
     else:
         return render(request, 'cart/landing.html')
@@ -149,6 +149,7 @@ def makeuser(request):
         print("in try")
         if User.objects.filter(username=request.POST.get('email', "")).count() == 0:
             uobj = User()
+            uobj.is_active = True
             uobj.username = request.POST.get('username', "")
             uobj.first_name = request.POST.get('first_name', "")
             uobj.last_name = request.POST.get('last_name', "")
@@ -171,6 +172,69 @@ def makeuser(request):
         else:
             print("else")
             return render(request, 'cart/landing.html', {})
+
+
+def registration_email_link(request):
+    if request.method == 'POST':
+
+        if User.objects.filter(username=request.POST.get('email', "")).count() == 0:
+            uobj = User()
+            uobj.is_active = False
+            uobj.username = request.POST.get('username', "")
+            uobj.first_name = request.POST.get('first_name', "")
+            uobj.last_name = request.POST.get('last_name', "")
+            uobj.email = request.POST.get('email', "")
+            uobj.set_password(request.POST.get('password', ""))
+
+            current_site = get_current_site(request)
+            print(uobj)
+            mail_subject = 'Activate your IIITSCart account.'
+            message = render_to_string('acc_active_email.html', {
+                'user': uobj.username,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(uobj.username)).decode(),
+                'token': account_activation_token.make_token(uobj),
+            })
+            to_email = request.POST.get('email', "")
+            # print(to_email)
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+            email.send()
+            uobj.save()
+
+            uobj_tmp = User.objects.get(username=request.POST.get('username', ""))
+            uobj_tmp.customer.blacklist = False
+            uobj_tmp.save()
+
+            # cobj=customer.objects.get(pk=uobj_tmp.customer.id)
+
+
+            # user = authenticate(username=uobj.username, password=request.POST.get('password', ""))
+            # if user is not None:
+            #     login(request, user)
+            #     return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
+            return render(request, 'cart/landing.html', {})
+
+        else:
+
+            return render(request, 'cart/landing.html', {})
+
+
+def activate(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
+    try:
+
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(username=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 @login_required
