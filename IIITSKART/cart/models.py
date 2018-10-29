@@ -14,7 +14,12 @@ class customer(models.Model):
     phone = models.CharField(max_length=20)
     address = models.TextField(max_length=70)
     report_count = models.IntegerField(default=0)
-    blacklist = models.CharField(max_length=10, default="False")
+    blacklist = models.BooleanField(default=False)
+
+    created_on = models.DateTimeField(default=datetime.now(), blank=False)
+    created_by = models.CharField(default="User", max_length=20, blank=False)
+    modified_by = models.CharField(default="User Modified", max_length=20, blank=False)
+    modified_on = models.DateTimeField(default=datetime.now(), blank=False)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -27,15 +32,6 @@ class customer(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-class c_review(models.Model):
-    rating = models.IntegerField()
-    text = models.TextField()
-    c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.text
 
 
 class category(models.Model):
@@ -55,6 +51,11 @@ class Product(models.Model):
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
     cat_id = models.ForeignKey(category, on_delete=models.CASCADE, null=True)
 
+    created_on = models.DateTimeField(default=datetime.now(), blank=False)
+    created_by = models.CharField(default="User", max_length=20, blank=False)
+    modified_by = models.CharField(default="User Modified", max_length=20, blank=False)
+    modified_on = models.DateTimeField(default=datetime.now(), blank=False)
+
     def __str__(self):
         return self.title
 
@@ -69,6 +70,11 @@ class Order(models.Model):
     quantity = models.IntegerField(null=True, default=0)
     total_amount = models.FloatField(null=True, default=0)
     status = models.IntegerField(default=-1, null=False)
+
+    created_on = models.DateTimeField(default=datetime.now(), blank=False)
+    created_by = models.CharField(default="User", max_length=20, blank=False)
+    modified_by = models.CharField(default="User Modified", max_length=20, blank=False)
+    modified_on = models.DateTimeField(default=datetime.now(), blank=False)
     var = "Order"
 
     def __str__(self):
@@ -76,9 +82,19 @@ class Order(models.Model):
 
 
 class p_review(models.Model):
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0)
     text = models.TextField()
     pro_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
+
+
+class c_review(models.Model):
+    rating = models.IntegerField(default=0)
+    text = models.TextField()
+    b_id = models.ForeignKey(customer, related_name="BUYER", on_delete=models.CASCADE)
+    s_id = models.ForeignKey(customer, related_name="SELLER", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.text
@@ -96,11 +112,31 @@ class profile_history(models.Model):
         return self.email
 
 
-# class OrderItem(models.Model):
-#     order_id = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
-#     product_id = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-#     unitprice = models.FloatField(null=False)
-#     quantity = models.IntegerField(null=False)
-#
-#     def __str__(self):
-#         return "OrderItem"
+class search_history(models.Model):
+    c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
+    searchtext = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.searchtext
+
+
+class user_wishlist(models.Model):
+    c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
+    wish = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.FloatField(default=0)
+    quantity = models.IntegerField(default=0)
+    var = "wishlist"
+
+    def __str__(self):
+        return self.var
+
+
+class seller_report(models.Model):
+    customer_id = models.ForeignKey(customer, related_name="customerid", on_delete=models.CASCADE)
+    seller_id = models.ForeignKey(customer, related_name="sellerid", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "SELLER REPORTS"
+
+
+

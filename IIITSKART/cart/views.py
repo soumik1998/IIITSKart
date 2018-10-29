@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.db import transaction
 from django.core.files.storage import FileSystemStorage, default_storage
@@ -58,7 +59,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 def home(request):
-    return render(request, 'cart/landing.html')
+    if User.is_authenticated:
+        return render(request, 'cart/dashboard.html')
+    else:
+        return render(request, 'cart/landing.html')
 
 
 def sign_up(request):
@@ -78,6 +82,7 @@ def logout_view(request):
     return render(request, 'cart/landing.html', {})
 
 
+@login_required
 def go_to_dashboard(request):
         temp = Product.objects.raw('SELECT * FROM  cart_product')
         data = serializers.serialize('json', temp)
@@ -88,17 +93,29 @@ def go_to_dashboard(request):
             dt.append(i["fields"]["title"])
 
             cid = i["fields"]["c_id"]
+            print(cid)
             cobj = customer.objects.get(pk=cid)
             uid = cobj.user_id
             uobj = User.objects.get(pk=uid)
             pobj = Product.objects.get(pk=i["pk"])
-            dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"], pobj.pro_pic,i["pk"]))  # productname,customername,productprice
-        print(dt1)
+            try:
+                revobj = c_review.objects.get(s_id=cid)
+                rating=revobj.rating
+            except:
+                rating=0
+
+
+            if(uobj.username not in request.user.username):
+                dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"], pobj.pro_pic,i["pk"],rating))
+                # productname,customername,productprice
+        dt1.reverse()
         context = {"num": len(dt),"dt1":dt1[:10]}
 
 
         return render(request, 'cart/dashboard.html', context)
 
+
+@login_required
 def profile_view(request):
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
@@ -111,7 +128,6 @@ def profile_view(request):
 
 def customer_act(request):
     return render(request,'cart/order.html',{})
-
 
 
 def profile_val(request):
@@ -138,20 +154,27 @@ def makeuser(request):
             uobj.first_name = request.POST.get('first_name', "")
             uobj.last_name = request.POST.get('last_name', "")
             uobj.email = request.POST.get('email', "")
-            # uobj.customer.blacklist = 'False'
             uobj.set_password(request.POST.get('password', ""))
-            # uobj.customer.phone =
             uobj.save()
+
+            uobj_tmp=User.objects.get(username=request.POST.get('username', ""))
+            uobj_tmp.customer.blacklist = False
+            uobj_tmp.save()
+
+            cobj=customer.objects.get(pk=uobj_tmp.customer.id)
+
 
             user = authenticate(username=uobj.username, password=request.POST.get('password', ""))
             if user is not None:
                 login(request, user)
                 return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
+
         else:
             print("else")
-            return render(request, '', {})
+            return render(request, 'cart/landing.html', {})
 
 
+@login_required
 def profile_photo_upload(request):
     if request.method == 'POST' and request.FILES['avatar']:
         print(request.FILES['avatar'])
@@ -214,20 +237,44 @@ def search_product(request):
     price_low=request.POST.get("price_low")
     price_high = request.POST.get("price_high")
     rating=request.POST.get("rating")
+
+    category_name="all"
+    price_low=0
+    price_high=100000000
+    rating=0
+
     temp= Product.objects.raw('SELECT * FROM cart_product')
     data = serializers.serialize('json', temp)
     value=json.loads(data)
-
     dt=[]
+
+    uobj_tmp=User.objects.get(username=request.user.username)
+    cid_tmp=uobj_tmp.customer.id
+    cobj_temp= customer.objects.get(pk=cid_tmp)
+
     for i in value:
-        if(i["fields"]["title"]==product_name):
+        catobj=category.objects.get(pk=i["fields"]["cat_id"])
+        if(category_name=="all"):
+            cat_name="all"
+        else:
+            cat_name=catobj.name
+        if((product_name.lower() in (str(i["fields"]["title"].lower())))
+                and (i["fields"]["c_id"] != cid_tmp)
+                and(int(i["fields"]["price"])>price_low)
+                and (int(i["fields"]["price"])<price_high)
+                and (cat_name==category_name)) :
+            print("yes")
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
-            dt.append((i["fields"]["title"], uobj.username,i["fields"]["price"],i["pk"],pobj.pro_pic,i["pk"]))#productname,customername,productprice
-            print(i["pk"])
+            try:
+                revobj=c_review.objects.get(s_id=cid)
+                rating=revobj.rating
+            except:
+                rating=0
+            dt.append((i["fields"]["title"], uobj.username, i["fields"]["price"], i["pk"],pobj.pro_pic, i["pk"],rating))#productname,customername,productprice
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
@@ -300,23 +347,31 @@ def product_detail(request):
     pk = request.POST.get("pk")
     pobj = Product.objects.get(pk=pk)
     uobj=User.objects.get(username=pobj.c_id)
-    cobj = customer.objects.get(pk=uobj.customer.id)
     temp = c_review.objects.raw('SELECT * FROM cart_c_review')
     data = serializers.serialize('json', temp)
     value = json.loads(data)
-    print(value)
     rat_temp=[]
+    rev_text=[]
     for i in value:
-        if(i["fields"]["c_id"]==int(uobj.customer.id)):
+        if(i["fields"]["s_id"]==int(uobj.customer.id)):
             revpk=i["pk"]
+            revobj = c_review.objects.get(pk=int(revpk))
             rat_temp.append(i["fields"]["rating"])
+            bid=i["fields"]["b_id"]
+            cobj = customer.objects.get(pk=bid)
+            uid=cobj.user_id
+            uobj1=User.objects.get(pk=uid)
+            rev_text.append((uobj1.username,revobj.text))
+
+
 
     if(len(rat_temp)>0):
+        flag=1
         avg_rating=abs(sum(rat_temp)/len(rat_temp))
     else:
         avg_rating=0.0
     if(flag==1):
-        revobj=c_review.objects.get(pk=int(revpk))
+        print("flag1s")
         dt=[]
         rate=[]
         d_rate=[]
@@ -325,9 +380,9 @@ def product_detail(request):
         for i in range(5-int(avg_rating)):
             d_rate.append(i)
 
-        dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,revobj.text,pk,avg_rating))
-
-        context = {"dt": dt}
+        dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,pk,avg_rating))
+        print(rev_text)
+        context = {"dt": dt,"rev_text":rev_text}
         return render(request, 'cart/product.html', context)
     else:
         dt=[]
@@ -340,7 +395,7 @@ def product_detail(request):
 
         dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,"not reviewed yet",pk,avg_rating))
 
-        context = {"dt": dt}
+        context = {"dt": dt,"rev_text":rev_text}
         return render(request, 'cart/product.html', context)
 
 

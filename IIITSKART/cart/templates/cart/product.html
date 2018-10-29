@@ -123,7 +123,7 @@ input[type=number]::-webkit-outer-spin-button {
   <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
   <a href="{% url 'cart:logout' %}">Logout</a>
   <a href="{% url 'cart:profile' %}">Profile</a>
-  <a href="#contact">Orders</a>
+  <a href="{% url 'cart:cact_buy' %}">Orders</a>
     <a href="{% url 'cart:add_pro' %}">Sell</a>
   <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
@@ -131,7 +131,7 @@ input[type=number]::-webkit-outer-spin-button {
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among 20,000 products" value="{{ query }}" required>
+  <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
 </form>
     <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
@@ -143,7 +143,7 @@ input[type=number]::-webkit-outer-spin-button {
     <col width="40%">
 
   <tr>
-    <center><td ><img src="{{ MEDIA_URL }}product/{{ dt.5 }}" width="400" height="500"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';"><br><br>
+    <center><td ><div class="imgBox"> <img src="{{ MEDIA_URL }}product/{{ dt.5 }}" width="400" height="500"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';"></div><br><br>
 
 
     </td></center>
@@ -163,11 +163,12 @@ input[type=number]::-webkit-outer-spin-button {
         Description: {{ dt.3 }}<br></h2>
         <br><br>
     <input style="display: none" name="pk" value="{{dt.9}}">
-      <button type="submit"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Buy
+      <button type="submit"  class="av button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Buy
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
-  </button><input name="quantity" style="width: 100px;height: 48px;border: none;text-align: center" type="number" value="1" max="{{ dt.1 }}" required>
+  </button><input class="av" name="quantity" style="width: 100px;height: 48px;border: none;text-align: center" type="number" value="1" max="{{ dt.1 }}" required>
+    <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
       </td>
    </form>
   </tr>
@@ -180,4 +181,11 @@ input[type=number]::-webkit-outer-spin-button {
 </div>
 
 </body>
+{% if dt.1 %}
+{% else %}
+        <script>
+    document.getElementsByName("quantity").style.display = "none";
+            document.getElementsById("na").style.display = "block";
+    </script>
+{% endif %}
 </html>

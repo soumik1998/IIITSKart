@@ -36,7 +36,7 @@ public class getApi {
     private interface GetCustomerDetailAPI {
         @Headers("Content-Type:application/json")
         @GET("cart/get_user/")
-        Call<JsonObject> getCustDetails(@Query("seller_usernamename") String seller_username);
+        Call<JsonObject> getCustDetails(@Query("seller_username") String seller_username);
     }
     public static void getCustDetails(String seller_username,Callback<JsonObject> callback ){
 
