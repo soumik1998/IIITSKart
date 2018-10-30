@@ -14,7 +14,21 @@
         <item>Utilities</item>
         <item>Books</item>
 
+
     </string-array>
+    <string-array name="Categories">
+        <item>All</item>
+        <item>Electronics</item>
+        <item>Projects</item>
+        <item>Bikes</item>
+        <item>Sports</item>
+        <item>Utilities</item>
+        <item>Books</item>
+        <item>miscellaneous</item>
+
+
+    </string-array>
+
     <string name="title_activity_login">Login</string>
     <string name="title_activity_sell_product">sellProduct</string>
     <string name="title_activity_product_page">productPage</string>

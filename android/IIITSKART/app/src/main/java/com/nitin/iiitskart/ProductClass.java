@@ -8,13 +8,25 @@ public class ProductClass {
     Float price;
     String category;
     String username;
-    ProductClass(String title,String description,String category,int quantity,float price,String username){
+    String image;
+    String filePath;
+    ProductClass(String title,String description,String category,int quantity,float price,String username,String image,String filePath){
             setCategory(category);
             setDescription(description);
             setPrice(price);
             setQuantity(quantity);
             setTitle(title);
             setUsername(username.toLowerCase());
+            setImage(image);
+            setFilePath(filePath);
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setUsername(String username) {
@@ -61,7 +73,15 @@ public class ProductClass {
         return title;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public String getImage() {
+        return image;
     }
 }
