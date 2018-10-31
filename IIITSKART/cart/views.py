@@ -95,13 +95,14 @@ def go_to_dashboard(request):
             uid = cobj.user_id
             uobj = User.objects.get(pk=uid)
             pobj = Product.objects.get(pk=i["pk"])
-            revobj=c_review.objects.get(c_id=cobj)
-            try:
-                revobj = c_review.objects.get(s_id=cobj)
-                rating=revobj.rating
-            except:
+            revobj = c_review.objects.filter(s_id=cobj)
+            avgrating=[]
+            for j in revobj:
+                avgrating.append(j.rating)
+            if(len(avgrating)):
+                rating="%.1f" %(sum(avgrating)/len(avgrating))
+            else:
                 rating=0
-
 
             if(uobj.username not in request.user.username):
                 dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], pobj.pro_pic,int(i["pk"]),rating))
@@ -440,8 +441,10 @@ def product_detail(request):
 
     if(len(rat_temp)>0):
         avg_rating=abs(sum(rat_temp)/len(rat_temp))
+        rating="%.1f" %(abs(sum(rat_temp)/len(rat_temp)))
     else:
         avg_rating=0.0
+        rating=0
 
 
     dt=[]
@@ -452,7 +455,7 @@ def product_detail(request):
     for i in range(5-int(avg_rating)):
         d_rate.append(i)
 
-    dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,int(pk),avg_rating))
+    dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,int(pk),rating))
     print(rev_text)
     context = {"dt": dt,"rev_text":rev_text}
     return render(request, 'cart/product.html', context)
@@ -652,8 +655,8 @@ def add_a_comment(request):
         revobj=c_review()
         revobj.b_id=cobj
         revobj.s_id=sobj
-        revobj.rating=2#request.POST.get('rating')
-        revobj.text="bekaar"#request.POST.get("commment")
+        revobj.rating=5#request.POST.get('rating')
+        revobj.text="rerliable"#request.POST.get("commment")
         revobj.save()
         return HttpResponse("comment added")
     else:
@@ -838,4 +841,3 @@ def seller_review_api(request):
     rev.save()
     print("gfhfhg")
     return HttpResponse("review added")
-
