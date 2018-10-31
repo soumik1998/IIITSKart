@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 import json
-
+import requests
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
@@ -235,6 +235,41 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+def register_with_iiits(request, token):
+        try:
+            token1 = token
+            clientSecret = "17b1c9afa3978acb17abc1a82e66a1786634ea55978205674c840f0f4f5beb785a0544fd3f3a02014972569416752d93853bd30e4803398eeb2fb6a064632086"
+            payload = {"token": token1, "secret": clientSecret}
+            url = "https://serene-wildwood-35121.herokuapp.com/oauth/getDetails"
+            r = requests.post(url, data=payload)
+            data = r.json()
+            print(data["student"][0]["Student_ID"])
+
+            if User.objects.filter(email=data["student"][0]["Student_Email"]).count() == 0:
+                uobj = User()
+                uobj.is_active = True
+                uobj.username = data["student"][0]["Student_Email"]
+                uobj.first_name = data["student"][0]["Student_First_Name"]
+                uobj.last_name = data["student"][0]["Student_Last_name"]
+                uobj.email = data["student"][0]["Student_Email"]
+                uobj.set_password("iamstudent")
+                uobj.save()
+
+                uobj_tmp = User.objects.get(username=data["student"][0]["Student_Email"])
+                uobj_tmp.customer.blacklist = False
+                uobj_tmp.customer.phone=data["student"][0]["Student_Mobile"]
+                uobj_tmp.save()
+
+                user = authenticate(username=uobj.username, password="iamstudent")
+                if user is not None:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('cart:go-to-dashboard'))
+                else:
+                    return render(request, 'cart/landing.html', {})
+        except:
+            return render(request, 'cart/landing.html', {"message": 'Please register again.'})
 
 
 @login_required
