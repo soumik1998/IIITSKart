@@ -42,6 +42,21 @@ public class POSTAPI {
         Call<JsonObject> call = addCustomerReviewAPI.addCustomerReview(c_review);
         call.enqueue(callback);
     }
+
+    private interface AddProductReviewAPI {
+
+        @Headers("Content-Type: application/json")
+        @POST("cart/product_reviewApi/")
+        Call<JsonObject> addProductReview(@Body ProductReview productReview);
+    }
+
+    public static void addProductReview(ProductReview productReview, Callback<JsonObject> callback) {
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).build();
+        AddProductReviewAPI addProductReviewAPI = retrofit.create(AddProductReviewAPI.class);
+        Call<JsonObject> call = addProductReviewAPI.addProductReview(productReview);
+        call.enqueue(callback);
+    }
 }
 
 

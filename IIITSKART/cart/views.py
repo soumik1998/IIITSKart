@@ -95,6 +95,7 @@ def go_to_dashboard(request):
             uid = cobj.user_id
             uobj = User.objects.get(pk=uid)
             pobj = Product.objects.get(pk=i["pk"])
+            revobj=c_review.objects.get(c_id=cobj)
             try:
                 revobj = c_review.objects.get(s_id=cobj)
                 rating=revobj.rating

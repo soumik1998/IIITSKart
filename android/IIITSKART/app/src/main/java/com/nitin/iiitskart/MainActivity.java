@@ -40,4 +40,10 @@ public class MainActivity extends AppCompatActivity {
         Intent myIntent = new Intent(this, Login.class);
         startActivity(myIntent);
     }
+
+    public void showMessages(View view){
+        Intent myIntent = new Intent(this, Chat_member.class);
+        myIntent.putExtra("Username",username);
+        startActivity(myIntent);
+    }
 }
