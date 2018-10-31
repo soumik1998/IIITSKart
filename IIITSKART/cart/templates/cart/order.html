@@ -76,6 +76,20 @@ table {
 <div class="main" style="color:#000000;">
 
  <br>
+<h2 style="color: #2A5FDB"><b> Wish list:</b><br></h2>
+<table>
+    {% for i in dt1 %}
+        <tr style="height: 120px;background: rgba(0, 0, 0, 0.1);" class="w3-animate-opacity">
+    <td style="padding-left: 30px">
+        <form method="post" action="{% url 'cart:buy_product' %}" >
+    {% csrf_token %}
+    <img src="{{ MEDIA_URL }}product/{{ dt.5 }}"  width="400" height="500"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">{{ i.0}} &nbsp;&nbsp; Seller: {{ i.3 }} &nbsp;
+        <div style="color: #4CAF50;display:inline;"> ₹ {{ i.2 }} </div>| Quantity: {{ i.1 }}</td>
+  </tr>
+        <tr style="height: 12px"><p></p></tr>
+    {% endfor %}
+
+</table>
          <h2 style="color: #2A5FDB"><b> Bought products:</b><br></h2>
 <table>
     {% for i in dt %}
@@ -86,7 +100,7 @@ table {
         <tr style="height: 12px"><p></p></tr>
     {% endfor %}
 
-</div>
+</table></div>
 <script>
 $(window, document, undefined).ready(function() {
 
