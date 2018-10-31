@@ -12,9 +12,8 @@ import json
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from .models import customer, c_review, p_review, Product, category,Order,profile_history,user_wishlist
-from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, \
-    CategorySerializer
+from .models import customer, c_review, p_review, Product, category,Order,profile_history,user_wishlist,search_history
+from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, CategorySerializer
 
 
 # Create your views here.
@@ -92,21 +91,20 @@ def go_to_dashboard(request):
             dt.append(i["fields"]["title"])
 
             cid = i["fields"]["c_id"]
-            print(cid)
             cobj = customer.objects.get(pk=cid)
             uid = cobj.user_id
             uobj = User.objects.get(pk=uid)
             pobj = Product.objects.get(pk=i["pk"])
             try:
-                revobj = c_review.objects.get(s_id=cid)
+                revobj = c_review.objects.get(s_id=cobj)
                 rating=revobj.rating
             except:
                 rating=0
 
 
             if(uobj.username not in request.user.username):
-                dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], pobj.pro_pic,i["pk"],rating))
-                # productname,customername,productprice
+                dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], pobj.pro_pic,int(i["pk"]),rating))
+                print(dt1)
         dt1.reverse()
         context = {"num": len(dt),"dt1":dt1[:10]}
 
@@ -296,6 +294,7 @@ def add_product(request):
 
 def search_product(request):
     product_name=request.POST.get("name")
+    search_history(product_name, request)
     category_name=request.POST.get("category")
     price_low=request.POST.get("price_low")
     price_high = request.POST.get("price_high")
@@ -320,6 +319,7 @@ def search_product(request):
             cat_name="all"
         else:
             cat_name=catobj.name
+
         if((product_name.lower() in (str(i["fields"]["title"].lower())))
                 and (i["fields"]["c_id"] != cid_tmp)
                 and(int(i["fields"]["price"])>price_low)
@@ -348,11 +348,20 @@ def search_product(request):
 
     return render(request, 'cart/search.html', context)
 
+def srch_history(product_name,request):
+    uname=request.user.username
+    uobj=User.objects.get(username=uname)
+    cobj=customer.objects.get(pkk=uobj.customer.id)
+
+    srcobj=search_history()
+    srcobj.c_id=cobj
+    srcobj.searchtext=product_name
+    srcobj.save()
 
 def buy_product(request):
 
     quantity=int(request.POST.get("quantity"))
-    pk=int(request.POST.get("pk"))
+    pk=request.POST.get("pk")
 
     print(type(pk),type(quantity))
     pobj=Product.objects.get(pk=pk)
@@ -405,9 +414,7 @@ def seller_info(request):
 
 
 def product_detail(request):
-    flag=0
     pk = request.POST.get("pk")
-    print(pk)
     pobj = Product.objects.get(pk=pk)
     uobj=User.objects.get(username=pobj.c_id)
     temp = c_review.objects.raw('SELECT * FROM cart_c_review')
@@ -419,7 +426,9 @@ def product_detail(request):
         if(i["fields"]["s_id"]==int(uobj.customer.id)):
             revpk=i["pk"]
             revobj = c_review.objects.get(pk=int(revpk))
+
             rat_temp.append(i["fields"]["rating"])
+
             bid=i["fields"]["b_id"]
             cobj = customer.objects.get(pk=bid)
             uid=cobj.user_id
@@ -429,38 +438,23 @@ def product_detail(request):
 
 
     if(len(rat_temp)>0):
-        flag=1
         avg_rating=abs(sum(rat_temp)/len(rat_temp))
     else:
         avg_rating=0.0
 
 
-    if(flag==1):
-        dt=[]
-        rate=[]
-        d_rate=[]
-        for i in range(int(avg_rating)):
-            rate.append(i)
-        for i in range(5-int(avg_rating)):
-            d_rate.append(i)
+    dt=[]
+    rate=[]
+    d_rate=[]
+    for i in range(int(avg_rating)):
+        rate.append(i)
+    for i in range(5-int(avg_rating)):
+        d_rate.append(i)
 
-        dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,pk,avg_rating))
-        print(rev_text)
-        context = {"dt": dt,"rev_text":rev_text}
-        return render(request, 'cart/product.html', context)
-    else:
-        dt=[]
-        rate=[]
-        d_rate=[]
-        for i in range(int(avg_rating)):
-            rate.append(i)
-        for i in range(5-int(avg_rating)):
-            d_rate.append(i)
-
-        dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,"not reviewed yet",pk,avg_rating))
-
-        context = {"dt": dt,"rev_text":rev_text}
-        return render(request, 'cart/product.html', context)
+    dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,int(pk),avg_rating))
+    print(rev_text)
+    context = {"dt": dt,"rev_text":rev_text}
+    return render(request, 'cart/product.html', context)
 
 
 
@@ -582,7 +576,6 @@ def report_seller(request):
     return render(request, 'cart/dashboard.html', {})
 
 
-
 def add_to_wishlist(request):
     pid=request.POST.get("pk")
     pid=8
@@ -631,8 +624,39 @@ def view_wishlist(request):
     return HttpResponse("hohoywwwwwwwwwww")
 
 
+def edit_wishlist(request):
+    proid=request.POST.get("pk")
+    proid=8
+    pobj=Product.objects.get(pk=proid)
+    uname = request.user.username
+    uobj = User.objects.get(username=uname)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+    wl=user_wishlist.objects.filter(wish=pobj,c_id=cobj)
+    wl.delete()
+    return HttpResponse("deleted")
 
 
+def add_a_comment(request):
+    proid = request.POST.get("pk")
+    proid=8
+    pobj = Product.objects.get(pk=proid)
+
+    uname = request.user.username
+    uobj = User.objects.get(username=uname)
+    cobj = customer.objects.get(pk=uobj.customer.id)
+
+    sid=pobj.c_id_id
+    sobj = customer.objects.get(pk=sid)
+    if(Order.objects.filter(customer_id=cobj,seller_id=sobj,product_id=pobj)):
+        revobj=c_review()
+        revobj.b_id=cobj
+        revobj.s_id=sobj
+        revobj.rating=2#request.POST.get('rating')
+        revobj.text="bekaar"#request.POST.get("commment")
+        revobj.save()
+        return HttpResponse("comment added")
+    else:
+        return HttpResponse("person who bought can comment")
 
 
 

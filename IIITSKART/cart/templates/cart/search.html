@@ -65,19 +65,19 @@
      <form style="cursor: pointer;border: none;padding: 0px;width: 250px;height: 300px;margin:1%;display: inline;"
            method="post" action="{% url 'cart:product_detail' %}" >
     {% csrf_token %}
-    <input style="display: none" name="pk" value="{{ i.5 }}">
+    <input style="display: none" name="pk" value="{{ i.4 }}">
   <button style="border: none;background-color: transparent;padding: 0px;cursor: pointer;" >
 <div class="flip-card w3-animate-top" style="animation-delay: 0.8s;animation-fill-mode: backwards;">
 
   <div class="flip-card-inner">
     <div class="flip-card-front">
-        <img src="{{ MEDIA_URL }}product/{{ i.4 }}" style="width:100%;height: 80%;" onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
+        <img src="{{ MEDIA_URL }}product/{{ i.3 }}" style="width:100%;height: 80%;" onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
   <h2 style="color: #FFFFFF;background-color: #118AEC;padding: 3%;margin-top: 0px;">{{ i.0 }}</h2>
     </div>
     <div class="flip-card-back">
         <br><br>
       <h1><div >₹ {{ i.2 }}</div></h1>
-      <p>Seller: {{ i.1}}<br>Rating: {{ i.6 }}</p>
+      <p>Seller: {{ i.1}}<br>Rating: {{ i.5 }}</p>
     </div>
   </div>
       <input type="hidden" name="next" value="{{ next }}" />

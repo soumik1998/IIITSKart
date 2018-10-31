@@ -57,7 +57,7 @@ class Product(models.Model):
     modified_on = models.DateTimeField(default=datetime.now(), blank=False)
 
     def __str__(self):
-        return self.title
+        return self.title +" "+ str(self.p_id)
 
 
 class Order(models.Model):
@@ -97,7 +97,7 @@ class c_review(models.Model):
     s_id = models.ForeignKey(customer, related_name="SELLER", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.text
+        return self.text +" "+ str(self.id)
 
 
 class profile_history(models.Model):
