@@ -34,15 +34,6 @@ class customer(models.Model):
         return self.user.username
 
 
-class c_review(models.Model):
-    rating = models.IntegerField(default=0)
-    text = models.TextField()
-    c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.text
-
-
 class category(models.Model):
     name = models.CharField(max_length=20)
 
@@ -84,16 +75,26 @@ class Order(models.Model):
     created_by = models.CharField(default="User", max_length=20, blank=False)
     modified_by = models.CharField(default="User Modified", max_length=20, blank=False)
     modified_on = models.DateTimeField(default=datetime.now(), blank=False)
-    var = "Order"
+
 
     def __str__(self):
-        return self.var
+        return str(self.order_number)
 
 
 class p_review(models.Model):
     rating = models.IntegerField(default=0)
     text = models.TextField()
     pro_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
+
+
+class c_review(models.Model):
+    rating = models.IntegerField(default=0)
+    text = models.TextField()
+    b_id = models.ForeignKey(customer, related_name="BUYER", on_delete=models.CASCADE)
+    s_id = models.ForeignKey(customer, related_name="SELLER", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.text
@@ -122,11 +123,17 @@ class search_history(models.Model):
 class user_wishlist(models.Model):
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE)
     wish = models.ForeignKey(Product, on_delete=models.CASCADE)
-    price = models.FloatField(default=0)
-    quantity = models.IntegerField(default=0)
-    var = "wishlist"
 
     def __str__(self):
-        return self.var
+        return str(self.c_id)
+
+
+class seller_report(models.Model):
+    customer_id = models.ForeignKey(customer, related_name="customerid", on_delete=models.CASCADE)
+    seller_id = models.ForeignKey(customer, related_name="sellerid", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.seller_id)
+
 
 

@@ -39,15 +39,34 @@
     </android.support.design.widget.TextInputLayout>
 
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@id/fab"
-        android:dividerHeight="16dp"
-        android:divider="@android:color/transparent"
         android:id="@+id/list_of_messages"
+        android:layout_width="wrap_content"
+        android:layout_height="431dp"
+        android:layout_above="@id/fab"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="16dp"
-        android:layout_alignParentLeft="true" />
+        android:divider="@android:color/transparent"
+        android:dividerHeight="16dp" />
+
+    <TextView
+        android:id="@+id/userNameView"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/com_facebook_button_login_silver_background_color_pressed"
+        android:text="TextView"
+        android:textAllCaps="true"
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

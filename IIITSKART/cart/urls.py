@@ -46,6 +46,10 @@ urlpatterns = [
       path(r'customeract/', views.customer_act, name='customer_act'),
       path(r'addpro/', views.customer_activity_sell, name='add_pro'),
       path(r'cactbuy/', views.customer_activity_buy, name='cact_buy'),
+      path(r'addtowish/', views.add_to_wishlist, name='add_to_wishlist'),
+      path(r'viewwishlist/', views.view_wishlist, name='viewwishlist'),
+      url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
+
 
 
 

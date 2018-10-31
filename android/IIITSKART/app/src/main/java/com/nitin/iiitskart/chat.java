@@ -23,6 +23,8 @@ public class chat extends AppCompatActivity {
     String username;
     String seller_username;
     String CONCAT;
+    TextView user_chatname;
+    ListView listOfMessages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -30,7 +32,8 @@ public class chat extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         username= getIntent().getStringExtra("Username").toLowerCase();
         seller_username=getIntent().getStringExtra("Seller_username").toLowerCase();
-
+        user_chatname=findViewById(R.id.userNameView);
+        user_chatname.setText(seller_username.toUpperCase());
 
 
 
@@ -59,11 +62,13 @@ public class chat extends AppCompatActivity {
                 userRef.push().setValue(new ChatMessage(input.getText().toString(),
                         username));
 
-                    DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("User");
-                    DatabaseReference userRef_user = reference1.child(username).child(seller_username);
-                    userRef_user.setValue(seller_username);
-                    DatabaseReference userRef_seller = reference1.child(seller_username).child(username);
-                    userRef_seller.setValue(username);
+                DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("User");
+                DatabaseReference userRef_user = reference1.child(username).child(seller_username);
+                userRef_user.setValue(new UserIds(seller_username,CONCAT,input.getText().toString()));
+
+
+                DatabaseReference userRef_seller = reference1.child(seller_username).child(username);
+                userRef_seller.setValue(new UserIds(username,CONCAT,input.getText().toString()));
 
 
                 // Clear the input
@@ -84,7 +89,7 @@ public class chat extends AppCompatActivity {
 
     void  displayChatMessages()
     {
-    ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
+    listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
     adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class, R.layout.message, FirebaseDatabase.getInstance().getReference("Messages").child(CONCAT)) {
         @Override
@@ -106,6 +111,7 @@ public class chat extends AppCompatActivity {
 
 listOfMessages.setAdapter(adapter);
 
+        listOfMessages.smoothScrollToPosition(adapter.getCount() -1);
 }
 
 
