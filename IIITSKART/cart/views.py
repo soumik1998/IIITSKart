@@ -94,9 +94,7 @@ def go_to_dashboard(request):
             uid = cobj.user_id
             uobj = User.objects.get(pk=uid)
             pobj = Product.objects.get(pk=i["pk"])
-            sid=pobj.c_id
-            sobj=customer.objects.get(pk=sid)
-            revobj=c_review.objects.get(c_id=sobj)
+            revobj=c_review.objects.get(c_id=cobj)
             if(uobj.username not in request.user.username):
                 dt1.append((i["fields"]["tsitle"], uobj.username, i["fields"]["price"], i["pk"], pobj.pro_pic,i["pk"],revobj.rating))  # productname,customername,productprice
         dt1.reverse()
