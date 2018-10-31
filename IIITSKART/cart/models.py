@@ -43,9 +43,9 @@ class category(models.Model):
 
 class Product(models.Model):
     p_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=50)
     quantity = models.IntegerField(null=False)
-    description = models.TextField()
+    description = models.TextField(max_length=230)
     price = models.FloatField()
     pro_pic = models.ImageField(storage='/media/product', default='product/product_default.png')
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE, null=True)

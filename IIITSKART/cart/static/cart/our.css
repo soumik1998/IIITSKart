@@ -164,85 +164,6 @@ span.psw {
   background: #fff;
   color: black;
 }
-.sidebar {
-  height: 100%;
-    width: 230px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    padding-top: 5px;
-    margin-top: 52px;
-    background-color: #2669F2;
-    /*
-    border-right: 2px solid #0072FF;
-    */
-}
-.container {
-    display: block;
-    color: #fff;
-    position: relative;
-    padding-left: 25px;
-    margin-top: 0px;
-    margin-bottom: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-/* Hide the browser's default radio button */
-.container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-/* Create a custom radio button */
-.checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 15px;
-    width: 15px;
-    background-color: #eee;
-    border-radius: 50%;
-}
-
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-    background-color: #ccc;
-}
-
-/* When the radio button is checked, add a blue background */
-.container input:checked ~ .checkmark {
-    background-color: #fff;
-}
-
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
-    display: block;
-}
-
-/* Style the indicator (dot/circle) */
-.container .checkmark:after {
-  top: 4px;
-  left: 4px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #279B6E;
-}
 .footer{
   color: #747474;
   opacity: 0.4;
@@ -346,10 +267,12 @@ select {
 .imgBox { /* now a container for the image */
     display: inline-block; /* shrink wrap to image */
     overflow: hidden; /* hide the excess */
+    box-shadow: 5px 5px 20px #888888;
   }
   .imgBox img {
     display: block; /* no whitespace */
     transition: .3s ease-in-out;
+
   }
   .imgBox:hover img {
     transform: scale(1.2);

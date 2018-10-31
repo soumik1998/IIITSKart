@@ -60,24 +60,38 @@ def home(request):
     if User.is_authenticated == True and User.is_anonymous == False and User.is_active == True:
         return render(request, 'cart/dashboard.html')
     else:
-        return render(request, 'cart/landing.html')
+        dt = []
+        dt.append((User.objects.all().count(), Product.objects.all().count(), Order.objects.all().count()))
+        print(dt)
+        return render(request, 'cart/landing.html', {"dt": dt})
 
 
 def sign_up(request):
-    return render(request, 'cart/landing.html')
+    dt = []
+    dt.append((User.objects.all().count(), Product.objects.all().count(), Order.objects.all().count()))
+    print(dt)
+    return render(request, 'cart/landing.html', {"dt": dt})
 
 
 def dashboard(request):
+
     return render(request, 'cart/dashboard.html')
 
 
 def login_page(request):
-    return render(request, 'cart/landing.html', {})
+    dt=[]
+    dt.append((User.objects.all().count(),Product.objects.all().count(),Order.objects.all().count()))
+    print(dt)
+    return render(request, 'cart/landing.html', {"dt":dt})
+
 
 
 def logout_view(request):
     logout(request)
-    return render(request, 'cart/landing.html', {})
+    dt = []
+    dt.append((User.objects.all().count(), Product.objects.all().count(), Order.objects.all().count()))
+    print(dt)
+    return render(request, 'cart/landing.html', {"dt": dt})
 
 
 @login_required
@@ -105,7 +119,7 @@ def go_to_dashboard(request):
                 rating=0
 
             if(uobj.username not in request.user.username):
-                dt1.append((i["fields"]["title"], uobj.username, i["fields"]["price"], pobj.pro_pic,int(i["pk"]),rating))
+                dt1.append((i["fields"]["title"][:18], uobj.username, i["fields"]["price"], pobj.pro_pic,int(i["pk"]),rating))
                 print(dt1)
         dt1.reverse()
         context = {"num": len(dt),"dt1":dt1[:10]}
@@ -338,7 +352,7 @@ def search_product(request):
                 rating=revobj.rating
             except:
                 rating=0
-            dt.append((i["fields"]["title"], uobj.username, i["fields"]["price"],pobj.pro_pic, i["pk"],rating))#productname,customername,productprice
+            dt.append((i["fields"]["title"][:18], uobj.username, i["fields"]["price"],pobj.pro_pic, i["pk"],rating))#productname,customername,productprice
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
@@ -582,7 +596,6 @@ def report_seller(request):
 
 def add_to_wishlist(request):
     pid=request.POST.get("pk")
-    pid=8
     uname=request.user.username
     uobj=User.objects.get(username=uname)
     cobj=customer.objects.get(pk=uobj.customer.id)
@@ -593,14 +606,14 @@ def add_to_wishlist(request):
     wl.wish=pobj
     wl.save()
 
-    return HttpResponse("added to wlist")
+    return render(request, 'cart/success.html', {'msg': " Added to the wishlist"})
 
 def view_wishlist(request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
 
 
-    dt=[]
+    dt1=[]
 
     temp = user_wishlist.objects.raw('SELECT * FROM  cart_user_wishlist')
     data = serializers.serialize('json', temp)
@@ -623,14 +636,13 @@ def view_wishlist(request):
                 rating=0
             else:
                 rating=sum(temp)/len(temp)
-            dt.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic,rating))
-            print(dt)
-    return HttpResponse("hohoywwwwwwwwwww")
+            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic,rating))
+            print(dt1)
+        return render(request, 'cart/order.html', {"dt1":dt1})
 
 
 def edit_wishlist(request):
     proid=request.POST.get("pk")
-    proid=8
     pobj=Product.objects.get(pk=proid)
     uname = request.user.username
     uobj = User.objects.get(username=uname)
