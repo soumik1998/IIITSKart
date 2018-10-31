@@ -131,7 +131,7 @@ input[type=number]::-webkit-outer-spin-button {
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
+  <input style="width:50%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
 </form>
     <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
@@ -158,11 +158,11 @@ input[type=number]::-webkit-outer-spin-button {
     {% for i in  dt.7 %}
         <span class="fa fa-star "></span>
         {% endfor %}
-                <span class="tooltiptext">{{ dt.10 }}</span></div>
+                <span class="tooltiptext">{{ dt.9 }}</span></div>
         <br><b>₹ {{ dt.2 }}</b><br>
         Description: {{ dt.3 }}<br></h2>
         <br><br>
-    <input style="display: none" name="pk" value="{{dt.9}}">
+    <input style="display: none" name="pk" value="{{dt.8}}">
       <button type="submit"  class="av button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Buy
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
@@ -177,7 +177,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 <h3 style="color: #3a3a3a"><b>Reviews on seller :</b></h3>
-<p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;">{{ dt.8 }}</p>
+{% for i in rev_text  %}
+<p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;">{{ i.0 }} : {{ i.1 }}</p>
+{% endfor %}
 </div>
 
 </body>
