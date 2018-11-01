@@ -43,9 +43,9 @@ class category(models.Model):
 
 class Product(models.Model):
     p_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=50)
     quantity = models.IntegerField(null=False)
-    description = models.TextField()
+    description = models.TextField(max_length=230)
     price = models.FloatField()
     pro_pic = models.ImageField(storage='/media/product', default='product/product_default.png')
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
@@ -57,7 +57,7 @@ class Product(models.Model):
     modified_on = models.DateTimeField(default=datetime.now(), blank=False)
 
     def __str__(self):
-        return self.title
+        return self.title +" "+ str(self.p_id)
 
 
 class Order(models.Model):
@@ -97,7 +97,7 @@ class c_review(models.Model):
     s_id = models.ForeignKey(customer, related_name="SELLER", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.text
+        return self.text +" "+ str(self.id)
 
 
 class profile_history(models.Model):

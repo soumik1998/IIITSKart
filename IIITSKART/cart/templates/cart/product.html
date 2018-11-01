@@ -2,10 +2,6 @@
 <html>
 <head>
   {% load staticfiles %}
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="HandheldFriendly" content="true">
-
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -111,12 +107,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 </head>
 
-<body style=" margin: 0;
-   background: url({% static 'cart/w2.jpg' %}) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;">
+<body>
 
 
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
@@ -131,26 +122,27 @@ input[type=number]::-webkit-outer-spin-button {
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
+  <input style="width:50%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
 </form>
     <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
 
-<div class="main" style="color:white; margin-left: 230px;">
+<div class="main" style="color:white; margin: 5%;">
 
- <br><br>
-    <table border="0" style="width:70%;">
+ <center>
+    <table border="0" style="width:80%;">
     <col width="40%">
 
   <tr>
-    <center><td ><div class="imgBox"> <img src="{{ MEDIA_URL }}product/{{ dt.5 }}" width="400" height="500"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';"></div><br><br>
+    <center><td style="position: absolute"><div class="imgBox"> <img src="{{ MEDIA_URL }}product/{{ dt.5 }}"  width="400" height="500"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';"></div><br><br>
 
 
     </td></center>
    <form method="post" action="{% url 'cart:buy_product' %}" >
     {% csrf_token %}
-    <td  colspan="2" style="padding-left: 40px;"><p style="color: dodgerblue;font-size: 40px;font-family: 'Lucida Bright';margin-bottom: 0px;margin-top: 0px;">{{ dt.0 }}</p>
-        <h2 style="color: #000;">Seller: {{ dt.4 }}
+    <td  colspan="2" style="padding-left: 140px;padding-right: 0px;">
+        <p style="color: dodgerblue;font-size: 30px;font-family: 'Lucida Bright';margin-bottom: 0px;margin-top: 0px;text-overflow: ellipsis">{{ dt.0 }}</p>
+        <h2 style="color: #969696;">Seller: {{ dt.4 }}
             <div class="tooltip">
                 {% for i in  dt.6 %}
         <span class="fa fa-star checked"></span>
@@ -158,26 +150,35 @@ input[type=number]::-webkit-outer-spin-button {
     {% for i in  dt.7 %}
         <span class="fa fa-star "></span>
         {% endfor %}
-                <span class="tooltiptext">{{ dt.10 }}</span></div>
-        <br><b>₹ {{ dt.2 }}</b><br>
-        Description: {{ dt.3 }}<br></h2>
+                <span class="tooltiptext">{{ dt.9 }}</span></div>
+        <br><b>₹ {{ dt.2 }}</b></h2>
+        <h2 style="color: #5A5A5A;font-size: 25px;">Description: {{ dt.3 }}<br></h2>
         <br><br>
-    <input style="display: none" name="pk" value="{{dt.9}}">
+    <input style="display: none" name="pk" value="{{dt.8}}">
       <button type="submit"  class="av button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Buy
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
   </button><input class="av" name="quantity" style="width: 100px;height: 48px;border: none;text-align: center" type="number" value="1" max="{{ dt.1 }}" required>
     <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
-      </td>
+
    </form>
+    <form style="float: right" method="post" action="{% url 'cart:add_to_wishlist' %}" >
+    {% csrf_token %}
+      <input style="display: none" name="pk" value="{{dt.8}}">
+  <button class="buttonBlue button" type="submit" style="display: block;cursor:pointer;
+  padding: 0px 0px;" ><i class="material-icons" >add_shopping_cart</i>
+  </button>
+  </form></td>
   </tr>
 
 </table>
-
+</center>
 
 <h3 style="color: #3a3a3a"><b>Reviews on seller :</b></h3>
-<p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;">{{ dt.8 }}</p>
+{% for i in rev_text  %}
+<p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;">{{ i.0 }} : {{ i.1 }}</p>
+{% endfor %}
 </div>
 
 </body>

@@ -3,9 +3,6 @@
 <head>
   {% load staticfiles %}
 
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="HandheldFriendly" content="true">
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
-  <title>Landing Page - group 16</title>
+  <title>iiits cart</title>
 
     <style>
 * { box-sizing:border-box; }
@@ -35,7 +32,7 @@ form {
 	margin: 4em auto;
 	padding: 2em 2em 1em 2em;
 	background: #fafafa;
-	border: 5px solid #BDBDBD;a
+	border: 5px solid #BDBDBD;
     border-radius: 5px;
 	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
     font-family: Helvetica;
@@ -240,9 +237,8 @@ input:focus ~ .highlight {
   <a id="newbee" onclick="on_newbee()"style="color: #000;" href="#s">newbee</a>
   <a style="color: #000;" href="#">Info</a>
 </div>
-<div id="overlay_newbee" >
- <center><br>
-  <form autocomplete="off" method="post" action="{% url 'cart:makeuser' %}">
+<div id="overlay_newbee">
+  <form  autocomplete="off" method="post" action="{% url 'cart:makeuser' %}">
 {% csrf_token %}
      <h2><b>Wow. A new face!</b></h2>
 
@@ -263,11 +259,11 @@ input:focus ~ .highlight {
     <label>Email</label>
   </div>
     <div class="group">
-    <input type="phone" name="phone" id="phone" required><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="phone" id="phone" pattern="[0-9]{10}" title="10 digit number" size="10" maxlength="10" required><span class="highlight"></span><span class="bar"></span>
     <label>Phone</label>
   </div>
       <div class="group">
-    <input type="password" name="password" id="password" required><span class="highlight"></span><span class="bar"></span>
+    <input type="password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"title="At least one number, one uppercase and lowercase letter, and at least 8 or more characters" required><span class="highlight"></span><span class="bar"></span>
     <label>Password</label>
   </div>
     <button type="submit" class="button buttonBlue">Signup
@@ -283,7 +279,7 @@ input:focus ~ .highlight {
 <div id="overlay_login" >
 <center>
 
-  <form method="post" action="{% url 'cart:profile_val' %}">
+  <form id="test" method="post" action="{% url 'cart:profile_val' %}">
 {% csrf_token %}
 
       <h2><b>ID Please !</b></h2>
@@ -315,11 +311,11 @@ input:focus ~ .highlight {
  <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 0.8s;animation-fill-mode: backwards;"><font size="8">IIITS CART</font></p>
      <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 1.5s;animation-fill-mode: backwards;">Buy | Sell | Rent</p>
 
- <p class="item-1"><b>10121</b> products sold.</p>
+ <p class="item-1"><b>{{dt.0.2}}</b> products sold.</p>
 
-<p class="item-2"><b>5012</b> customers.</p>
+<p class="item-2"><b>{{dt.0.0}}</b> customers.</p>
 
-<p class="item-3"><b>20225</b> products on sale.</p>
+<p class="item-3"><b>{{dt.0.1}}</b> products on sale.</p>
 
  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
  <p class="w3-animate-zoom footer" style=" animation-delay: 2s;animation-fill-mode: backwards; ">developed at iiit Sri City</p>
@@ -327,6 +323,7 @@ input:focus ~ .highlight {
 </div>
 
 <script>
+    var o_ready= false;
 $(window, document, undefined).ready(function() {
 
   $('input').blur(function() {
@@ -362,8 +359,11 @@ $(window, document, undefined).ready(function() {
   });
 
 });
+
 function on_login() {
     document.getElementById("overlay_login").style.display = "block";
+    o_ready=true;
+
 }
 
 function off_login() {
@@ -371,6 +371,7 @@ function off_login() {
 }
 function on_newbee() {
     document.getElementById("overlay_newbee").style.display = "block";
+    o_ready=true;
 }
 
 function off_newbee() {
@@ -379,6 +380,8 @@ function off_newbee() {
 $(document).keyup(function(e) {
   if (e.keyCode == 27) { off_login();off_newbee();}   // esc
 });
+
+
 
 </script>
 
