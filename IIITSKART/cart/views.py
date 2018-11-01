@@ -583,6 +583,10 @@ def customer_activity_buy(request):
 
     dt.reverse()
     context = {"dt": dt,"num":len(num)}
+    dt1=view_wishlist(request)
+    dt1.reverse()
+    print(dt1)
+    context = {"dt": dt, "num": len(num),"dt1":dt1}
     return render(request, 'cart/order.html', context)
 
 
@@ -647,15 +651,15 @@ def view_wishlist(request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
 
-
+    print(uname)
     dt1=[]
-
+    print("in")
     temp = user_wishlist.objects.raw('SELECT * FROM  cart_user_wishlist')
     data = serializers.serialize('json', temp)
     value = json.loads(data)
+    print(value,uobj.customer.id)
     for i in value:
         if(uobj.customer.id==i["fields"]["c_id"]):
-            print("in")
             pobj = Product.objects.get(pk=i["fields"]["wish"])
             sid = pobj.c_id_id
             sobj = customer.objects.get(pk=sid)
@@ -671,9 +675,8 @@ def view_wishlist(request):
                 rating=0
             else:
                 rating=sum(temp)/len(temp)
-            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic,rating))
-            print(dt1)
-        return render(request, 'cart/order.html', {"dt1":dt1})
+            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic, rating))
+    return dt1
 
 
 def edit_wishlist(request):
@@ -684,7 +687,7 @@ def edit_wishlist(request):
     cobj=customer.objects.get(pk=uobj.customer.id)
     wl=user_wishlist.objects.filter(wish=pobj,c_id=cobj)
     wl.delete()
-    return HttpResponse("deleted")
+    return render(request, 'cart/success.html', {'msg': " Removed from wishlist"})
 
 
 def add_a_comment(request):

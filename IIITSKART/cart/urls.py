@@ -47,7 +47,6 @@ urlpatterns = [
   path(r'addpro/', views.customer_activity_sell, name='add_pro'),
   path(r'cactbuy/', views.customer_activity_buy, name='cact_buy'),
   path(r'addtowish/', views.add_to_wishlist, name='add_to_wishlist'),
-  path(r'viewwishlist/', views.view_wishlist, name='view_wishlist'),
   path(r'editwishlist/', views.edit_wishlist, name='edit_wishlist'),
   path(r'addacomment/', views.add_a_comment, name='add_a_comment'),
   url(r'^callback/(?P<token>.*)/$', views.register_with_iiits, name='register_with_iiits'),

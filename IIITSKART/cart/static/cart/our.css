@@ -279,13 +279,16 @@ select {
       filter: saturate(200%);
   }
 
-  /* warp around */
-.mask1 {
-    height: 100%;
-    width: 100%;
-    border: none;
-    background: yellow;
+  /* zoom on hover*/
+.zoom {
+    transition: transform .2s;
+
 }
+
+.zoom:hover {
+    transform: scale(1.5);
+}
+
 
 
 
