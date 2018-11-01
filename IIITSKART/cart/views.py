@@ -865,7 +865,7 @@ def get_userdetails(request):
     tp = []
     dit = {}
     for i in value:
-        if(i["fields"]["c_id"]== uobj.customer.id):
+        if(i["fields"]["b_id"]== uobj.customer.id):
                 custRevObj=c_review.objects.get(pk=int(i["pk"]))
                 dt = {"text": custRevObj.text, "rating": custRevObj.rating}
                 tp.append(dt)
@@ -920,5 +920,55 @@ def product_review(request):
     return JsonResponse({"status": "get"})
 
 
-def order_detail():
-    return JsonResponse({"status": "get"})
+def order_detail(request):
+    uname = request.GET.get("username")
+    uobj=User.objects.get(username=uname)
+    temp = Order.objects.raw('SELECT * FROM cart_order')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    tp=[]
+    for i in value:
+        if(i["fields"]["customer_id"]==uobj.customer.id):
+            sid=i["fields"]["seller_id"]
+            sobj=customer.objects.get(pk=sid)
+            uid=sobj.user_id
+            uobj1=User.objects.get(pk=uid)
+
+
+            pid=i["fields"]["product_id"]
+            pobj=Product.objects.get(pk=pid)
+
+            ordobj=Order.objects.get(pk=i["pk"])
+
+            quantity=ordobj.quantity
+            totalamt=ordobj.total_amount
+            proname=pobj.title
+            selname = uobj1.username
+            orddate=ordobj.order_date
+
+            dt = {"buyer":uname,"sellername": selname, "date": orddate,"product":proname,"quantity":quantity,"total_amt":totalamt}
+            tp.append(dt)
+        else:
+            if(i["fields"]["seller_id"]==uobj.customer.id):
+                cid = i["fields"]["customer_id"]
+                cobj = customer.objects.get(pk=cid)
+                uid = cobj.user_id
+                uobj1 = User.objects.get(pk=uid)
+
+
+                pid = i["fields"]["product_id"]
+                pobj = Product.objects.get(pk=pid)
+
+                ordobj = Order.objects.get(pk=i["pk"])
+
+                quantity = ordobj.quantity
+                totalamt = ordobj.total_amount
+                proname = pobj.title
+                buyname = uobj1.username
+                orddate = ordobj.order_date
+
+                dt = {"buyer":buyname,"sellername": uname, "date": orddate, "product": proname, "quantity": quantity,"total_amt": totalamt}
+                tp.append(dt)
+
+    dit = {"result": tp}
+    return JsonResponse(dit)
