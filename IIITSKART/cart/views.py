@@ -814,3 +814,34 @@ def seller_review_api(request):
     print("gfhfhg")
     return HttpResponse("review added")
 
+
+@csrf_exempt
+def product_review(request):
+    rev = json.loads(request.body)
+    print("sgdshdg")
+    print(rev)
+    us = rev["sellerusername"]
+    print(us)
+    p_text = rev["text"]
+    p_rating = rev["rating"]
+    p_name=rev["title"]
+
+
+
+    uobj=User.objects.get(username=us)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+    prevobj=Product.objects.filter(c_id=cobj,title=p_name)
+    for i in prevobj:
+        prev=p_review()
+        prev.pro_id=i
+        prev.text=p_text
+        prev.rating=p_rating
+        prev.save()
+
+    return JsonResponse({"status": "get"})
+
+
+def order_detail():
+    return JsonResponse({"status": "get"})
+
+
