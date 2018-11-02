@@ -74,7 +74,7 @@ def sign_up(request):
 
 
 def dashboard(request):
-
+    recently_viewed(request)
     return render(request, 'cart/dashboard.html')
 
 
@@ -345,7 +345,7 @@ def add_product(request):
 
 def search_product(request):
     product_name=request.POST.get("name")
-    search_history(product_name, request)
+
     category_name=request.POST.get("category")
     price_low=request.POST.get("price_low")
     price_high = request.POST.get("price_high")
@@ -382,6 +382,7 @@ def search_product(request):
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
+            srch_history(i["pk"], request)
             try:
                 revobj=c_review.objects.get(s_id=cid)
                 rating=revobj.rating
@@ -399,14 +400,14 @@ def search_product(request):
 
     return render(request, 'cart/search.html', context)
 
-def srch_history(product_name,request):
+def srch_history(pid,request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
-    cobj=customer.objects.get(pkk=uobj.customer.id)
+    cobj=customer.objects.get(pk=uobj.customer.id)
 
     srcobj=search_history()
     srcobj.c_id=cobj
-    srcobj.searchtext=product_name
+    srcobj.searchtext=str(pid)
     srcobj.save()
 
 def buy_product(request):
@@ -550,7 +551,20 @@ def customer_activity_sell(request):
     dt.reverse()
 
     dt2=disp_sell_prod(request)
-    print(dt2)
+
+    flag=request.POST.get("edit_request")
+    if(flag):
+        p_id_tmp=request.POST.get("epk")
+
+        pobj=Product.objects.get(pk=p_id_tmp)
+
+        pobj.title=request.POST.get("title")
+        pobj.quantity=request.POST.get("quantity")
+        pobj.price=request.POST.get("price")
+        pobj.pro_pic=request.POST.get("pro_pic")
+        pobj.description=request.POST.get("desc")
+        pobj.save()
+
     context = {"dt1": dt1,"dt":dt,"num":len(num),"dt2":dt2}
     return render(request, 'cart/addproduct.html', context)
 
@@ -724,6 +738,26 @@ def disp_sell_prod(request):
     for i in proobj:
         dt2.append((i.title,i.quantity,i.description,i.pro_pic,i.price))
     return dt2
+
+def recently_viewed(request):
+    uname = request.user.username
+    uobj = User.objects.get(username=uname)
+    cobj = customer.objects.get(pk=uobj.customer.id)
+
+    temp = search_history.objects.raw('SELECT * FROM  cart_search_history')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    dt2=[]
+    for i in value:
+        if(i["fields"]["c_id"]==uobj.customer.id):
+            pid=int(i["fields"]["searchtext"])
+            pobj=Product.objects.get(pk=pid)
+            dt2.append((pobj.title,pobj.quantity,pobj.description,pobj.pro_pic,pobj.price))
+    dt2.reverse()
+    return HttpResponse(dt2[:10])
+
+
+
 
 
 
