@@ -310,17 +310,52 @@ table {
          Sell something</button>
 
          <h2 style="color: #2A5FDB;margin-left: 10%"><b> Sold products:</b></h2>
-<center>
-    <table style="width: 80%;">
+<center><table style="width: 80%;border-spacing: 0px;">
     {% for i in dt %}
-  <tr style="height: 120px;background-color: rgba(112, 196, 255, 0.2);" class="w3-animate-opacity">
-    <td style="padding-left: 30px;border-radius: 10px;"><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Buyer : {{ i.3 }} &nbsp;
-        <div style="color: #4CAF50;display:inline;">₹ {{ i.2 }} | Quantity: {{ i.1 }}</div></td>
-  </tr>
-        <tr style="height: 12px"><p></p></tr>
+    <tr  style="height: 150px;background: rgba(0, 0, 0, 0.1);padding: 0px;" class="w3-animate-opacity">
+        <td style="width: 20%;">
+    <img src="{{ MEDIA_URL }}product/{{ i.5 }}"  width="150" height="150"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">&nbsp;
+    </td>
+            <td style="padding-left: 10%;padding-right:5%;width: 60%;">
+                <h3 style="color: #357bd8;"><b>{{ i.0 }}</b>  [{{ i.4 }}]</h3>
+                <div style="color: #4CAF50;"> ₹ {{ i.2 }} </div>Quantity: {{ i.1 }}
+                Buyer: {{ i.3 }}
+            </td>
+        <td>
+            <h3><b> Buyer: {{ i.3 }}</b></h3>
+        </td>
+    </tr>
+        <tr style="height: 10px;"></tr>
     {% endfor %}
-</table></center>
+</table>
+</center>
+<h2 style="color: #2A5FDB;margin-left: 10%"><b> On sale:</b></h2>
+<center><table style="width: 80%;border-spacing: 0px;">
+    {% for i in dt2 %}
+    <tr  style="height: 150px;background: rgba(0, 0, 0, 0.1);padding: 0px;" class="w3-animate-opacity">
+        <td style="width: 20%;">
+    <img src="{{ MEDIA_URL }}product/{{ i.3 }}"  width="150" height="150"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">&nbsp;
+    </td>
+            <td style="padding-left: 10%;padding-right:5%;width: 60%;">
+                <h3 style="color: #357bd8;"><b>{{ i.0 }}</b></h3>
+                {{ i.2 }}
+                <div style="color: #4CAF50;"> ₹ {{ i.4 }} </div>Quantity left: {{ i.1 }}<br>
+            </td>
+        <td>
+            <form method="post" action="{% url 'cart:' %}" >
+    {% csrf_token %}
+            <button onclick="on_edit({{ i.5 }})" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit info
 
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+  </button>
+    <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
+            </form>
+        </td>
+    </tr>
+        <tr style="height: 10px;"></tr>
+    {% endfor %}
+</table>
+</center>
 </div>
 <script>
 $(window, document, undefined).ready(function() {
@@ -359,6 +394,9 @@ $(window, document, undefined).ready(function() {
 
 });
 function on_edit() {
+    var number=pk;
+    console.log(number);
+    document.forms[1].pk.value = number;
     document.getElementById("overlay_edit").style.display = "block";
 }
 
