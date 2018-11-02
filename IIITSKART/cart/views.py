@@ -74,7 +74,7 @@ def sign_up(request):
 
 
 def dashboard(request):
-    recently_viewed(request)
+
     return render(request, 'cart/dashboard.html')
 
 
@@ -93,9 +93,33 @@ def logout_view(request):
     print(dt)
     return render(request, 'cart/landing.html', {"dt": dt})
 
+def recently_viewed(request):
+    uname = request.user.username
+    uobj = User.objects.get(username=uname)
+
+
+    temp = search_history.objects.raw('SELECT * FROM  cart_search_history')
+    data = serializers.serialize('json', temp)
+    value = json.loads(data)
+    dt2=[]
+    for i in value:
+        if(i["fields"]["c_id"]==uobj.customer.id):
+            pid=int(i["fields"]["searchtext"])
+            pobj=Product.objects.get(pk=pid)
+            cid=pobj.c_id_id
+            cobj = customer.objects.get(pk=cid)
+            uid=cobj.user_id
+            uobj1=User.objects.get(pk=uid)
+            dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid))
+
+    dt2.reverse()
+    dt2=list(set(dt2))
+
+    return dt2[:10]
 
 @login_required
 def go_to_dashboard(request):
+        dt2=recently_viewed(request)
         temp = Product.objects.raw('SELECT * FROM  cart_product')
         data = serializers.serialize('json', temp)
         value = json.loads(data)
@@ -120,9 +144,8 @@ def go_to_dashboard(request):
 
             if(uobj.username not in request.user.username):
                 dt1.append((i["fields"]["title"][:18], uobj.username, i["fields"]["price"], pobj.pro_pic,int(i["pk"]),rating))
-                print(dt1)
         dt1.reverse()
-        context = {"num": len(dt),"dt1":dt1[:10]}
+        context = {"num": len(dt),"dt1":dt1[:10],"dt2":dt2}
 
 
         return render(request, 'cart/dashboard.html', context)
@@ -331,7 +354,7 @@ def add_product(request):
         uploaded_file_url = fs.url(filename)
         pro.pro_pic = filename
         print(filename)
-        print(uploaded_file_url)
+        # print(uploaded_file_url)
 
         catobj=category.objects.get(name=request.POST.get("category"))
         print(catobj.id,pro.p_id)
@@ -341,6 +364,17 @@ def add_product(request):
 
         # pro1.cat_id=catobj.id
         return render(request,'cart/success.html',{'msg':" Product Added Successfully"})
+
+
+def srch_history(pid,request):
+    uname=request.user.username
+    uobj=User.objects.get(username=uname)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+
+    srcobj=search_history()
+    srcobj.c_id=cobj
+    srcobj.searchtext=str(pid)
+    srcobj.save()
 
 
 def search_product(request):
@@ -382,7 +416,7 @@ def search_product(request):
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
-            srch_history(i["pk"], request)
+
             try:
                 revobj=c_review.objects.get(s_id=cid)
                 rating=revobj.rating
@@ -400,15 +434,6 @@ def search_product(request):
 
     return render(request, 'cart/search.html', context)
 
-def srch_history(pid,request):
-    uname=request.user.username
-    uobj=User.objects.get(username=uname)
-    cobj=customer.objects.get(pk=uobj.customer.id)
-
-    srcobj=search_history()
-    srcobj.c_id=cobj
-    srcobj.searchtext=str(pid)
-    srcobj.save()
 
 def buy_product(request):
 
@@ -467,6 +492,7 @@ def seller_info(request):
 
 def product_detail(request):
     pk = request.POST.get("pk")
+    srch_history(pk, request)
     pobj = Product.objects.get(pk=pk)
     uobj=User.objects.get(username=pobj.c_id)
     temp = c_review.objects.raw('SELECT * FROM cart_c_review')
@@ -487,6 +513,23 @@ def product_detail(request):
             uobj1=User.objects.get(pk=uid)
             rev_text.append((uobj1.username,revobj.text))
 
+    vis=[]
+    for _ in range(10000):
+        vis.append(1)
+    r_text=[]
+    for l,m in enumerate(rev_text):
+        t=[]
+        if(vis[l]):
+            vis[l]=0
+            for n,o in enumerate(rev_text):
+                if(o[0]==m[0]):
+                    t.append(o[1])
+                    vis[n]=0
+            r_text.append((m[0],t))
+    print(r_text)
+
+
+
 
 
     if(len(rat_temp)>0):
@@ -506,8 +549,7 @@ def product_detail(request):
         d_rate.append(i)
 
     dt.extend((pobj.title,pobj.quantity,pobj.price,pobj.description,uobj.username,pobj.pro_pic,rate,d_rate,int(pk),rating))
-    print(rev_text)
-    context = {"dt": dt,"rev_text":rev_text}
+    context = {"dt": dt,"rev_text":r_text}
     return render(request, 'cart/product.html', context)
 
 
@@ -552,19 +594,7 @@ def customer_activity_sell(request):
 
     dt2=disp_sell_prod(request)
 
-    flag=request.POST.get("edit_request")
-    if(flag):
-        p_id_tmp=request.POST.get("epk")
-
-        pobj=Product.objects.get(pk=p_id_tmp)
-
-        pobj.title=request.POST.get("title")
-        pobj.quantity=request.POST.get("quantity")
-        pobj.price=request.POST.get("price")
-        pobj.pro_pic=request.POST.get("pro_pic")
-        pobj.description=request.POST.get("desc")
-        pobj.save()
-
+    #flag=request.POST.get("edit_request")
     context = {"dt1": dt1,"dt":dt,"num":len(num),"dt2":dt2}
     return render(request, 'cart/addproduct.html', context)
 
@@ -721,7 +751,7 @@ def add_a_comment(request):
         revobj=c_review()
         revobj.b_id=cobj
         revobj.s_id=sobj
-        revobj.rating=request.POST.get('rating')
+        revobj.rating=5#request.POST.get('rating')
         revobj.text=request.POST.get("review")
         revobj.save()
         return render(request, 'cart/success.html', {'msg': "Review added"})
@@ -739,22 +769,24 @@ def disp_sell_prod(request):
         dt2.append((i.title,i.quantity,i.description,i.pro_pic,i.price,i.p_id))
     return dt2
 
-def recently_viewed(request):
-    uname = request.user.username
-    uobj = User.objects.get(username=uname)
-    cobj = customer.objects.get(pk=uobj.customer.id)
+def edit_product(request):
+    p_id_tmp = request.POST.get("epk")
 
-    temp = search_history.objects.raw('SELECT * FROM  cart_search_history')
-    data = serializers.serialize('json', temp)
-    value = json.loads(data)
-    dt2=[]
-    for i in value:
-        if(i["fields"]["c_id"]==uobj.customer.id):
-            pid=int(i["fields"]["searchtext"])
-            pobj=Product.objects.get(pk=pid)
-            dt2.append((pobj.title,pobj.quantity,pobj.description,pobj.pro_pic,pobj.price))
-    dt2.reverse()
-    return HttpResponse(dt2[:10])
+    pobj = Product.objects.get(pk=p_id_tmp)
+
+    pobj.title = request.POST.get("title")
+    pobj.quantity = request.POST.get("quantity")
+
+    p_pic = request.FILES['pro_pic']
+    fs = FileSystemStorage(location='media/product')
+    filename = fs.save(p_pic.name, p_pic)
+    uploaded_file_url = fs.url(filename)
+
+    pobj.pro_pic = filename
+    pobj.description = request.POST.get("desc")
+    pobj.price = request.POST.get("price")
+    pobj.save()
+    return render(request, 'cart/success.html', {'msg': "Product info Changed"})
 
 
 

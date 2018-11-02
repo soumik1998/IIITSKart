@@ -302,6 +302,55 @@ table {
 </form>
 </center>
 </div>
+<div id="overlay_login" >
+<center>
+  <form id="overlay" method="post" action="{% url 'cart:edit_product' %}" enctype="multipart/form-data">
+{% csrf_token %}
+
+      <h2><b>Edit product info</b></h2>
+  <input style="display: none;" name="epk" value="">
+
+    <div class="group">
+    <input type="text" name="title" id="title" required><span class="highlight"></span><span class="bar"></span>
+    <label>what is this?</label>
+  </div>
+      <div class="group">
+    <input type="number" name="quantity" id="quantity" required><span class="highlight"></span><span class="bar"></span>
+    <label>Quantity</label>
+  </div>
+      <div style="margin-bottom: 0px" class="group">
+    <input type="text" name="desc" id="desc" required><span class="highlight"></span><span class="bar"></span>
+    <label>About it</label>
+  </div>
+      <div class="group">
+          <h4 style="margin-bottom: 0px;float: left">Category</h4>
+    <select onmouseover="" name="category">
+        {% for i in dt1 %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+  </select>
+
+  </div>
+
+  <div class="group" style="margin-bottom: 0px">
+    <input type="number" name="price" id="price" required><span class="highlight"></span><span class="bar"></span>
+    <label>Everything has a price</label>
+  </div>
+      <div class="group">
+          <h3 style="margin-bottom: 0px"><b>Images of product</b></h3>
+    <input type="file" name="pro_pic" multiple required accept="image/*">
+
+  <button type="submit" class="button buttonBlue">Put it online
+      <input type="hidden" name="next" value="{{ next }}" />
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+
+  </button>
+
+
+  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Discard changes</button>
+</form>
+</center>
+</div>
 
 <div class="main" style="color:#000000;">
 
@@ -342,12 +391,7 @@ table {
                 <div style="color: #4CAF50;"> ₹ {{ i.4 }} </div>Quantity left: {{ i.1 }}<br>
             </td>
         <td>
-            <form method="post" action="{% url 'cart:' %}" >
-    {% csrf_token %}
-            <button onclick="on_edit({{ i.5 }})" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit info
-
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-  </button>
+            <button type="submit" onclick="on_login({{ i.5 }})" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit info</button>
     <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
             </form>
         </td>
@@ -394,19 +438,27 @@ $(window, document, undefined).ready(function() {
 
 });
 function on_edit() {
-    var number=pk;
-    console.log(number);
-    document.forms[1].pk.value = number;
     document.getElementById("overlay_edit").style.display = "block";
 }
 
 function off_edit() {
     document.getElementById("overlay_edit").style.display = "none";
 }
+function on_login(pk) {
+    var number=pk;
+    console.log(number);
+    document.forms[2].epk.value = number;
+    document.getElementById("overlay_login").style.display = "block";
+
+}
+
+function off_login() {
+    document.getElementById("overlay_login").style.display = "none";
+}
 
 
 $(document).keyup(function(e) {
-  if (e.keyCode == 27) { off_edit();}   // esc
+  if (e.keyCode == 27) { off_edit();off_login();}   // esc
 });
 
 </script>
