@@ -573,7 +573,7 @@ def customer_activity_buy(request):
                 temp = i["fields"]["order_date"]
                 ind = temp.find("T")
                 date = temp[:ind]
-                dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date))
+                dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date, i["fields"]["product_id"]))
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
     value = json.loads(data)
@@ -692,7 +692,6 @@ def edit_wishlist(request):
 
 def add_a_comment(request):
     proid = request.POST.get("pk")
-    proid=8
     pobj = Product.objects.get(pk=proid)
 
     uname = request.user.username
@@ -706,9 +705,9 @@ def add_a_comment(request):
         revobj.b_id=cobj
         revobj.s_id=sobj
         revobj.rating=5#request.POST.get('rating')
-        revobj.text="rerliable"#request.POST.get("commment")
+        revobj.text=request.POST.get("review")
         revobj.save()
-        return HttpResponse("comment added")
+        return render(request, 'cart/success.html', {'msg': "Review added"})
     else:
         return HttpResponse("person who bought can comment")
 

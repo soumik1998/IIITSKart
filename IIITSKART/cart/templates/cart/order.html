@@ -130,6 +130,27 @@ h3 { color: #4a89dc; }
 </form>
     <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
+<div class="w3-animate-opacity" id="overlay_edit" >
+<center>
+     <br><br><br>
+  <form id="overlay" method="post" action="{% url 'cart:add_a_comment' %}">
+{% csrf_token %}
+
+      <h2><b>Write your review.</b></h2>
+      <input style="display: none;" name="pk" value="">
+    <textarea rows="4" cols="50" name="review" placeholder="type here...">
+</textarea>
+  <button type="submit" class="button buttonBlue">Submit
+      <input type="hidden" name="next" value="{{ next }}" />
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+
+  </button>
+
+
+  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >close</button>
+  </form>
+</center></div>
+
 
 <div class="main" style="color:#000000;">
 
@@ -161,7 +182,7 @@ h3 { color: #4a89dc; }
             <form method="post" action="{% url 'cart:edit_wishlist' %}" >
                 {% csrf_token %}
                 <input style="display: none" name="pk" value="{{ i.3 }}">
-                <button type="submit"  class="button" style="width: 120px;background: firebrick;text-align: center;">Remove
+                <button type="submit"  class="button" style="width: 120px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Remove
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
@@ -187,13 +208,9 @@ h3 { color: #4a89dc; }
                 Seller: {{ i.3 }}
             </td>
         <td>
-            <form method="post" action="{% url 'cart:edit_wishlist' %}" >
-                {% csrf_token %}
-                <input style="display: none" name="pk" value="{{ i.3 }}">
-                <button type="submit"  class="button" style="width: 160px;background: firebrick;text-align: center;">Edit Review
+                <button onclick="on_edit({{ i.5 }})" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit Review
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
- <input type="hidden" name="next" value="{{ next }}" />
   </button>
     <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
             </form>
@@ -243,6 +260,16 @@ $(window, document, undefined).ready(function() {
 $(document).keyup(function(e) {
   if (e.keyCode == 27) { off_edit();}   // esc
 });
+function on_edit(pk) {
+    var number=pk;
+    console.log(number);
+    document.forms[1].pk.value = number;
+    document.getElementById("overlay_edit").style.display = "block";
+}
+
+function off_edit() {
+    document.getElementById("overlay_edit").style.display = "none";
+}
 
 </script>
 </body>
