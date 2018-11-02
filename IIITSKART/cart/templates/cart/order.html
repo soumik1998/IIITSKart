@@ -16,7 +16,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <title>user dashboard</title>
     <style>
-
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
 
@@ -202,7 +201,7 @@ h3 { color: #4a89dc; }
         <td style="width: 20%;">
     <img src="{{ MEDIA_URL }}product/{{ i.4 }}"  width="150" height="150"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">&nbsp;
     </td>
-            <td style="padding-left: 10%;width: 60%;">
+            <td style="padding-left: 10%;padding-right:5%;width: 60%;">
                 <h3 style="color: #357bd8;"><b>{{ i.0 }}</b>[{{ i.4 }}]</h3>
                 <div style="color: #4CAF50;"> ₹ {{ i.2 }} </div>Available Quantity: {{ i.1 }}<br>
                 Seller: {{ i.3 }}

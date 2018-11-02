@@ -530,7 +530,7 @@ def customer_activity_sell(request):
             uobj1=User.objects.get(pk=cobj1.user_id)
             ind = temp.find("T")
             date = temp[:ind]
-            dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date))
+            dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date,pobj.pro_pic))
 
 
     temp = category.objects.raw('SELECT * FROM  cart_category')
@@ -548,7 +548,10 @@ def customer_activity_sell(request):
         num.append(i["fields"]["title"])
 
     dt.reverse()
-    context = {"dt1": dt1,"dt":dt,"num":len(num)}
+
+    dt2=disp_sell_prod(request)
+    print(dt2)
+    context = {"dt1": dt1,"dt":dt,"num":len(num),"dt2":dt2}
     return render(request, 'cart/addproduct.html', context)
 
 
@@ -704,12 +707,23 @@ def add_a_comment(request):
         revobj=c_review()
         revobj.b_id=cobj
         revobj.s_id=sobj
-        revobj.rating=5#request.POST.get('rating')
+        revobj.rating=request.POST.get('rating')
         revobj.text=request.POST.get("review")
         revobj.save()
         return render(request, 'cart/success.html', {'msg': "Review added"})
     else:
-        return HttpResponse("person who bought can comment")
+        render(request, 'cart/error.html', {'msg': "person who bought can comment"})
+
+
+def disp_sell_prod(request):
+    uname=request.user.username
+    uobj=User.objects.get(username=uname)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+    proobj=Product.objects.filter(c_id=cobj)
+    dt2=[]
+    for i in proobj:
+        dt2.append((i.title,i.quantity,i.description,i.pro_pic,i.price))
+    return dt2
 
 
 
