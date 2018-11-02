@@ -722,7 +722,7 @@ def disp_sell_prod(request):
     proobj=Product.objects.filter(c_id=cobj)
     dt2=[]
     for i in proobj:
-        dt2.append((i.title,i.quantity,i.description,i.pro_pic,i.price))
+        dt2.append((i.title,i.quantity,i.description,i.pro_pic,i.price,i.p_id))
     return dt2
 
 
