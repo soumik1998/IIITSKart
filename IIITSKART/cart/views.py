@@ -922,6 +922,7 @@ def product_review(request):
 
 def order_detail(request):
     uname = request.GET.get("username")
+    print(uname)
     uobj=User.objects.get(username=uname)
     temp = Order.objects.raw('SELECT * FROM cart_order')
     data = serializers.serialize('json', temp)
@@ -937,9 +938,7 @@ def order_detail(request):
 
             pid=i["fields"]["product_id"]
             pobj=Product.objects.get(pk=pid)
-
             ordobj=Order.objects.get(pk=i["pk"])
-
             quantity=ordobj.quantity
             totalamt=ordobj.total_amount
             proname=pobj.title
@@ -971,4 +970,21 @@ def order_detail(request):
                 tp.append(dt)
 
     dit = {"result": tp}
+    return JsonResponse(dit)
+
+
+
+def get_pro_review(request):
+    uname = request.GET.get("username")
+    proname=request.GET.get("title")
+
+    uobj=User.objects.get(username=uname)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+    pobj=Product.objects.get(c_id=cobj,title=proname)
+    prevobj=p_review.objects.filter(pro_id=pobj)
+    tp=[]
+    for i in prevobj:
+        dt={"rating":i.rating,"text":i.text}
+        tp.append(dt)
+    dit={"result":tp}
     return JsonResponse(dit)
