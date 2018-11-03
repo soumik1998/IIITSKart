@@ -776,13 +776,13 @@ def edit_product(request):
 
     pobj.title = request.POST.get("title")
     pobj.quantity = request.POST.get("quantity")
-    print(request.FILES['pro_pic'])
-    p_pic = request.FILES['pro_pic']
-    fs = FileSystemStorage(location='media/product')
-    filename = fs.save(p_pic.name, p_pic)
-
-
-    pobj.pro_pic = filename
+    try:
+        p_pic = request.FILES['pro_pic']
+        fs = FileSystemStorage(location='media/product')
+        filename = fs.save(p_pic.name, p_pic)
+        pobj.pro_pic = filename
+    except:
+        pass
     pobj.description = request.POST.get("desc")
     pobj.price = request.POST.get("price")
     pobj.save()

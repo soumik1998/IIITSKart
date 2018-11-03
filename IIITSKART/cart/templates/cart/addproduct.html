@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <title>user dashboard</title>
+        <script>if(performance.navigation.type == 2){
+   location.reload(true);
+}</script>
     <style>
         * { box-sizing:border-box; }
 
@@ -370,10 +373,9 @@ table {
             <td style="padding-left: 10%;padding-right:5%;width: 60%;">
                 <h3 style="color: #357bd8;"><b>{{ i.0 }}</b>  [{{ i.4 }}]</h3>
                 <div style="color: #4CAF50;"> ₹ {{ i.2 }} </div>Quantity: {{ i.1 }}
-                Buyer: {{ i.3 }}
             </td>
         <td>
-            <h3><b> Buyer: {{ i.3 }}</b></h3>
+            <h3><b> Buyer:</b> {{ i.3 }}</h3>
         </td>
     </tr>
         <tr style="height: 10px;"></tr>
@@ -404,6 +406,7 @@ table {
 </center>
 </div>
 <script>
+
 $(window, document, undefined).ready(function() {
 
   $('input').blur(function() {
@@ -446,13 +449,13 @@ function on_edit() {
 function off_edit() {
     document.getElementById("overlay_edit").style.display = "none";
 }
-function on_login(pk,title,desc,price,quantity,pic) {
+function on_login(pk,title,desc,price,quantity) {
     document.forms[2].epk.value = pk;
     document.forms[2].title.value = title;
     document.forms[2].desc.value = desc;
     document.forms[2].price.value = price;
     document.forms[2].quantity.value = quantity;
-    document.forms[2].pro_pic.value = pic;
+    //document.forms[2].pro_pic.value = pic;
     document.getElementById("overlay_login").style.display = "block";
 
 }

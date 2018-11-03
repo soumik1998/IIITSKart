@@ -19,6 +19,7 @@ input[type=number]::-webkit-outer-spin-button {
    opacity: 1;
 
 }
+
         .checked {
     color: orange;
 }
@@ -130,16 +131,14 @@ input[type=number]::-webkit-outer-spin-button {
 <div class="main" style="color:white; margin: 5%;">
 
  <center>
-    <table border="0" style="width:80%;">
+    <table border="0" style="width:100%;height: 450px;background: rgba(0, 0, 0, 0);">
     <col width="40%">
 
   <tr>
-    <center><td style="position: absolute"><div class="imgBox"> <img src="{{ MEDIA_URL }}product/{{ dt.5 }}"  width="400" height="500"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';"></div><br><br>
+    <center><td style="position: absolute"><div class="imgBox"> <img src="{{ MEDIA_URL }}product/{{ dt.5 }}"  width="400" height="400"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';"></div><br><br>
 
 
     </td></center>
-   <form method="post" action="{% url 'cart:buy_product' %}" >
-    {% csrf_token %}
     <td  colspan="2" style="padding-left: 140px;padding-right: 0px;">
         <p style="color: dodgerblue;font-size: 30px;font-family: 'Lucida Bright';margin-bottom: 0px;margin-top: 0px;text-overflow: ellipsis">{{ dt.0 }}</p>
         <h2 style="color: #969696;">Seller: {{ dt.4 }}
@@ -153,9 +152,19 @@ input[type=number]::-webkit-outer-spin-button {
                 <span class="tooltiptext">{{ dt.9 }}</span></div>
         <br><b>₹ {{ dt.2 }}</b></h2>
         <h2 style="color: #5A5A5A;font-size: 25px;">Description: {{ dt.3 }}<br></h2>
-        <br><br>
-    <input style="display: none" name="pk" value="{{dt.8}}">
-      <button type="submit"  class="av button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Buy
+    </td></tr>
+  <tr><td style="padding-left: 50%;">
+    <form style="float: right" method="post" action="{% url 'cart:add_to_wishlist' %}" >
+    {% csrf_token %}
+      <input style="display: none" name="pk" value="{{dt.8}}">
+  <button class="buttonBlue button" type="submit" style="display: block;cursor:pointer;
+  padding: 0px 0px;height: 45px;" ><i class="material-icons" >add_shopping_cart</i>
+  </button>
+    </form></td><td>
+    <form method="post" action="{% url 'cart:buy_product' %}" >
+    {% csrf_token %}
+        <input style="display: none" name="pk" value="{{dt.8}}">
+      <button type="submit"  class="av button buttonBlue" style="width: 35%;margin-left: 147px;">Buy
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
@@ -163,21 +172,15 @@ input[type=number]::-webkit-outer-spin-button {
     <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
 
    </form>
-    <form style="float: right" method="post" action="{% url 'cart:add_to_wishlist' %}" >
-    {% csrf_token %}
-      <input style="display: none" name="pk" value="{{dt.8}}">
-  <button class="buttonBlue button" type="submit" style="display: block;cursor:pointer;
-  padding: 0px 0px;" ><i class="material-icons" >add_shopping_cart</i>
-  </button>
-  </form></td>
-  </tr>
+   </td></tr>
 
 </table>
 </center>
 
 <h3 style="color: #3a3a3a"><b>Reviews on seller :</b></h3>
 {% for i in rev_text  %}
-<p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;">{{ i.0 }} : {{ i.1 }}</p>
+    <p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;"><b>{{ i.0 }} : </b>{{i.1}}</p>
+    <!-- loop here in i.1 to show review-->
 {% endfor %}
 </div>
 

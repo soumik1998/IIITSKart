@@ -169,8 +169,12 @@ span.psw {
   text-decoration: none;
   font-size: 17px;
 }
-.navbar a:hover, i:hover, input:hover {
+.navbar a:hover, input:hover {
   background: #fff;
+  color: black;
+}
+.navbar i:hover{
+     background: #fff;
   color: black;
 }
 .footer{
