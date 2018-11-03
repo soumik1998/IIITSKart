@@ -233,7 +233,7 @@ input:focus ~ .highlight {
 <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; background-color: transparent;">
      <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
   <img src="{% static 'cart/cart-logo.png' %}" width="50" height="53">
-  <a id="login" onclick="on_login()" style="color: #000;" href="#s">login</a>
+  <a id="login" onclick="on_login()" style="color: #000;" href="#">login</a>
   <a id="newbee" onclick="on_newbee()"style="color: #000;" href="#s">newbee</a>
   <a style="color: #000;" href="#">Info</a>
 </div>
@@ -300,10 +300,15 @@ input:focus ~ .highlight {
 
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<b style="color: #3f51b5;">OR</b>
+     <a href="https://serene-wildwood-35121.herokuapp.com/login/5bd21e93c7ed6a0015843abe">
+         <div class="button buttonBlue" style="background: #3f51b5;">Login with IIITS
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+  </div></a>
 
   <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Wrong place?</button>
 </form>
-</div>
+</center></div>
 
 <div class="main" style="color:black;">
  <center>

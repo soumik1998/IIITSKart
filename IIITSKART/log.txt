@@ -1,0 +1,28 @@
+
+to do:
+--------------------------------------------------------------------------------------------------------------------------------------
+model:
+        record and send date for review
+
+view:
+        send pro_pic in activity buy
+        quantity in wish list
+        seller  and buyer pic everywhere,
+
+html:
+        side filter at search.html, default value of filter from dashboard.html
+        notification pop up on login of recently sold products
+        rent
+        click outside to close form
+
+
+BUGS:
+--------------------------------------------------------------------------------------------------------------------------------------
+
+seller can't buy products sold by himself: fixed
+recently viewed should have unique products:fixed
+iiits login api: nf
+
+multiple reviews of user with date in loop: nf
+reviews are not fixed in position: nf
+

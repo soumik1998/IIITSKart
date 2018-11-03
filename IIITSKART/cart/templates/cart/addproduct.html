@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <title>user dashboard</title>
+        <script>if(performance.navigation.type == 2){
+   location.reload(true);
+}</script>
     <style>
         * { box-sizing:border-box; }
 
@@ -81,7 +84,7 @@ label {
 
 /* active */
 
-input:focus ~ label, input.used ~ label {
+input ~ label, input.used ~ label {
 	top: -20px;
   transform: scale(.75); left: -2px;
 	/* font-size: 14px; */
@@ -303,6 +306,57 @@ table {
 </center>
 </div>
 
+
+<div id="overlay_login" >
+<center>
+  <form id="overlay" method="post" action="{% url 'cart:edit_product' %}" enctype="multipart/form-data">
+{% csrf_token %}
+
+      <h2><b>Edit product info</b></h2>
+  <input style="display: none;" name="epk" value="">
+
+    <div class="group">
+    <input type="text" name="title" id="title" value="" required><span class="highlight"></span><span class="bar"></span>
+    <label>what is this?</label>
+  </div>
+      <div class="group">
+    <input type="number" name="quantity" id="quantity" value="" required><span class="highlight"></span><span class="bar"></span>
+    <label>Quantity</label>
+  </div>
+      <div style="margin-bottom: 0px" class="group">
+    <input type="text" name="desc" id="desc" value="" required><span class="highlight"></span><span class="bar"></span>
+    <label>About it</label>
+  </div>
+      <div class="group">
+          <h4 style="margin-bottom: 0px;float: left">Category</h4>
+    <select onmouseover="" name="category">
+        {% for i in dt1 %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+  </select>
+
+  </div>
+
+  <div class="group" style="margin-bottom: 0px">
+    <input type="number" name="price" id="price" value="" required><span class="highlight"></span><span class="bar"></span>
+    <label>Everything has a price</label>
+  </div>
+      <div class="group">
+          <h3 style="margin-bottom: 0px"><b>Images of product</b></h3>
+    <input type="file" name="pro_pic" value="" accept="image/*">
+
+  <button type="submit" class="button buttonBlue">Put it online
+      <input type="hidden" name="next" value="{{ next }}" />
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+
+  </button>
+
+
+  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Discard changes</button>
+</form>
+</center>
+</div>
+
 <div class="main" style="color:#000000;">
 
  <br>
@@ -310,19 +364,49 @@ table {
          Sell something</button>
 
          <h2 style="color: #2A5FDB;margin-left: 10%"><b> Sold products:</b></h2>
-<center>
-    <table style="width: 80%;">
+<center><table style="width: 80%;border-spacing: 0px;">
     {% for i in dt %}
-  <tr style="height: 120px;background-color: rgba(112, 196, 255, 0.2);" class="w3-animate-opacity">
-    <td style="padding-left: 30px;border-radius: 10px;"><b>{{ i.0}}</b> [{{ i.4 }}] &nbsp;&nbsp; Buyer : {{ i.3 }} &nbsp;
-        <div style="color: #4CAF50;display:inline;">₹ {{ i.2 }} | Quantity: {{ i.1 }}</div></td>
-  </tr>
-        <tr style="height: 12px"><p></p></tr>
+    <tr  style="height: 150px;background: rgba(0, 0, 0, 0.1);padding: 0px;" class="w3-animate-opacity">
+        <td style="width: 20%;">
+    <img src="{{ MEDIA_URL }}product/{{ i.5 }}"  width="150" height="150"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">&nbsp;
+    </td>
+            <td style="padding-left: 10%;padding-right:5%;width: 60%;">
+                <h3 style="color: #357bd8;"><b>{{ i.0 }}</b>  [{{ i.4 }}]</h3>
+                <div style="color: #4CAF50;"> ₹ {{ i.2 }} </div>Quantity: {{ i.1 }}
+            </td>
+        <td>
+            <h3><b> Buyer:</b> {{ i.3 }}</h3>
+        </td>
+    </tr>
+        <tr style="height: 10px;"></tr>
     {% endfor %}
-</table></center>
-
+</table>
+</center>
+<h2 style="color: #2A5FDB;margin-left: 10%"><b> On sale:</b></h2>
+<center><table style="width: 80%;border-spacing: 0px;">
+    {% for i in dt2 %}
+    <tr  style="height: 150px;background: rgba(0, 0, 0, 0.1);padding: 0px;" class="w3-animate-opacity">
+        <td style="width: 20%;">
+    <img src="{{ MEDIA_URL }}product/{{ i.3 }}"  width="150" height="150"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">&nbsp;
+    </td>
+            <td style="padding-left: 10%;padding-right:5%;width: 60%;">
+                <h3 style="color: #357bd8;"><b>{{ i.0 }}</b></h3>
+                {{ i.2 }}
+                <div style="color: #4CAF50;"> ₹ {{ i.4 }} </div>Quantity left: {{ i.1 }}<br>
+            </td>
+        <td>
+            <button type="submit" onclick="on_login({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit info</button>
+    <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
+            </form>
+        </td>
+    </tr>
+        <tr style="height: 10px;"></tr>
+    {% endfor %}
+</table>
+</center>
 </div>
 <script>
+
 $(window, document, undefined).ready(function() {
 
   $('input').blur(function() {
@@ -365,10 +449,24 @@ function on_edit() {
 function off_edit() {
     document.getElementById("overlay_edit").style.display = "none";
 }
+function on_login(pk,title,desc,price,quantity) {
+    document.forms[2].epk.value = pk;
+    document.forms[2].title.value = title;
+    document.forms[2].desc.value = desc;
+    document.forms[2].price.value = price;
+    document.forms[2].quantity.value = quantity;
+    //document.forms[2].pro_pic.value = pic;
+    document.getElementById("overlay_login").style.display = "block";
+
+}
+
+function off_login() {
+    document.getElementById("overlay_login").style.display = "none";
+}
 
 
 $(document).keyup(function(e) {
-  if (e.keyCode == 27) { off_edit();}   // esc
+  if (e.keyCode == 27) { off_edit();off_login();}   // esc
 });
 
 </script>

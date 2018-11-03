@@ -117,7 +117,7 @@ class search_history(models.Model):
     searchtext = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.searchtext
+        return str(self.c_id)
 
 
 class user_wishlist(models.Model):
