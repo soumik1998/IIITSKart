@@ -3,317 +3,332 @@
 <head>
   {% load staticfiles %}
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="HandheldFriendly" content="true">
-
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <title>user dashboard</title>
+    <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+    <link rel="icon" type="image/png" href="{% static 'cart/cart-logo.png' %}">
+    <title>User Dashboard</title>
+    <style>
+    * { box-sizing:border-box; }
 
-     <style>
-* { box-sizing:border-box; }
+    h1, h3 { font-weight: 300; }
 
-h1, h3 { font-weight: 300; }
+    h1 { color: #636363; }
 
-h1 { color: #636363; }
-
-h3 { color: #4a89dc; }
-
-
-
-.group {
-	position: relative;
-	margin-bottom: 20px;
-}
-
-input {
-	font-size: 18px;
-	padding: 10px 10px 10px 5px;
-	-webkit-appearance: none;
-	display: block;
-	background: #fafafa;
-	color: #636363;
-	width: 100%;
-	border: none;
-	border-radius: 0;
-	border-bottom: 1px solid #757575;
-}
-
-input:focus { outline: none; }
+    h3 { color: #4a89dc; }
 
 
-/* Label */
 
-label {
-	color: #999;
-	font-size: 18px;
-	font-weight: normal;
-	position: absolute;
-	pointer-events: none;
-	left: 5px;
-	top: 10px;
-	transition: all 0.2s ease;
-}
-
-
-/* active */
-
-input ~ label, input.used ~ label {
-	top: -20px;
-  transform: scale(.75); left: -2px;
-	/* font-size: 14px; */
-	color: #4a89dc;
-}
-
-
-/* Underline */
-.bar {
-	position: relative;
-	display: block;
-	width: 100%;
-}
-
-.bar:before, .bar:after {
-	content: '';
-	height: 2px;
-	width: 0;
-	bottom: 1px;
-	position: absolute;
-	background: #4a89dc;
-	transition: all 0.2s ease;
-}
-
-.bar:before { left: 50%; }
-
-.bar:after { right: 50%; }
-
-
-/* active */
-
-input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
-
-
-/* Highlight */
-
-.highlight {
-	position: absolute;
-	height: 60%;
-	width: 100px;
-	top: 25%;
-	left: 0;
-	pointer-events: none;
-	opacity: 0.5;
-}
-
-
-/* active */
-
-input:focus ~ .highlight {
-	animation: inputHighlighter 0.3s ease;
-}
-
-
-/* Animations */
-
-@keyframes inputHighlighter {
-	from { background: #4a89dc; }
-	to 	{ width: 0; background: transparent; }
-}
-
-
-/* Button */
-
-    .button {
-      position: relative;
-      display: inline-block;
-      padding: 12px 24px;
-      margin: .3em 0 1em 0;
-      width: 100%;
-      vertical-align: middle;
-      color: #fff;
-      font-size: 16px;
-      line-height: 20px;
-      -webkit-font-smoothing: antialiased;
-      text-align: center;
-      letter-spacing: 1px;
-      background: transparent;
-      border: 0;
-      border-bottom: 2px solid #3160B6;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .button:focus { outline: 0; }
-
-
-    /* Button modifiers */
-
-    .buttonBlue {
-      background: #4a89dc;
-      text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+    .group {
+        position: relative;
+        margin-bottom: 20px;
     }
 
-    .buttonBlue:hover { background: #357bd8; }
+    input {
+        font-size: 18px;
+        padding: 10px 10px 10px 5px;
+        -webkit-appearance: none;
+        display: block;
+        background: #fafafa;
+        color: #636363;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid #757575;
+    }
+
+    input:focus { outline: none; }
 
 
-    /* Ripples container */
+    /* Label */
 
-    .ripples {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: transparent;
+    label {
+        color: #999;
+        font-size: 18px;
+        font-weight: normal;
+        position: absolute;
+        pointer-events: none;
+        left: 5px;
+        top: 10px;
+        transition: all 0.2s ease;
     }
 
 
-    /* Ripples circle */
+    /* active */
 
-    .ripplesCircle {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .ripples.is-active .ripplesCircle {
-      animation: ripples .4s ease-in;
+    input ~ label, input.used ~ label {
+        top: -20px;
+      transform: scale(.75); left: -2px;
+        /* font-size: 14px; */
+        color: #4a89dc;
     }
 
 
-    /* Ripples animation */
+    /* Underline */
 
-    @keyframes ripples {
-      0% { opacity: 0; }
-
-      25% { opacity: 1; }
-
-      100% {
-        width: 200%;
-        padding-bottom: 200%;
-        opacity: 0;
-      }
+    .bar {
+        position: relative;
+        display: block;
+        width: 100%;
     }
 
-        </style>
+    .bar:before, .bar:after {
+        content: '';
+        height: 2px;
+        width: 0;
+        bottom: 1px;
+        position: absolute;
+        background: #4a89dc;
+        transition: all 0.2s ease;
+    }
 
+    .bar:before { left: 50%; }
+
+    .bar:after { right: 50%; }
+
+
+    /* active */
+
+    input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
+
+
+    /* Highlight */
+
+    .highlight {
+        position: absolute;
+        height: 60%;
+        width: 100px;
+        top: 25%;
+        left: 0;
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+
+    /* active */
+
+    input:focus ~ .highlight {
+        animation: inputHighlighter 0.3s ease;
+    }
+
+
+    /* Animations */
+
+    @keyframes inputHighlighter {
+        from { background: #4a89dc; }
+        to  { width: 0; background: transparent; }
+    }
+
+
+    /* Button */
+
+        .button {
+          position: relative;
+          display: inline-block;
+          padding: 12px 24px;
+          margin: .3em 0 1em 0;
+          width: 100%;
+          vertical-align: middle;
+          color: #fff;
+          font-size: 16px;
+          line-height: 20px;
+          -webkit-font-smoothing: antialiased;
+          text-align: center;
+          letter-spacing: 1px;
+          background: transparent;
+          border: 0;
+          border-bottom: 2px solid #3160B6;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+        .button:focus { outline: 0; }
+
+
+        /* Button modifiers */
+
+        .buttonBlue {
+          background: #4a89dc;
+          text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+        }
+
+        .buttonBlue:hover { background: #357bd8; }
+
+
+        /* Ripples container */
+
+        .ripples {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          background: transparent;
+        }
+
+
+        /* Ripples circle */
+
+        .ripplesCircle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          opacity: 0;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.25);
+        }
+
+        .ripples.is-active .ripplesCircle {
+          animation: ripples .4s ease-in;
+        }
+
+
+        /* Ripples animation */
+
+        @keyframes ripples {
+          0% { opacity: 0; }
+
+          25% { opacity: 1; }
+
+          100% {
+            width: 200%;
+            padding-bottom: 200%;
+            opacity: 0;
+          }
+        }
+
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: inherit;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
+        <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
+        <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+        <a href="{% url 'cart:logout' %}">Logout</a>
+        <a style="color: #000000;background-color: #FFFFFF;border-top-left-radius: 5%;border-top-right-radius: 5%;" href="{% url 'cart:profile' %}">Profile</a>
+        <a href="{% url 'cart:cact_buy' %}">Orders</a>
+        <a href="{% url 'cart:add_pro' %}">Sell</a>
+        <form method="post" action="{% url 'cart:search_product' %}" >
+            {% csrf_token %}
+            <button type="submit" href="{% url 'cart:search_product' %}"
+                    style="border: 0;background-color: #3C3C3C;cursor:pointer;padding: 0px 0px;" >
+                <i class="material-icons" >search</i>
+                <input type="hidden" name="next" value="{{ next }}" />
+            </button>
+            <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
+        </form>
+        <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
+    </div>
 
-<div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
-     <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
-  <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
-  <a href="{% url 'cart:logout' %}">Logout</a>
-  <a style="color: #000000;background-color: #FFFFFF;border-top-left-radius: 5%;border-top-right-radius: 5%;" href="{% url 'cart:profile' %}">Profile</a>
-<a href="{% url 'cart:cact_buy' %}">Orders</a>
-    <a href="{% url 'cart:add_pro' %}">Sell</a>
-    <form method="post" action="{% url 'cart:search_product' %}" >
-    {% csrf_token %}
-  <button type="submit" href="{% url 'cart:search_product' %}"
-          style="border: 0;background-color: #3C3C3C;cursor:pointer;padding: 0px 0px;" >
-      <i class="material-icons" >search</i>
-  <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
-</form>
-    <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
-</div>
-<div class="w3-animate-opacity" id="overlay_login" >  <!-- here login is for changing portrait, for some reason new overlay is not getting added to css -->
-    <center>
-     <br><br><br><br><br><br>
-    <form id="overlay" autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h2><b>Beautify on your own.</b></h2>
-        <input type="file" name="avatar" required >
-    <button onclick="off_login()" type="submit" class="button buttonBlue">Upload</button>
-    {#Use this line as prompt#}
-{#        {% if uploaded_file_url %}#}
-{#        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>#}
-{#        {% endif %}#}
-            <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Looks doesn't matter</button>
+    <div class="w3-animate-opacity" id="overlay_login" >  <!-- here login is for changing portrait, for some reason new overlay is not getting added to css -->
+             <br><br><br><br><br><br>
 
-</form>
-    </center></div>
+            <form id="overlay" autocomplete="off" method="post" action="{% url 'cart:profile_photo_upload' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <center>
+                <h2><b>Upload a profile pic</b></h2> <br>
+                <div style="position: relative">
+                <input type="file" id="file-1" class="inputfile inputfile-1" name="avatar" required>
+                <label style="margin-top: 22px;margin-left: -18px;" for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="100"  height="30" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Browse</span></label>
+                </div><br>
+                <button onclick="off_login()" type="submit" class="button buttonBlue">Upload</button><br>
+                {#Use this line as prompt#}
+                {#        {% if uploaded_file_url %}#}
+                {#        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>#}
+                {#        {% endif %}#}
+                    <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >No changes required.</button>
+                </center>
+            </form>
+
+    </div>
 
     <div class="w3-animate-opacity" id="overlay_edit" >
-<center>
-     <br><br><br>
-  <form id="overlay" method="post" action="{% url 'cart:update_profile' %}">
-{% csrf_token %}
+        <center>
+        <br><br><br>
+        <form id="overlay" method="post" action="{% url 'cart:update_profile' %}">
+        {% csrf_token %}
+            <h2><b>Everybody love changes.</b></h2>
+            <div class="group">
+                <input type="email" name="email" id="email" value="{{ request.user.email }}" autofocus><span class="highlight"></span><span class="bar"></span>
+                <label>Email</label>
+            </div>
 
-      <h2><b>Everybody love changes.</b></h2>
+            <div class="group">
+                <input type="text" name="firstname" id="firstname" value="{{ request.user.username }}"><span class="highlight"></span><span class="bar"></span>
+                <label>Firstname</label>
+            </div>
 
-    <div class="group">
-    <input type="email" name="email" id="email" value="{{ request.user.email }}" autofocus><span class="highlight"></span><span class="bar"></span>
-    <label>Email</label>
-  </div>
-      <div class="group">
-    <input type="text" name="firstname" id="firstname" value="{{ request.user.username }}"><span class="highlight"></span><span class="bar"></span>
-    <label>Firstname</label>
-  </div>
-      <div class="group">
-    <input type="text" name="lastname" id="lastname" value="{{ request.user.last_name }}"><span class="highlight"></span><span class="bar"></span>
-    <label>Lastname</label>
-  </div>
-      <div class="group">
-    <input type="text" name="address" id="address" value="{{ request.user.customer.address }}"><span class="highlight"></span><span class="bar"></span>
-    <label>Address</label>
-  </div>
-      <div class="group">
-    <input type="number" name="phone" id="address" value="{{ request.user.customer.phone }}"><span class="highlight"></span><span class="bar"></span>
-    <label>Phone number</label>
-  </div>
+            <div class="group">
+                <input type="text" name="lastname" id="lastname" value="{{ request.user.last_name }}"><span class="highlight"></span><span class="bar"></span>
+                <label>Lastname</label>
+            </div>
 
+            <div class="group">
+                <input type="text" name="address" id="address" value="{{ request.user.customer.address }}"><span class="highlight"></span><span class="bar"></span>
+                <label>Address</label>
+            </div>
 
-  <button type="submit" class="button buttonBlue">Save changes
-      <input type="hidden" name="next" value="{{ next }}" />
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+            <div class="group">
+                <input type="number" name="phone" id="address" value="{{ request.user.customer.phone }}"><span class="highlight"></span><span class="bar"></span>
+                <label>Phone number</label>
+            </div>
 
-  </button>
+            <button type="submit" class="button buttonBlue">Save changes
+            <input type="hidden" name="next" value="{{ next }}" />
+            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+            </button>
 
+            <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Old info is gold info</button>
+        </form>
+        </center>
+    </div>
 
-  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Old info is gold info</button>
-</form>
-</center></div>
-
-<div class="main" style="color:white;">
- <center>
-     <br><br><br>
-<table border="0" style="width:70%;">
-    <col width="40%">
-
-  <tr>
-    <center><td><div class="imgBox"> <img src="{{ MEDIA_URL }}profile/{{ request.user.customer.avatar }}" width="300" height="400"></div><br><br>
-    <button onclick="on_login()" type="submit" class="button buttonBlue" style="width: 50%;margin-left: 47px;margin-top: 2px;">Change picture
-
-
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-
-  </button>
-    </td></center>
-    <td  colspan="2"><h2 style="color: #000;"><br>Name: {{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email: {{ request.user.email }}<br><br>Username: {{ request.user.username }}<br><br>Address: {{ request.user.customer.address }}</h2><br><br>
-      <button onclick="on_edit()"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
-
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-
-  </button>
-      </td>
-  </tr>
-
-</table>
- </center>
-</div>
+    <div class="main" style="color:white;">
+        <center>
+             <br><br><br>
+            <table border="0" style="width:70%;">
+                <col width="40%">
+                <tr>
+                    <center><td><div class="imgBox"> <img src="{{ MEDIA_URL }}profile/{{ request.user.customer.avatar }}" width="300" height="400"></div><br><br>
+                    <button onclick="on_login()" type="submit" class="button buttonBlue" style="width: 50%;margin-left: 47px;margin-top: 2px;">Change picture
+                    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+                    </button>
+                    </td></center>
+                    <td  colspan="2"><h2 style="color: #000;"><br>Name: {{ request.user.first_name }} {{ request.user.last_name }}<br><br>Email: {{ request.user.email }}<br><br>Username: {{ request.user.username }}<br><br>Address: {{ request.user.customer.address }}</h2><br><br>
+                        <button onclick="on_edit()"  class="button buttonBlue" style="width: 35%;margin-left: 147px;margin-top: 0px;">Edit other info
+                            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+                        </button>
+                  </td>
+                </tr>
+            </table>
+        </center>
+    </div>
 <script>
 $(window, document, undefined).ready(function() {
 
@@ -346,7 +361,7 @@ $(window, document, undefined).ready(function() {
   });
 
   $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
-  	$(this).removeClass('is-active');
+    $(this).removeClass('is-active');
   });
 
 });

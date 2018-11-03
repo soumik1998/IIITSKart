@@ -1,394 +1,375 @@
 <!DOCTYPE html>
 <html>
-<head>
-  {% load staticfiles %}
-
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
+  <head>
+    {% load staticfiles %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="icon" type="image/png" href="{% static 'cart/cart-logo.png' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-
-  <title>iiits cart</title>
+    <title>IIITS CART</title>
 
     <style>
-* { box-sizing:border-box; }
+        * { box-sizing:border-box; }
+
+        h1, h3 { font-weight: 300; }
+
+        h1 { color: #636363; }
+
+        h3 { color: #4a89dc; }
+
+        form {
+            width: 380px;
+            margin: 4em auto;
+            padding: 2em 2em 1em 2em;
+            background: #fafafa;
+            border: 5px solid #BDBDBD;
+            border-radius: 5px;
+            box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+            font-family: Helvetica;
+        }
+
+        .group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input {
+            font-size: 18px;
+            padding: 10px 10px 10px 5px;
+            -webkit-appearance: none;
+            display: block;
+            background: #fafafa;
+            color: #636363;
+            width: 100%;
+            border: none;
+            border-radius: 0;
+            border-bottom: 1px solid #757575;
+        }
+
+        input:focus { outline: none; }
 
 
+        /* Label */
+
+        label {
+            color: #999;
+            font-size: 18px;
+            font-weight: normal;
+            position: absolute;
+            pointer-events: none;
+            left: 5px;
+            top: 10px;
+            transition: all 0.2s ease;
+        }
 
 
+        /* active */
 
-h1, h3 { font-weight: 300; }
-
-h1 { color: #636363; }
-
-h3 { color: #4a89dc; }
-
-form {
-	width: 380px;
-	margin: 4em auto;
-	padding: 2em 2em 1em 2em;
-	background: #fafafa;
-	border: 5px solid #BDBDBD;
-    border-radius: 5px;
-	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
-    font-family: Helvetica;
-}
-
-.group {
-	position: relative;
-	margin-bottom: 20px;
-}
-
-input {
-	font-size: 18px;
-	padding: 10px 10px 10px 5px;
-	-webkit-appearance: none;
-	display: block;
-	background: #fafafa;
-	color: #636363;
-	width: 100%;
-	border: none;
-	border-radius: 0;
-	border-bottom: 1px solid #757575;
-}
-
-input:focus { outline: none; }
+        input:focus ~ label, input.used ~ label {
+            top: -20px;
+          transform: scale(.75); left: -2px;
+            /* font-size: 14px; */
+            color: #4a89dc;
+        }
 
 
-/* Label */
+        /* Underline */
 
-label {
-	color: #999;
-	font-size: 18px;
-	font-weight: normal;
-	position: absolute;
-	pointer-events: none;
-	left: 5px;
-	top: 10px;
-	transition: all 0.2s ease;
-}
+        .bar {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
 
+        .bar:before, .bar:after {
+            content: '';
+            height: 2px;
+            width: 0;
+            bottom: 1px;
+            position: absolute;
+            background: #4a89dc;
+            transition: all 0.2s ease;
+        }
 
-/* active */
+        .bar:before { left: 50%; }
 
-input:focus ~ label, input.used ~ label {
-	top: -20px;
-  transform: scale(.75); left: -2px;
-	/* font-size: 14px; */
-	color: #4a89dc;
-}
-
-
-/* Underline */
-
-.bar {
-	position: relative;
-	display: block;
-	width: 100%;
-}
-
-.bar:before, .bar:after {
-	content: '';
-	height: 2px;
-	width: 0;
-	bottom: 1px;
-	position: absolute;
-	background: #4a89dc;
-	transition: all 0.2s ease;
-}
-
-.bar:before { left: 50%; }
-
-.bar:after { right: 50%; }
+        .bar:after { right: 50%; }
 
 
-/* active */
+        /* active */
 
-input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
-
-
-/* Highlight */
-
-.highlight {
-	position: absolute;
-	height: 60%;
-	width: 100px;
-	top: 25%;
-	left: 0;
-	pointer-events: none;
-	opacity: 0.5;
-}
+        input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
 
 
-/* active */
+        /* Highlight */
 
-input:focus ~ .highlight {
-	animation: inputHighlighter 0.3s ease;
-}
-
-
-/* Animations */
-
-@keyframes inputHighlighter {
-	from { background: #4a89dc; }
-	to 	{ width: 0; background: transparent; }
-}
+        .highlight {
+            position: absolute;
+            height: 60%;
+            width: 100px;
+            top: 25%;
+            left: 0;
+            pointer-events: none;
+            opacity: 0.5;
+        }
 
 
-/* Button */
+        /* active */
 
-.button {
-  position: relative;
-  display: inline-block;
-  padding: 12px 24px;
-  margin: .3em 0 1em 0;
-  width: 100%;
-  vertical-align: middle;
-  color: #fff;
-  font-size: 16px;
-  line-height: 20px;
-  -webkit-font-smoothing: antialiased;
-  text-align: center;
-  letter-spacing: 1px;
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid #3160B6;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.button:focus { outline: 0; }
+        input:focus ~ .highlight {
+            animation: inputHighlighter 0.3s ease;
+        }
 
+        /* Animations */
 
-/* Button modifiers */
+        @keyframes inputHighlighter {
+            from { background: #4a89dc; }
+            to  { width: 0; background: transparent; }
+        }
 
-.buttonBlue {
-  background: #4a89dc;
-  text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
-}
+        /* Button */
 
-.buttonBlue:hover { background: #357bd8; }
+        .button {
+          position: relative;
+          display: inline-block;
+          padding: 12px 24px;
+          margin: .3em 0 1em 0;
+          width: 100%;
+          vertical-align: middle;
+          color: #fff;
+          font-size: 16px;
+          line-height: 20px;
+          -webkit-font-smoothing: antialiased;
+          text-align: center;
+          letter-spacing: 1px;
+          background: transparent;
+          border: 0;
+          border-bottom: 2px solid #3160B6;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+        .button:focus { outline: 0; }
 
+        /* Button modifiers */
 
-/* Ripples container */
+        .buttonBlue {
+          background: #4a89dc;
+          text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+        }
 
-.ripples {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: transparent;
-}
+        .buttonBlue:hover { background: #357bd8; }
 
+        /* Ripples container */
 
-/* Ripples circle */
+        .ripples {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          background: transparent;
+        }
 
-.ripplesCircle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-}
+        /* Ripples circle */
 
-.ripples.is-active .ripplesCircle {
-  animation: ripples .4s ease-in;
-}
+        .ripplesCircle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          opacity: 0;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.25);
+        }
 
+        .ripples.is-active .ripplesCircle {
+          animation: ripples .4s ease-in;
+        }
 
-/* Ripples animation */
+        /* Ripples animation */
 
-@keyframes ripples {
-  0% { opacity: 0; }
+        @keyframes ripples {
+          0% { opacity: 0; }
 
-  25% { opacity: 1; }
+          25% { opacity: 1; }
 
-  100% {
-    width: 200%;
-    padding-bottom: 200%;
-    opacity: 0;
-  }
-}
+          100% {
+            width: 200%;
+            padding-bottom: 200%;
+            opacity: 0;
+          }
+        }
+    </style>
+   </head>
 
-        </style>
-
-</head>
-
-<body style=" margin: 0;
+  <body style=" margin: 0;
    background: url({% static 'cart/w2.jpg' %}) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;">
+        <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; background-color: transparent;">
+              <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
+              <img src="{% static 'cart/cart-logo.png' %}" width="50" height="53">
+              <a id="login" onclick="on_login()" style="color: #000;" href="#">Login</a>
+              <a id="newbee" onclick="on_newbee()"style="color: #000;" href="#s">New User</a>
+              <a style="color: #000;" href="#">About Us</a>
+        </div>
 
-<div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; background-color: transparent;">
-     <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
-  <img src="{% static 'cart/cart-logo.png' %}" width="50" height="53">
-  <a id="login" onclick="on_login()" style="color: #000;" href="#">login</a>
-  <a id="newbee" onclick="on_newbee()"style="color: #000;" href="#s">newbee</a>
-  <a style="color: #000;" href="#">Info</a>
-</div>
-<div id="overlay_newbee">
-  <form  autocomplete="off" method="post" action="{% url 'cart:makeuser' %}">
-{% csrf_token %}
-     <h2><b>Wow. A new face!</b></h2>
+        <div id="overlay_newbee">
+          <center>
+          <form  autocomplete="off" method="post" action="{% url 'cart:makeuser' %}">
+              {% csrf_token %}
+              <h2><b>Welcome to IIITS CART</b></h2>
+              <div class="group">
+                  <input type="text" name="username" id="username" value="" required autofocus><span class="highlight"></span><span class="bar"></span>
+                  <label>Username</label>
+              </div>
 
-    <div class="group">
-    <input type="text" name="username" id="username" value="" required autofocus><span class="highlight"></span><span class="bar"></span>
-    <label>Usename</label>
-  </div>
-      <div class="group">
-    <input type="text" name="first_name" id="first_name" required><span class="highlight"></span><span class="bar"></span>
-    <label>Firstname</label>
-  </div>
-    <div class="group">
-    <input type="text" name="last_name" id="last_name" required><span class="highlight"></span><span class="bar"></span>
-    <label>Lastname</label>
-  </div>
-    <div class="group">
-    <input type="email" name="email" id="email" required><span class="highlight"></span><span class="bar"></span>
-    <label>Email</label>
-  </div>
-    <div class="group">
-    <input type="text" name="phone" id="phone" pattern="[0-9]{10}" title="10 digit number" size="10" maxlength="10" required><span class="highlight"></span><span class="bar"></span>
-    <label>Phone</label>
-  </div>
-      <div class="group">
-    <input type="password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"title="At least one number, one uppercase and lowercase letter, and at least 8 or more characters" required><span class="highlight"></span><span class="bar"></span>
-    <label>Password</label>
-  </div>
-    <button type="submit" class="button buttonBlue">Signup
-      <input type="hidden" name="next" value="{{ next }}" />
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+              <div class="group">
+                  <input type="text" name="first_name" id="first_name" required><span class="highlight"></span><span class="bar"></span>
+                  <label>Firstname</label>
+              </div>
 
-  </button>
-  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_newbee()" type="button" >Wrong place?</button>
+              <div class="group">
+                  <input type="text" name="last_name" id="last_name" required><span class="highlight"></span><span class="bar"></span>
+                  <label>Lastname</label>
+              </div>
 
-</form></center>
-</div>
+              <div class="group">
+                  <input type="email" name="email" id="email" required><span class="highlight"></span><span class="bar"></span>
+                  <label>Email</label>
+              </div>
 
-<div id="overlay_login" >
-<center>
+              <div class="group">
+                  <input type="text" name="phone" id="phone" pattern="[0-9]{10}" title="10 digit number" size="10" maxlength="10" required><span class="highlight"></span><span class="bar"></span>
+                  <label>Phone</label>
+              </div>
 
-  <form id="test" method="post" action="{% url 'cart:profile_val' %}">
-{% csrf_token %}
+              <div class="group">
+                  <input type="password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"title="At least one number, one uppercase and lowercase letter, and at least 8 or more characters" required><span class="highlight"></span><span class="bar"></span>
+                  <label>Password</label>
+              </div>
 
-      <h2><b>ID Please !</b></h2>
+              <button type="submit" class="button buttonBlue">Signup
+                  <input type="hidden" name="next" value="{{ next }}" />
+                  <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+              </button>
 
-    <div class="group">
-    <input type="text" name="username" id="username" required autofocus><span class="highlight"></span><span class="bar"></span>
-    <label>Usename</label>
-  </div>
-  <div class="group">
-    <input type="password" name="password" id="password" required><span class="highlight"></span><span class="bar"></span>
-    <label>Password</label>
-  </div>
-  <button type="submit" class="button buttonBlue">Login
-      <input type="hidden" name="next" value="{{ next }}" />
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+              <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_newbee()" type="button" >Wrong place?</button>
+          </form>
+          </center>
+        </div>
 
-  </button>
+        <div id="overlay_login" >
+            <center>
+            <form id="test" method="post" action="{% url 'cart:profile_val' %}">
+                {% csrf_token %}
+                <h2><b>ID Please !</b></h2>
+                <div class="group">
+                    <input type="text" name="username" id="username" required autofocus><span class="highlight"></span><span class="bar"></span>
+                    <label>Username</label>
+                </div>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-<b style="color: #3f51b5;">OR</b>
-     <a href="https://serene-wildwood-35121.herokuapp.com/login/5bd21e93c7ed6a0015843abe">
-         <div class="button buttonBlue" style="background: #3f51b5;">Login with IIITS
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-  </div></a>
+                <div class="group">
+                    <input type="password" name="password" id="password" required><span class="highlight"></span><span class="bar"></span>
+                    <label>Password</label>
+                </div>
+                <button type="submit" class="button buttonBlue">Login
+                    <input type="hidden" name="next" value="{{ next }}" />
+                    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+                </button>
 
-  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Wrong place?</button>
-</form>
-</center></div>
+                {# Assumes you setup the password_reset view in your URLconf #}
+                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                <b style="color: #3f51b5;">OR</b>
+                     <a href="https://serene-wildwood-35121.herokuapp.com/login/5bd21e93c7ed6a0015843abe">
+                         <div class="button buttonBlue" style="background: #3f51b5;">Login with IIITS
+                    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+                  </div></a>
+                  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Wrong place?</button>
+            </form>
+            </center>
+        </div>
 
-<div class="main" style="color:black;">
- <center>
-  <br><br><br><br><br><br>
- <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 0.8s;animation-fill-mode: backwards;"><font size="8">IIITS CART</font></p>
-     <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 1.5s;animation-fill-mode: backwards;">Buy | Sell | Rent</p>
+        <div class="main" style="color:black;">
+            <center>
+                <br><br><br><br><br><br>
+                <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 0.8s;animation-fill-mode: backwards;"><font size="8">IIITS CART</font></p>
+                <p class="w3-animate-opacity" style="animation:opac 0.8s; animation-delay: 1.5s;animation-fill-mode: backwards;">Buy | Sell | Rent</p>
+                <p class="item-1"><b>{{dt.0.2}}</b> Products Sold.</p>
+                <p class="item-2"><b>{{dt.0.0}}</b> Customers.</p>
+                <p class="item-3"><b>{{dt.0.1}}</b> Products on sale.</p>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <p class="w3-animate-zoom footer" style=" animation-delay: 2s;animation-fill-mode: backwards; ">&copy;Developed at IIIT Sri City</p>
+            </center>
+        </div>
 
- <p class="item-1"><b>{{dt.0.2}}</b> products sold.</p>
+    <script>
+        var o_ready= false;
+        $(window, document, undefined).ready(function() {
 
-<p class="item-2"><b>{{dt.0.0}}</b> customers.</p>
+          $('input').blur(function() {
+            var $this = $(this);
+            if ($this.val())
+              $this.addClass('used');
+            else
+              $this.removeClass('used');
+          });
 
-<p class="item-3"><b>{{dt.0.1}}</b> products on sale.</p>
+        var $ripples = $('.ripples');
 
- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
- <p class="w3-animate-zoom footer" style=" animation-delay: 2s;animation-fill-mode: backwards; ">developed at iiit Sri City</p>
- </center>
-</div>
+          $ripples.on('click.Ripples', function(e) {
 
-<script>
-    var o_ready= false;
-$(window, document, undefined).ready(function() {
+            var $this = $(this);
+            var $offset = $this.parent().offset();
+            var $circle = $this.find('.ripplesCircle');
 
-  $('input').blur(function() {
-    var $this = $(this);
-    if ($this.val())
-      $this.addClass('used');
-    else
-      $this.removeClass('used');
-  });
+            var x = e.pageX - $offset.left;
+            var y = e.pageY - $offset.top;
 
-  var $ripples = $('.ripples');
+            $circle.css({
+              top: y + 'px',
+              left: x + 'px'
+            });
 
-  $ripples.on('click.Ripples', function(e) {
+            $this.addClass('is-active');
 
-    var $this = $(this);
-    var $offset = $this.parent().offset();
-    var $circle = $this.find('.ripplesCircle');
+          });
 
-    var x = e.pageX - $offset.left;
-    var y = e.pageY - $offset.top;
+          $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
+            $(this).removeClass('is-active');
+          });
 
-    $circle.css({
-      top: y + 'px',
-      left: x + 'px'
-    });
+        });
 
-    $this.addClass('is-active');
+        function on_login() {
+            document.getElementById("overlay_login").style.display = "block";
+            o_ready=true;
 
-  });
+        }
 
-  $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
-  	$(this).removeClass('is-active');
-  });
+        function off_login() {
+            document.getElementById("overlay_login").style.display = "none";
+        }
+        function on_newbee() {
+            document.getElementById("overlay_newbee").style.display = "block";
+            o_ready=true;
+        }
 
-});
-
-function on_login() {
-    document.getElementById("overlay_login").style.display = "block";
-    o_ready=true;
-
-}
-
-function off_login() {
-    document.getElementById("overlay_login").style.display = "none";
-}
-function on_newbee() {
-    document.getElementById("overlay_newbee").style.display = "block";
-    o_ready=true;
-}
-
-function off_newbee() {
-    document.getElementById("overlay_newbee").style.display = "none";
-}
-$(document).keyup(function(e) {
-  if (e.keyCode == 27) { off_login();off_newbee();}   // esc
-});
-
-
-
-</script>
-
-</body>
+        function off_newbee() {
+            document.getElementById("overlay_newbee").style.display = "none";
+        }
+        $(document).keyup(function(e) {
+          if (e.keyCode == 27) { off_login();off_newbee();}   // esc
+        });
+    </script>
+  </body>
 </html>

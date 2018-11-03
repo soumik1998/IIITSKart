@@ -4,307 +4,304 @@
 <head>
   {% load staticfiles %}
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="HandheldFriendly" content="true">
-
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'cart/cart-logo.png' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <title>user dashboard</title>
-        <script>if(performance.navigation.type == 2){
-   location.reload(true);
-}</script>
+    <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+
+    <title>User Dashboard</title>
     <style>
         * { box-sizing:border-box; }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+           opacity: 1;
+        }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+        h1, h3 { font-weight: 300; }
 
-   opacity: 1;
+        h1 { color: #636363; }
 
-}
+        h3 { color: #4a89dc; }
 
+        #overlay {
+            width: 480px;
+            margin: 1em auto;
+            padding: 2em 2em 1em 2em;
+            background: #fafafa;
+            border: 5px solid #BDBDBD;
+            border-radius: 5px;
+            box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+            font-family: Helvetica;
+        }
 
+        .group {
+            position: relative;
+            margin-bottom: 20px;
+        }
 
-h1, h3 { font-weight: 300; }
+        input{
+            font-size: 18px;
+            padding: 10px 10px 10px 5px;
+            -webkit-appearance: none;
+            display: block;
+            background: #fafafa;
+            color: #636363;
+            width: 100%;
+            border: none;
+            border-radius: 0;
+            border-bottom: 1px solid #757575;
+        }
 
-h1 { color: #636363; }
-
-h3 { color: #4a89dc; }
-
-#overlay {
-	width: 480px;
-	margin: 1em auto;
-	padding: 2em 2em 1em 2em;
-	background: #fafafa;
-	border: 5px solid #BDBDBD;
-    border-radius: 5px;
-	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
-    font-family: Helvetica;
-}
-
-.group {
-	position: relative;
-	margin-bottom: 20px;
-}
-
-input{
-	font-size: 18px;
-	padding: 10px 10px 10px 5px;
-	-webkit-appearance: none;
-	display: block;
-	background: #fafafa;
-	color: #636363;
-	width: 100%;
-	border: none;
-	border-radius: 0;
-	border-bottom: 1px solid #757575;
-}
-
-input:focus { outline: none; }
+        input:focus { outline: none; }
 
 
-/* Label */
+        /* Label */
 
-label {
-	color: #999;
-	font-size: 18px;
-	font-weight: normal;
-	position: absolute;
-	pointer-events: none;
-	left: 5px;
-	top: 10px;
-	transition: all 0.2s ease;
-}
-
-
-/* active */
-
-input ~ label, input.used ~ label {
-	top: -20px;
-  transform: scale(.75); left: -2px;
-	/* font-size: 14px; */
-	color: #4a89dc;
-}
+        label {
+            color: #999;
+            font-size: 18px;
+            font-weight: normal;
+            position: absolute;
+            pointer-events: none;
+            left: 5px;
+            top: 10px;
+            transition: all 0.2s ease;
+        }
 
 
-/* Underline */
+        /* active */
 
-.bar {
-	position: relative;
-	display: block;
-	width: 100%;
-}
-
-.bar:before, .bar:after {
-	content: '';
-	height: 2px;
-	width: 0;
-	bottom: 1px;
-	position: absolute;
-	background: #4a89dc;
-	transition: all 0.2s ease;
-}
-
-.bar:before { left: 50%; }
-
-.bar:after { right: 50%; }
+        input ~ label, input.used ~ label {
+            top: -20px;
+          transform: scale(.75); left: -2px;
+            /* font-size: 14px; */
+            color: #4a89dc;
+        }
 
 
-/* active */
+        /* Underline */
 
-input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
+        .bar {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
 
+        .bar:before, .bar:after {
+            content: '';
+            height: 2px;
+            width: 0;
+            bottom: 1px;
+            position: absolute;
+            background: #4a89dc;
+            transition: all 0.2s ease;
+        }
 
-/* Highlight */
+        .bar:before { left: 50%; }
 
-.highlight {
-	position: absolute;
-	height: 60%;
-	width: 100px;
-	top: 25%;
-	left: 0;
-	pointer-events: none;
-	opacity: 0.5;
-}
-
-
-/* active */
-
-input:focus ~ .highlight {
-	animation: inputHighlighter 0.3s ease;
-}
+        .bar:after { right: 50%; }
 
 
-/* Animations */
+        /* active */
 
-@keyframes inputHighlighter {
-	from { background: #4a89dc; }
-	to 	{ width: 0; background: transparent; }
-}
+        input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
 
 
-/* Button */
+        /* Highlight */
 
-.button {
-  position: relative;
-  display: inline-block;
-  padding: 12px 24px;
-  margin: .3em 0 1em 0;
-  width: 100%;
-  vertical-align: middle;
-  color: #fff;
-  font-size: 16px;
-  line-height: 20px;
-  -webkit-font-smoothing: antialiased;
-  text-align: center;
-  letter-spacing: 1px;
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid #3160B6;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.button:focus { outline: 0; }
+        .highlight {
+            position: absolute;
+            height: 60%;
+            width: 100px;
+            top: 25%;
+            left: 0;
+            pointer-events: none;
+            opacity: 0.5;
+        }
 
 
-/* Button modifiers */
+        /* active */
 
-.buttonBlue {
-  background: #4a89dc;
-  text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
-}
-
-.buttonBlue:hover { background: #357bd8; }
+        input:focus ~ .highlight {
+            animation: inputHighlighter 0.3s ease;
+        }
 
 
-/* Ripples container */
+        /* Animations */
 
-.ripples {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: transparent;
-}
+        @keyframes inputHighlighter {
+            from { background: #4a89dc; }
+            to  { width: 0; background: transparent; }
+        }
 
 
-/* Ripples circle */
+        /* Button */
 
-.ripplesCircle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-}
+        .button {
+          position: relative;
+          display: inline-block;
+          padding: 12px 24px;
+          margin: .3em 0 1em 0;
+          width: 100%;
+          vertical-align: middle;
+          color: #fff;
+          font-size: 16px;
+          line-height: 20px;
+          -webkit-font-smoothing: antialiased;
+          text-align: center;
+          letter-spacing: 1px;
+          background: transparent;
+          border: 0;
+          border-bottom: 2px solid #3160B6;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+        .button:focus { outline: 0; }
 
-.ripples.is-active .ripplesCircle {
-  animation: ripples .4s ease-in;
-}
+
+        /* Button modifiers */
+
+        .buttonBlue {
+          background: #4a89dc;
+          text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+        }
+
+        .buttonBlue:hover { background: #357bd8; }
 
 
-/* Ripples animation */
+        /* Ripples container */
 
-@keyframes ripples {
-  0% { opacity: 0; }
+        .ripples {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          background: transparent;
+        }
 
-  25% { opacity: 1; }
 
-  100% {
-    width: 200%;
-    padding-bottom: 200%;
-    opacity: 0;
-  }
-}
-        tr:nth-child(odd) {background-color: rgba(255, 255, 255, .4);}
-table {
-    border-bottom: 3px solid transparent;
-    width: 100%;
-}
+        /* Ripples circle */
+
+        .ripplesCircle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          opacity: 0;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.25);
+        }
+
+        .ripples.is-active .ripplesCircle {
+          animation: ripples .4s ease-in;
+        }
+
+
+        /* Ripples animation */
+
+        @keyframes ripples {
+          0% { opacity: 0; }
+
+          25% { opacity: 1; }
+
+          100% {
+            width: 200%;
+            padding-bottom: 200%;
+            opacity: 0;
+          }
+        }
+                tr:nth-child(odd) {background-color: rgba(255, 255, 255, .4);}
+        table {
+            border-bottom: 3px solid transparent;
+            width: 100%;
+        }
     </style>
-
 </head>
 
 <body >
 
-<div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
-     <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
- <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
-  <a href="{% url 'cart:logout' %}">Logout</a>
-  <a href="{% url 'cart:profile' %}">Profile</a>
-  <a href="{% url 'cart:cact_buy' %}">Orders</a>
-    <a style="color: #000000;background-color: #FFFFFF;border-top-left-radius: 5%;border-top-right-radius: 5%;" href="{% url 'cart:add_pro' %}">Sell</a>
-    <form method="post" action="{% url 'cart:search_product' %}" >
-    {% csrf_token %}
-  <button type="submit" href="{% url 'cart:search_product' %}"
-          style="border: 0;background-color: #3C3C3C;cursor:pointer;padding: 0px 0px;" >
-      <i class="material-icons" >search</i>
-  <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
-</form>
-    <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
-</div>
- <div id="overlay_edit" >
-<center>
-  <form id="overlay" method="post" action="{% url 'cart:add_product' %}" enctype="multipart/form-data">
-{% csrf_token %}
+    <div class="navbar w3-animate-top" style="animation:animatetop 0.5s;animation-fill-mode: backwards; ">
+        <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
+        <a href="{% url 'cart:go-to-dashboard' %}" style="float: left;padding: 0px 0px;" ><img src="{% static 'cart/cart-logo.png' %}" width="50" height="53"><div style="float: left;padding: 14px 0px;">of {{ request.user.username }}</div></a>
+        <a href="{% url 'cart:logout' %}">Logout</a>
+        <a href="{% url 'cart:profile' %}">Profile</a>
+        <a href="{% url 'cart:cact_buy' %}">Orders</a>
+        <a style="color: #000000;background-color: #FFFFFF;border-top-left-radius: 5%;border-top-right-radius: 5%;" href="{% url 'cart:add_pro' %}">Sell</a>
+        <form method="post" action="{% url 'cart:search_product' %}" >
+        {% csrf_token %}
+          <button type="submit" href="{% url 'cart:search_product' %}"
+                  style="border: 0;background-color: #3C3C3C;cursor:pointer;padding: 0px 0px;" >
+              <i class="material-icons" >search</i>
+          <input type="hidden" name="next" value="{{ next }}" /></button>
+          <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
+        </form>
+        <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
+    </div>
 
-      <h2><b>Another thing to sell</b></h2>
+    <div id="overlay_edit" >
+        <center>
+        <form id="overlay" method="post" action="{% url 'cart:add_product' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3><b>Product Details</b></h3>
+            <div class="group">
+                <h6 style="margin-bottom: 0px;float: left">Title of Product</h6>
+                <input type="text" name="title" id="title" required><span class="highlight"></span><span class="bar"></span>
+                <label></label>
+            </div>
 
-    <div class="group">
-    <input type="text" name="title" id="title" required><span class="highlight"></span><span class="bar"></span>
-    <label>what is this?</label>
-  </div>
-      <div class="group">
-    <input type="number" name="quantity" id="quantity" required><span class="highlight"></span><span class="bar"></span>
-    <label>Quantity</label>
-  </div>
-      <div style="margin-bottom: 0px" class="group">
-    <input type="text" name="description" id="description" required><span class="highlight"></span><span class="bar"></span>
-    <label>About it</label>
-  </div>
-      <div class="group">
-          <h4 style="margin-bottom: 0px;float: left">Category</h4>
-    <select onmouseover="" name="category">
-        {% for i in dt1 %}
-    <option value="{{ i }}">{{ i }}</option>
-    {% endfor %}
-  </select>
+            <div class="group">
+                <h6 style="margin-bottom: 0px;float: left">Quantity</h6>
+                <input type="number" name="quantity" id="quantity" required><span class="highlight"></span><span class="bar"></span>
+                <label></label>
+            </div>
 
-  </div>
+            <div style="margin-bottom: 0px" class="group">
+                <h6 style="margin-bottom: 0px;float: left">About the product</h6>
+                <input type="text" name="description" id="description" required><span class="highlight"></span><span class="bar"></span>
+                <label></label>
+            </div>
 
-  <div class="group" style="margin-bottom: 0px">
-    <input type="number" name="price" id="price" required><span class="highlight"></span><span class="bar"></span>
-    <label>Everything has a price</label>
-  </div>
-      <div class="group">
-          <h3 style="margin-bottom: 0px"><b>Images of product</b></h3>
-    <input type="file" name="pro_pic" id="price" multiple required accept="image/*"><span class="highlight"></span><span class="bar"></span>
-    <label></label>
-  </div>
+            <div class="group">
+                <h6 style="margin-bottom: 0px;float: left">Category</h6>
+                <select onmouseover="" name="category">
+                {% for i in dt1 %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+                </select>
+            </div>
 
-  <button type="submit" class="button buttonBlue">Put it online
-      <input type="hidden" name="next" value="{{ next }}" />
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+            <div class="group" style="margin-bottom: 0px">
+                <h6 style="margin-bottom: 0px;float: left">Price of the product</h6>
+                <input type="number" name="price" id="price" required><span class="highlight"></span><span class="bar"></span>
+            </div>
 
-  </button>
+            <div class="group">
+                <h6 style="margin-bottom: 0px;float: left">Images of Product</h6>
+                <div style="position: relative">
+                <input type="file" id="price" class="inputfile inputfile-1" name="pro_pic" multiple required accept="image/*">
+                <label style="margin-top: 56px;margin-left: -15px;" for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="100"  height="30" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Browse</span></label>
+                </div>
+                <label></label>
+            </div>
 
-
-  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Its mine.Only mine.</button>
-</form>
-</center>
-</div>
+            <button type="submit" class="button buttonBlue">Put it online
+            <input type="hidden" name="next" value="{{ next }}" />
+            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+            </button>
+            <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Back to Dashboard!</button>
+        </form>
+        </center>
+    </div>
 
 
 <div id="overlay_login" >
@@ -373,9 +370,10 @@ table {
             <td style="padding-left: 10%;padding-right:5%;width: 60%;">
                 <h3 style="color: #357bd8;"><b>{{ i.0 }}</b>  [{{ i.4 }}]</h3>
                 <div style="color: #4CAF50;"> ₹ {{ i.2 }} </div>Quantity: {{ i.1 }}
+                Buyer: {{ i.3 }}
             </td>
         <td>
-            <h3><b> Buyer:</b> {{ i.3 }}</h3>
+            <h3><b> Buyer: {{ i.3 }}</b></h3>
         </td>
     </tr>
         <tr style="height: 10px;"></tr>
@@ -406,7 +404,6 @@ table {
 </center>
 </div>
 <script>
-
 $(window, document, undefined).ready(function() {
 
   $('input').blur(function() {
@@ -438,7 +435,7 @@ $(window, document, undefined).ready(function() {
   });
 
   $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
-  	$(this).removeClass('is-active');
+    $(this).removeClass('is-active');
   });
 
 });
@@ -449,13 +446,13 @@ function on_edit() {
 function off_edit() {
     document.getElementById("overlay_edit").style.display = "none";
 }
-function on_login(pk,title,desc,price,quantity) {
+function on_login(pk,title,desc,price,quantity,pic) {
     document.forms[2].epk.value = pk;
     document.forms[2].title.value = title;
     document.forms[2].desc.value = desc;
     document.forms[2].price.value = price;
     document.forms[2].quantity.value = quantity;
-    //document.forms[2].pro_pic.value = pic;
+    document.forms[2].pro_pic.value = pic;
     document.getElementById("overlay_login").style.display = "block";
 
 }

@@ -5,57 +5,59 @@
 .item-1,
 .item-2,
 .item-3 {
-	position: absolute;
+  position: absolute;
   display: block;
-	top: 12em;
+  top: 12em;
 
   width: 50%;
 
   font-size: 2em;
   animation-delay: 2.5s;
   animation-fill-mode: backwards;
-	animation-duration: 20s;
-	animation-timing-function: ease-in-out;
-	animation-iteration-count: infinite;
+  animation-duration: 20s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 .item-1{
-	animation-name: anim-1;
+  animation-name: anim-1;
 }
 
 .item-2{
-	animation-name: anim-2;
+  animation-name: anim-2;
 }
 
 .item-3{
-	animation-name: anim-3;
+  animation-name: anim-3;
 }
 
 @keyframes anim-1 {
-	0%, 8.3% { left: -100%; opacity: 0; }
+  0%, 8.3% { left: -100%; opacity: 0; }
   8.3%,25% { left: 25%; opacity: 1; }
   33.33%, 100% { left: 110%; opacity: 0; }
 }
 
 @keyframes anim-2 {
-	0%, 33.33% { left: -100%; opacity: 0; }
+  0%, 33.33% { left: -100%; opacity: 0; }
   41.63%, 58.29% { left: 25%; opacity: 1; }
   66.66%, 100% { left: 110%; opacity: 0; }
 }
 
 @keyframes anim-3 {
-	0%, 66.66% { left: -100%; opacity: 0; }
+  0%, 66.66% { left: -100%; opacity: 0; }
   74.96%, 91.62% { left: 25%; opacity: 1; }
   100% { left: 110%; opacity: 0; }
 }
+
+
 #overlay {
-	width: 480px;
-	margin: 1em auto;
-	padding: 2em 2em 1em 2em;
-	background: #fafafa;
-	border: 5px solid #BDBDBD;
+  width: 480px;
+  margin: 1em auto;
+  padding: 2em 2em 1em 2em;
+  background: #fafafa;
+  border: 5px solid #BDBDBD;
     border-radius: 5px;
-	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+  box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
     font-family: Helvetica;
 }
 #overlay_login{
@@ -169,12 +171,8 @@ span.psw {
   text-decoration: none;
   font-size: 17px;
 }
-.navbar a:hover, input:hover {
+.navbar a:hover, i:hover, input:hover {
   background: #fff;
-  color: black;
-}
-.navbar i:hover{
-     background: #fff;
   color: black;
 }
 .footer{
@@ -191,16 +189,16 @@ span.psw {
   margin-top: 30px;
 }
 select {
-	font-size: 18px;
-	padding: 10px 10px 10px 5px;
-	-webkit-appearance: none;
-	display: block;
-	background: #fafafa;
-	color: #636363;
-	width: 100%;
-	border: none;
-	border-radius: 0;
-	border-bottom: 1px solid #757575;
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  -webkit-appearance: none;
+  display: block;
+  background: #fafafa;
+  color: #636363;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #757575;
 }
 .tooltip {
     position: relative;
@@ -302,7 +300,68 @@ select {
     transform: scale(1.5);
 }
 
+.js .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
 
+.inputfile + label {
+    max-width: 80%;
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px */
+}
+
+.no-js .inputfile + label {
+    display: none;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.inputfile + label * {
+    /* pointer-events: none; */
+    /* in case of FastClick lib use */
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    /* 4px */
+    margin-right: 0.25em;
+    /* 4px */
+}
+
+
+/* style 1 */
+
+.inputfile-1 + label {
+    color: #f1e5e6;
+    background-color: #008CBA;
+}
+
+.inputfile-1:focus + label,
+.inputfile-1.has-focus + label,
+.inputfile-1 + label:hover {
+    background-color: #00ffff;
+}
 
 
 
