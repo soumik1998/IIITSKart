@@ -46,4 +46,30 @@ public class getApi {
         Call<JsonObject> call = getCustomerDetailAPI.getCustDetails(seller_username);
         call.enqueue(callback);
     }
+
+    private interface GetOrderDetailAPI {
+        @Headers("Content-Type:application/json")
+        @GET("cart/get_order_detail/")
+        Call<JsonObject> getOrderDetails(@Query("username") String username);
+    }
+    public static void getOrderDetails(String username,Callback<JsonObject> callback ){
+
+        Retrofit retrofit=new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).build();
+        GetOrderDetailAPI getOrderDetailAPI=retrofit.create(GetOrderDetailAPI.class);
+        Call<JsonObject> call = getOrderDetailAPI.getOrderDetails(username);
+        call.enqueue(callback);
+    }
+
+    private interface GetProductReviewAPI {
+        @Headers("Content-Type:application/json")
+        @GET("cart/get_productReview/")
+        Call<JsonObject> getProReview(@Query("username") String username ,@Query("title") String title);
+    }
+    public static void getProReview(String username,String title,Callback<JsonObject> callback ){
+
+        Retrofit retrofit=new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).build();
+        GetProductReviewAPI getProductReviewAPI=retrofit.create(GetProductReviewAPI.class);
+        Call<JsonObject> call = getProductReviewAPI.getProReview(username,title);
+        call.enqueue(callback);
+    }
 }

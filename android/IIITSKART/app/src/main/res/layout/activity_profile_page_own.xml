@@ -75,14 +75,35 @@
         app:layout_constraintTop_toBottomOf="@+id/phoneTextView" />
 
     <Button
-        android:id="@+id/editButton"
+        android:id="@+id/EditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginRight="47dp"
         android:text="Edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewReview" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="47dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginRight="88dp"
+        android:onClick="show_orders"
+        android:text="Show Order"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/EditButton"
+        app:layout_constraintTop_toBottomOf="@+id/listViewReview" />
+
 
 </android.support.constraint.ConstraintLayout>

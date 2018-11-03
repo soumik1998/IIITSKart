@@ -1,5 +1,6 @@
 package com.nitin.iiitskart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -84,6 +85,12 @@ public class profilePageOwn extends Activity {
             }
         });
 
+
+    }
+    public void show_orders(View view){
+        Intent myIntent = new Intent(this,OrderedProducts.class);
+        myIntent.putExtra("Username",Username);
+        startActivity(myIntent);
 
     }
 

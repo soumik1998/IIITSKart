@@ -4,10 +4,16 @@ public class C_review {
     String rating;
     String text;
     String username;
-    C_review(String rating,String text,String username){
+    String seller;
+    C_review(String rating,String text,String username,String seller){
         setRating(rating);
         setText(text);
         setUsername(username);
+        setSeller(seller);
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
     public void setUsername(String username) {
@@ -30,6 +36,9 @@ public class C_review {
         return rating;
     }
 
+    public String getSeller() {
+        return seller;
+    }
 
     public String getText() {
         return text;

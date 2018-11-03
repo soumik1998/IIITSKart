@@ -51,8 +51,8 @@ urlpatterns = [
     path(r'addacomment/', views.add_a_comment, name='add_a_comment'),
     path(r'product_reviewApi/', views.product_review, name="Product_review"),
     path(r'get_order_detail/', views.order_detail, name="Order_Details"),
-    path(r'get_productReview/', views.get_pro_review, name="Order_Details"),
-
+    path(r'get_productReview/', views.get_pro_review, name="productReview_Details"),
+    path(r'buy_Api/', views.order_a_product, name="Buy"),
     url(r'^callback/(?P<token>.*)/$', views.register_with_iiits, name='register_with_iiits'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
 

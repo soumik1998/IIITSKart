@@ -34,4 +34,13 @@
     <string name="title_activity_product_page">productPage</string>
     <string name="title_activity_profile_page_own">profilePageOwn</string>
     <string name="title_activity_chat_member">Chat_member</string>
+    <string name="orders">Orders</string>
+    <string name="edit">Edit</string>
+    <string name="title_activity_ordered_products">OrderedProducts</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="bought">Bought Products</string>
+    <string name="sold">Sold Products</string>
+    <string name="email_sent">Item Bought!!</string>
 </resources>

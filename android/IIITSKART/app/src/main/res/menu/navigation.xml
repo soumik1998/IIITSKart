@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/navigation_bought"
+        android:icon="@drawable/bought_24dp"
+        android:title="@string/bought" />
+
+    <item
+        android:id="@+id/navigation_sold"
+        android:icon="@drawable/sold_24dp"
+        android:title="@string/sold" />
+
+</menu>

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,9 +19,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void show_Products(View view){
+        String category=view.getResources().getResourceName(view.getId());
+        int position=category.indexOf("/");
+        category=category.substring(position+1);
+        Log.i("Category_main",category);
         Intent myIntent = new Intent(this, Buy.class);
         myIntent.putExtra("Username",username);
-
+        myIntent.putExtra("Category",category);
         startActivity(myIntent);
     }
     public void show_user(View view){

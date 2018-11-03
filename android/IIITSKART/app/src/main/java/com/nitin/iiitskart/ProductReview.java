@@ -6,7 +6,7 @@ public class ProductReview {
     String text;
     String title;
 
-    ProductReview(String rating,String review,String title,String sellerusername){
+    ProductReview(String rating,String text,String title,String sellerusername){
         setRating(rating);
         setSellerusername(sellerusername);
         setText(text);

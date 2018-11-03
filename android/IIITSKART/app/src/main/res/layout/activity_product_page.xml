@@ -10,9 +10,8 @@
         android:id="@+id/imageView3"
         android:layout_width="107dp"
         android:layout_height="73dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginLeft="27dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:src="@drawable/online_order"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,10 +19,9 @@
     <TextView
         android:id="@+id/headerTextField"
         android:layout_width="151dp"
-        android:layout_height="73dp"
+        android:layout_height="60dp"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="104dp"
         android:layout_marginRight="104dp"
         android:gravity="center_vertical|fill_horizontal"
@@ -37,12 +35,11 @@
 
     <ImageView
         android:id="@+id/imageUpload"
-        android:layout_width="173dp"
-        android:layout_height="141dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="176dp"
+        android:layout_height="124dp"
         android:src="@drawable/photo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
@@ -50,9 +47,9 @@
         android:id="@+id/priceTextView"
         android:layout_width="123dp"
         android:layout_height="42dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
         android:background="@color/com_facebook_button_border_color_focused"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
@@ -67,9 +64,9 @@
 
     <TextView
         android:id="@+id/descriptionText"
-        android:layout_width="255dp"
-        android:layout_height="101dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="283dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="16dp"
         android:background="@color/com_facebook_button_border_color_focused"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
@@ -78,7 +75,7 @@
         android:textSize="18sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
@@ -86,8 +83,8 @@
     <TextView
         android:id="@+id/titleText"
         android:layout_width="292dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="25dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="12dp"
         android:background="@color/com_facebook_button_border_color_focused"
         android:ems="10"
         android:gravity="center_horizontal"
@@ -97,6 +94,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceTextView" />
 
@@ -104,36 +102,24 @@
         android:id="@+id/ReviewButton"
         android:layout_width="107dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginLeft="56dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginEnd="71dp"
+        android:layout_marginRight="71dp"
         android:onClick="review"
         android:text="Reviews!"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
-
-    <Button
-        android:id="@+id/reportUserButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="78dp"
-        android:layout_marginRight="78dp"
-        android:onClick="reportUser"
-        android:text="User"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ReviewButton"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buyButton"
+        app:layout_constraintHorizontal_bias="0.777"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/nameTextView"
-        android:layout_width="148dp"
+        android:layout_width="109dp"
         android:layout_height="43dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="53dp"
-        android:layout_marginRight="53dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:background="@color/com_facebook_button_border_color_focused"
         android:gravity="center_vertical|center_horizontal"
         android:onClick="showuser"
@@ -142,4 +128,63 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageUpload" />
 
+    <ListView
+        android:id="@+id/listViewProductReview"
+        android:layout_width="275dp"
+        android:layout_height="191dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/ReviewButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+
+    <Button
+        android:id="@+id/buyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="74dp"
+        android:layout_marginRight="74dp"
+        android:onClick="buy_button"
+        android:text="Buy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerQuant"
+        android:layout_width="83dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:dropDownVerticalOffset="60dp"
+        android:maxHeight="@dimen/com_facebook_profilepictureview_preset_size_normal"
+        app:layout_constraintEnd_toStartOf="@+id/nameTextView"
+        app:layout_constraintStart_toEndOf="@+id/priceTextView"
+        app:layout_constraintTop_toBottomOf="@+id/imageUpload" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/myCoordinatorLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Here are the existing layout elements, now wrapped in
+             a CoordinatorLayout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- …Toolbar, other layouts, other elements… -->
+
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 </android.support.constraint.ConstraintLayout>

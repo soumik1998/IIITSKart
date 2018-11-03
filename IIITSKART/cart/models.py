@@ -57,7 +57,7 @@ class Product(models.Model):
     modified_on = models.DateTimeField(default=datetime.now(), blank=False)
 
     def __str__(self):
-        return self.title +" "+ str(self.p_id)
+        return str(str(self.title) +" "+ str(self.p_id))
 
 
 class Order(models.Model):
@@ -78,7 +78,7 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return str(self.order_number)
+        return str(str(self.order_number)+" "+str(self.product_id)+" "+str(self.customer_id))
 
 
 class p_review(models.Model):

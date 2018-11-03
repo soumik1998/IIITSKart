@@ -126,7 +126,4 @@ public class sellProduct extends Activity {
         return imgBytes.toString();
     }
 
-
-
-
 }

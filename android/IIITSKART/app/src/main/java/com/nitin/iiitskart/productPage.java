@@ -2,20 +2,29 @@ package com.nitin.iiitskart;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,20 +45,28 @@ public class productPage extends Activity {
     TextView titleText;
     String pop_review;
     String pop_rating;
+    Spinner spinnerQuant;
     Spinner popup_rating_spinner;
     EditText popup_review_editText;
-
-
+    ListView listViewProductReview;
+    Button review_buton;
+    Button buy_buton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_page);
+        review_buton=findViewById(R.id.ReviewButton);
+        buy_buton=findViewById(R.id.buyButton);
+        listViewProductReview=findViewById(R.id.listViewProductReview);
+        spinnerQuant=findViewById(R.id.spinnerQuant);
         username= getIntent().getStringExtra("Username");
         price= getIntent().getFloatExtra("Price", (float) 0.0);
         title= getIntent().getStringExtra("Title");
         category=getIntent().getStringExtra("Category");
         seller_username= getIntent().getStringExtra("Seller_Username");
         description=getIntent().getStringExtra("Description");
+        quantity=getIntent().getIntExtra("Quantity",1);
+        initializeSpinner_Quntity();
         nameText=findViewById(R.id.nameTextView);
         priceText=findViewById(R.id.priceTextView);
         descriptionText=findViewById(R.id.descriptionText);
@@ -58,8 +75,48 @@ public class productPage extends Activity {
                 priceText.setText(price.toString());
                 descriptionText.setText(description);
                 titleText.setText(title);
-    }
 
+        makeListReview();
+    }
+    void  makeListReview(){
+        getApi.getProReview(seller_username,title, new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                final ArrayList<String> ratingArrayList = new ArrayList<String>();
+                final ArrayList<String>  textArrayList = new ArrayList<String>();
+
+                JsonObject res=response.body();
+                JsonArray jsonArray = res.getAsJsonArray("result");
+                for (JsonElement jsonElement : jsonArray) {
+                    JsonObject product = jsonElement.getAsJsonObject();
+                    C_review creviewObj = new Gson().fromJson(product, C_review.class);
+                    Log.i("Nitinwa1",creviewObj.text);
+                    ratingArrayList.add(creviewObj.rating);
+                    textArrayList.add(creviewObj.text);
+                }
+                final String[] ratingArray=ratingArrayList.toArray(new String[ratingArrayList.size()]);
+
+                final String[] textArray=textArrayList.toArray(new String[textArrayList.size()]);
+
+                Log.i("Nitinwa",ratingArray.toString());
+                Log.i("Nitinwa",textArray.toString());
+                CustomListReview adapter=new CustomListReview(  productPage.this,ratingArray,textArray);
+                listViewProductReview.setAdapter(adapter);
+                listViewProductReview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(productPage.this,"You Clicked at " + ratingArray[+ position], Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("Nitinwa",t.toString());
+            }
+        });
+    }
     public  void showuser(View view){
         Intent myIntent = new Intent(productPage.this, profile_user.class);
         myIntent.putExtra("Username",username);
@@ -118,6 +175,7 @@ public class productPage extends Activity {
         for (int i = 1; i <= 5; i++) {
             qunatity.add(Integer.toString(i));
         }
+
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, qunatity);
         spinnerArrayAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
@@ -127,4 +185,38 @@ public class productPage extends Activity {
 
     }
 
+    void initializeSpinner_Quntity(){
+        ArrayList<String> qunatity = new ArrayList<String>();
+        for (int i = 1; i <= quantity; i++) {
+            qunatity.add(Integer.toString(i));
+        }
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, qunatity);
+        spinnerArrayAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+
+        spinnerQuant.setAdapter(spinnerArrayAdapter);
+
+
+    }
+
+    public  void buy_button(View view){
+        String total_amt= String.valueOf(price*quantity);
+        POSTAPI.buy_pro(new OrderClass(title, username, seller_username, String.valueOf(quantity), total_amt, String.valueOf(price)), new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                review_buton.setVisibility(View.INVISIBLE);
+                buy_buton.setVisibility(View.INVISIBLE);
+                Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.email_sent,
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
 }

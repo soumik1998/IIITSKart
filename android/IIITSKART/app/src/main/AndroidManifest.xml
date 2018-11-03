@@ -47,7 +47,10 @@
         <activity android:name=".chat" />
         <activity
             android:name=".Chat_member"
-            android:label="@string/title_activity_chat_member"></activity>
+            android:label="@string/title_activity_chat_member" />
+        <activity
+            android:name=".OrderedProducts"
+            android:label="@string/title_activity_ordered_products"></activity>
     </application>
 
 </manifest>

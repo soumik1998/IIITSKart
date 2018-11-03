@@ -37,7 +37,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="75dp"
         android:orientation="vertical"
         android:weightSum="10"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/searchBar"
         app:layout_constraintVertical_bias="1.0">
 
 
@@ -57,7 +57,7 @@
             android:weightSum="15">
 
             <ImageView
-                android:id="@+id/elctronic"
+                android:id="@+id/Electronics"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -69,7 +69,7 @@
 
             <ImageView
 
-                android:id="@+id/project"
+                android:id="@+id/Projects"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -81,7 +81,7 @@
                 app:srcCompat="@drawable/focus" />
 
             <ImageView
-                android:id="@+id/bikes"
+                android:id="@+id/Bikes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
 
@@ -115,7 +115,7 @@
 
             <ImageView
 
-                android:id="@+id/book"
+                android:id="@+id/Books"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -127,7 +127,7 @@
 
             <ImageView
 
-                android:id="@+id/sports"
+                android:id="@+id/Sports"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -206,17 +206,15 @@
         android:id="@+id/searchBar"
         android:layout_width="334dp"
         android:layout_height="36dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MyAccount_Button"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/MyAccount_Button" />
 
     <Button
         android:id="@+id/button3"

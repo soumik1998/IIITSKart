@@ -14,7 +14,9 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from .models import customer, c_review, p_review, Product, category,Order,profile_history,user_wishlist,search_history
 from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, CategorySerializer
-
+import base64
+import io
+#from imageio import imread
 
 # Create your views here.
 
@@ -322,6 +324,7 @@ def add_product(request):
     if request.user.is_authenticated and request.FILES['pro_pic']:
         uobj=User.objects.get(username=request.user.username)
         cobj = customer.objects.get(pk=uobj.customer.id)
+
         pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
                                     description = request.POST.get("description"), price = request.POST.get("price"))
 
@@ -786,6 +789,14 @@ def receiveProduct(request):
     if request.method == 'POST':
         prod = json.loads(request.body)
         uobj = User.objects.get(username=prod['username'])
+
+        # img = prod['image']
+        # b64_bytes = base64.b64encode(img)
+        # b64_string = b64_bytes.decode()
+        #
+        # # reconstruct image as an numpy array
+        # img = imread(io.BytesIO(base64.b64decode(b64_string)))
+
         cobj = customer.objects.get(pk=uobj.customer.id)
         pro = cobj.product_set.create(title=prod['title'], quantity=prod['quantity'],
                                       description=prod['description'], price=prod["price"])
@@ -864,7 +875,7 @@ def get_userdetails(request):
     tp = []
     dit = {}
     for i in value:
-        if(i["fields"]["b_id"]== uobj.customer.id):
+        if(i["fields"]["s_id"]== uobj.customer.id):
                 custRevObj=c_review.objects.get(pk=int(i["pk"]))
                 dt = {"text": custRevObj.text, "rating": custRevObj.rating}
                 tp.append(dt)
@@ -877,14 +888,20 @@ def seller_review_api(request):
     rev = json.loads(request.body)
     print("sgdshdg")
     us = rev["username"]
+    seller=rev["seller"]
     review = rev["text"]
     stars = rev["rating"]
 
+    print(us)
+
     uobj=User.objects.get(username=us)
     cobj=customer.objects.get(pk=uobj.customer.id)
+    uobj1 = User.objects.get(username=seller)
+    cobj1 = customer.objects.get(pk=uobj1.customer.id)
 
     rev=c_review()
-    rev.c_id=cobj
+    rev.b_id=cobj
+    rev.s_id=cobj1
     rev.text=review
     rev.rating=stars
     rev.save()
@@ -987,3 +1004,34 @@ def get_pro_review(request):
         tp.append(dt)
     dit={"result":tp}
     return JsonResponse(dit)
+
+@csrf_exempt
+def order_a_product(request):
+
+    rev = json.loads(request.body)
+    sellername = rev["sellername"]
+    product = rev["product"]
+    print(product)
+    quantity = rev["quantity"]
+    price=rev["price"]
+    buyer = rev["buyer"]
+    total_amt = rev["total_amt"]
+
+    uobj=User.objects.get(username=sellername)
+    uobj1 = User.objects.get(username=buyer)
+    cobj=customer.objects.get(pk=uobj1.customer.id)
+    sobj = customer.objects.get(pk=uobj.customer.id)
+
+    pobj=Product.objects.filter(c_id=sobj,title=product)[0]
+    orderobj=Order()
+    orderobj.customer_id = cobj
+    orderobj.seller_id = sobj
+    orderobj.product_id = pobj
+    orderobj.total_amount = float(total_amt)
+    orderobj.unitprice = float(price)
+    orderobj.quantity = int(quantity)
+    orderobj.save()
+
+    pobj.quantity=pobj.quantity-int(quantity)
+    pobj.save()
+    return JsonResponse({"status": "Post"})

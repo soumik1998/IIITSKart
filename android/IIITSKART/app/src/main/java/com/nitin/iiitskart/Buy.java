@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -54,6 +55,7 @@ public class Buy extends Activity {
         setContentView(R.layout.activity_buy);
         count_listener=0;
         username= getIntent().getStringExtra("Username");
+        category_s=getIntent().getStringExtra("Category");
         spinner=findViewById(R.id.spinner1);
 
         Log.i("Chinmaya1", "asdasdbajg");
@@ -75,6 +77,9 @@ public class Buy extends Activity {
 
             @Override
             public boolean onQueryTextChange(String Text) {
+                if(Text.length()==0) {
+                    title_s = "None";
+                }
                 return false;
             }
         });
@@ -141,8 +146,8 @@ public void getProductApi(){
             Log.i(getClass().toString(),t.toString());
         }});
 }
-    public void createListView(){
-
+    public void createListView()
+    {
         ListView listView = (ListView) findViewById(R.id.listViewReview);
         CustomList adapter = new CustomList(Buy.this, array_Queried,imageId);
         listView.setAdapter(adapter);
@@ -152,14 +157,13 @@ public void getProductApi(){
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(Buy.this, "You Clicked at " + product_arrayQueried[+ position].getTitle(), Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(Buy.this, productPage.class);
-
                 myIntent.putExtra("Username",username);
-                myIntent.putExtra("Seller_Username",productArray[+ position].getUsername());
-                myIntent.putExtra("Title",productArray[+ position].getTitle());
-                myIntent.putExtra("Description",productArray[+ position].getDescription());
-                myIntent.putExtra("Category",productArray[+ position].getCategory());
-                myIntent.putExtra("Quantity",productArray[+ position].getQuantity());
-                myIntent.putExtra("Price",productArray[+ position].getPrice());
+                myIntent.putExtra("Seller_Username",product_arrayQueried[+ position].getUsername());
+                myIntent.putExtra("Title",product_arrayQueried[+ position].getTitle());
+                myIntent.putExtra("Description",product_arrayQueried[+ position].getDescription());
+                myIntent.putExtra("Category",product_arrayQueried[+ position].getCategory());
+                myIntent.putExtra("Quantity",product_arrayQueried[+ position].getQuantity());
+                myIntent.putExtra("Price",product_arrayQueried[+ position].getPrice());
                 startActivity(myIntent);
             }
         });
@@ -170,6 +174,7 @@ public void getProductApi(){
     public void query_of_array(ProductClass[] productArray){
             ArrayList<ProductClass>  product_queried = new ArrayList<ProductClass>();
             ArrayList<String>  array_queried = new ArrayList<String>();
+
             int i;
             Log.i("Category_s",category_s);
             Log.i("Title_s",title_s);
@@ -188,6 +193,7 @@ public void getProductApi(){
                     for(i=0;i<productArray.length;i++){
                     if(productArray[i].getCategory().equals(category_s)){
                         count++;
+
                         product_queried.add(productArray[i]);
                     array_queried.add(productArray[i].getTitle());
                     }
@@ -213,14 +219,17 @@ public void getProductApi(){
                         if(productArray[i].getTitle().equals(title_s) && productArray[i].getCategory().equals(category_s)) {
                             product_queried.add(productArray[i]);
                             array_queried.add(productArray[i].getTitle());
-
                         }
-
                     }
                 }
-        product_arrayQueried=ProductArrayList.toArray(new ProductClass[product_queried.size()]);
+
+        product_arrayQueried=product_queried.toArray(new ProductClass[product_queried.size()]);
         array_Queried=array_queried.toArray(new String[product_queried.size()]);
-        Log.i("Procuct_arrayQueried",String.valueOf(product_arrayQueried.length));
+
+        Log.i("ProductArray_Queried",String.valueOf(array_Queried.length));
+        Log.i("Product_Queried",String.valueOf(product_queried.size()));
+        Log.i("Product_arrayQueried",String.valueOf(product_arrayQueried.length));
+
     }
 
     }

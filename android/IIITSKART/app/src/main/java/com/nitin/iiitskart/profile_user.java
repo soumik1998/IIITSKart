@@ -131,7 +131,7 @@ public class profile_user extends Activity {
 
     }
     void sendReviewToserver(String seller_username,String pop_rating,String pop_review){
-        POSTAPI.addCustomerReview(new C_review(pop_rating,pop_review,seller_username), new Callback<JsonObject>() {
+        POSTAPI.addCustomerReview(new C_review(pop_rating,pop_review,username,seller_username), new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.i(getClass().toString(),response.toString());
