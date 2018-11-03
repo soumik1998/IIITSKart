@@ -81,7 +81,7 @@ label {
 
 /* active */
 
-input:focus ~ label, input.used ~ label {
+input ~ label, input.used ~ label {
 	top: -20px;
   transform: scale(.75); left: -2px;
 	/* font-size: 14px; */
@@ -302,6 +302,8 @@ table {
 </form>
 </center>
 </div>
+
+
 <div id="overlay_login" >
 <center>
   <form id="overlay" method="post" action="{% url 'cart:edit_product' %}" enctype="multipart/form-data">
@@ -311,15 +313,15 @@ table {
   <input style="display: none;" name="epk" value="">
 
     <div class="group">
-    <input type="text" name="title" id="title" required><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="title" id="title" value="" required><span class="highlight"></span><span class="bar"></span>
     <label>what is this?</label>
   </div>
       <div class="group">
-    <input type="number" name="quantity" id="quantity" required><span class="highlight"></span><span class="bar"></span>
+    <input type="number" name="quantity" id="quantity" value="" required><span class="highlight"></span><span class="bar"></span>
     <label>Quantity</label>
   </div>
       <div style="margin-bottom: 0px" class="group">
-    <input type="text" name="desc" id="desc" required><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="desc" id="desc" value="" required><span class="highlight"></span><span class="bar"></span>
     <label>About it</label>
   </div>
       <div class="group">
@@ -333,12 +335,12 @@ table {
   </div>
 
   <div class="group" style="margin-bottom: 0px">
-    <input type="number" name="price" id="price" required><span class="highlight"></span><span class="bar"></span>
+    <input type="number" name="price" id="price" value="" required><span class="highlight"></span><span class="bar"></span>
     <label>Everything has a price</label>
   </div>
       <div class="group">
           <h3 style="margin-bottom: 0px"><b>Images of product</b></h3>
-    <input type="file" name="pro_pic" multiple required accept="image/*">
+    <input type="file" name="pro_pic" value="" accept="image/*">
 
   <button type="submit" class="button buttonBlue">Put it online
       <input type="hidden" name="next" value="{{ next }}" />
@@ -391,7 +393,7 @@ table {
                 <div style="color: #4CAF50;"> ₹ {{ i.4 }} </div>Quantity left: {{ i.1 }}<br>
             </td>
         <td>
-            <button type="submit" onclick="on_login({{ i.5 }})" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit info</button>
+            <button type="submit" onclick="on_login({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit info</button>
     <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
             </form>
         </td>
@@ -444,10 +446,13 @@ function on_edit() {
 function off_edit() {
     document.getElementById("overlay_edit").style.display = "none";
 }
-function on_login(pk) {
-    var number=pk;
-    console.log(number);
-    document.forms[2].epk.value = number;
+function on_login(pk,title,desc,price,quantity,pic) {
+    document.forms[2].epk.value = pk;
+    document.forms[2].title.value = title;
+    document.forms[2].desc.value = desc;
+    document.forms[2].price.value = price;
+    document.forms[2].quantity.value = quantity;
+    document.forms[2].pro_pic.value = pic;
     document.getElementById("overlay_login").style.display = "block";
 
 }
