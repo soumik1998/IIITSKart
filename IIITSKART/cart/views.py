@@ -402,7 +402,11 @@ def search_product(request):
     cid_tmp=uobj_tmp.customer.id
     cobj_temp= customer.objects.get(pk=cid_tmp)
     for i in value:
-        catobj=category.objects.get(pk=i["fields"]["cat_id"])
+        try:
+            catobj=category.objects.get(pk=i["fields"]["cat_id"])
+        except:
+            catobj = category.objects.get(name="miscellaneous")
+
         if(category_name=="all"):
             cat_name="all"
         else:
