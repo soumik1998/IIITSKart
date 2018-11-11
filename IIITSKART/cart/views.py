@@ -15,11 +15,8 @@ from rest_framework import viewsets
 from .models import customer, c_review, p_review, Product, category,Order,profile_history,user_wishlist,search_history
 from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, CategorySerializer
 import base64
-import io
-#from imageio import imread
-
-# Create your views here.
-
+import os, random, string
+import os.path
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -874,6 +871,14 @@ def test_api(request):
         return JsonResponse({"status": "get"})
 
 
+def filename():
+    length = 10
+    chars = "android" + string.digits
+    random.seed = (os.urandom(1024))
+    a = ''.join(random.choice(chars) for i in range(length))
+
+    return '%s%s' % (chars, str(a))
+
 
 @csrf_exempt
 def receiveProduct(request):
@@ -881,12 +886,28 @@ def receiveProduct(request):
         prod = json.loads(request.body)
         uobj = User.objects.get(username=prod['username'])
 
-        # img = prod['image']
-        # b64_bytes = base64.b64encode(img)
-        # b64_string = b64_bytes.decode()
-        #
-        # # reconstruct image as an numpy array
-        # img = imread(io.BytesIO(base64.b64decode(b64_string)))
+        img = str(prod['image'])
+        print(img)
+
+        save_path = os.getcwd()
+        prev_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product")
+        print(prev_dir)
+        filename1 = filename()
+        print(filename1)
+
+        completename = os.path.join(prev_dir, filename1+".png")
+
+        image = open(completename, "wb")
+        image.write(base64.b64decode(img))
+        image.close()
+
+
+
+
+        # fs = FileSystemStorage(location='media/product')
+        # filenameaftersaved = fs.save(filename, androidimage1)
+        # uploaded_file_url = fs.url(filenameaftersaved)
+        # print(uploaded_file_url)
 
         cobj = customer.objects.get(pk=uobj.customer.id)
         pro = cobj.product_set.create(title=prod['title'], quantity=prod['quantity'],
@@ -894,6 +915,7 @@ def receiveProduct(request):
 
         catobj = category.objects.get(name=prod['category'])
         print(catobj.id, pro.p_id)
+        pro.pro_pic = filename1
         pro.cat_id = catobj
         pro.save()
 
@@ -901,7 +923,6 @@ def receiveProduct(request):
     else:
         print('get req')
         return JsonResponse({"status": "get"})
-
 
 
 
