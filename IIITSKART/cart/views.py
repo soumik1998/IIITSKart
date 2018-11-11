@@ -95,6 +95,19 @@ def logout_view(request):
     print(dt)
     return render(request, 'cart/landing.html', {"dt": dt})
 
+
+def avg_rating(cobj):
+    revobj = c_review.objects.filter(s_id=cobj)
+    avgrating = []
+    for j in revobj:
+        avgrating.append(j.rating)
+    if (len(avgrating)):
+        return ("%.1f" % (sum(avgrating) / len(avgrating)))
+    else:
+        return 0
+
+
+
 def recently_viewed(request):
     uname = request.user.username
     uobj = User.objects.get(username=uname)
@@ -112,7 +125,8 @@ def recently_viewed(request):
             cobj = customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj1=User.objects.get(pk=uid)
-            dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid))
+            rating=avg_rating(cobj)
+            dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid,rating))
 
     dt2.reverse()
     dt2=list(set(dt2))
@@ -135,14 +149,7 @@ def go_to_dashboard(request):
             uid = cobj.user_id
             uobj = User.objects.get(pk=uid)
             pobj = Product.objects.get(pk=i["pk"])
-            revobj = c_review.objects.filter(s_id=cobj)
-            avgrating=[]
-            for j in revobj:
-                avgrating.append(j.rating)
-            if(len(avgrating)):
-                rating="%.1f" %(sum(avgrating)/len(avgrating))
-            else:
-                rating=0
+            rating=avg_rating(cobj)
 
             if(uobj.username not in request.user.username):
                 dt1.append((i["fields"]["title"][:18], uobj.username, i["fields"]["price"], pobj.pro_pic,int(i["pk"]),rating))
