@@ -427,12 +427,7 @@ def search_product(request):
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
-
-            try:
-                revobj=c_review.objects.get(s_id=cid)
-                rating=revobj.rating
-            except:
-                rating=0
+            rating=avg_rating(cobj)
             dt.append((i["fields"]["title"][:18], uobj.username, i["fields"]["price"],pobj.pro_pic, i["pk"],rating))#productname,customername,productprice
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
@@ -640,7 +635,6 @@ def customer_activity_buy(request):
         num.append(i["fields"]["title"])
 
     dt.reverse()
-    context = {"dt": dt,"num":len(num)}
     dt1=view_wishlist(request)
     dt1.reverse()
     print(dt1)
@@ -723,17 +717,8 @@ def view_wishlist(request):
             sobj = customer.objects.get(pk=sid)
             uid=sobj.user_id
             uobj1=User.objects.get(pk=uid)
-            revobj=c_review.objects.all().filter(s_id=sobj)
-            #print("rttr",revobj)
-            temp=[]
-            for j in revobj:
-                print(j.rating)
-                temp.append(j.rating)
-            if(len(temp)==0):
-                rating=0
-            else:
-                rating=sum(temp)/len(temp)
-            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic, rating))
+            rating=avg_rating(sobj)
+            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic, rating,pobj.quantity))
     return dt1
 
 
@@ -801,8 +786,11 @@ def edit_product(request):
 
 
 
-
-
+def remove_a_product(request):
+    pid= request.POST.get("pk")
+    pobj = Product.objects.get(pk=pid)
+    pobj.delete()
+    return render(request, 'cart/success.html', {'msg': "Product Successfully Removed"})
 
 
 
