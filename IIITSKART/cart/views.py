@@ -391,14 +391,14 @@ def search_product(request):
     product_name=request.POST.get("name")
 
     category_name=request.POST.get("category")
-    price_low=request.POST.get("price_low")
-    price_high = request.POST.get("price_high")
-    rating=request.POST.get("rating")
+    price_low=int(request.POST.get("price_low"))
+    price_high = int(request.POST.get("price_high"))
+    rating=int(request.POST.get("rating"))
 
-    category_name="all"
-    price_low=0
-    price_high=100000000
-    rating=0
+    #category_name="all"
+    #price_low=0
+    #price_high=100000000
+    #rating=0
 
     temp= Product.objects.raw('SELECT * FROM cart_product')
     data = serializers.serialize('json', temp)
@@ -424,7 +424,6 @@ def search_product(request):
                 and(int(i["fields"]["price"])>price_low)
                 and (int(i["fields"]["price"])<price_high)
                 and (cat_name==category_name)) :
-            print("yes")
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
@@ -444,7 +443,7 @@ def search_product(request):
     num = []
     for i in value:
         num.append(i["fields"]["title"])
-    context={"dt":dt,"query":product_name,"num":len(num)}
+    context={"dt":dt,"query":product_name,"num":len(num),"category":category,"price_low":price_low,"price_high":price_high,"rating":rating}
 
     return render(request, 'cart/search.html', context)
 

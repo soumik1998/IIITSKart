@@ -12,6 +12,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
   <title>iiits cart</title>
+    <script>
+
+function stock(x){
+            console.log("texttttttttttttt");
+            console.log(x);
+            if (x<1){
+                document.getElementById("av").style.display ="none";
+            document.getElementById("na").style.display ="block";
+            }
+
+        }
+    </script>
     <style>
         input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -105,7 +117,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 
     </style>
-
 </head>
 
 <body>
@@ -153,27 +164,29 @@ input[type=number]::-webkit-outer-spin-button {
         <br><b>₹ {{ dt.2 }}</b></h2>
         <h2 style="color: #5A5A5A;font-size: 25px;">Description: {{ dt.3 }}<br></h2>
     </td></tr>
-  <tr><td style="padding-left: 50%;">
+  <tr><td style="padding-left: 55%;">
     <form style="float: right" method="post" action="{% url 'cart:add_to_wishlist' %}" >
     {% csrf_token %}
       <input style="display: none" name="pk" value="{{dt.8}}">
-  <button class="buttonBlue button" type="submit" style="display: block;cursor:pointer;
+  <button class="buttonBlue button" type="submit" style="cursor:pointer;
   padding: 0px 0px;height: 45px;" ><i class="material-icons" >add_shopping_cart</i>
   </button>
-    </form></td><td>
+    </form></td>
+      <td style="padding-left: 5%;">
+          <div id="av" style="display: block;">
     <form method="post" action="{% url 'cart:buy_product' %}" >
     {% csrf_token %}
         <input style="display: none" name="pk" value="{{dt.8}}">
-      <button type="submit"  class="av button buttonBlue" style="width: 35%;margin-left: 147px;">Buy
+      <button type="submit"  class="button buttonBlue" style="width: 35%;margin-left: 147px;">Buy
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
-  </button><input class="av" name="quantity" style="width: 100px;height: 48px;border: none;text-align: center" type="number" value="1" max="{{ dt.1 }}" required>
-    <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
+  </button><input name="quantity" style="width: 100px;height: 48px;border: none;text-align: center" type="number" value="1" max="{{ dt.1 }}" required>
 
-   </form>
+   </form></div>
+          <div id="na" style="display: none;margin-left: 20%;"><h2 style="color: red;">Out of stock</h2></div>
    </td></tr>
-
+ <script>stock({{ dt.1 }});</script>
 </table>
 </center>
 
@@ -185,11 +198,7 @@ input[type=number]::-webkit-outer-spin-button {
 </div>
 
 </body>
-{% if dt.1 %}
-{% else %}
-        <script>
-    document.getElementsByName("quantity").style.display = "none";
-            document.getElementsById("na").style.display = "block";
-    </script>
-{% endif %}
+
+
+
 </html>
