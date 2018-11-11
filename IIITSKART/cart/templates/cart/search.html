@@ -38,7 +38,7 @@
     transition: 0.3s;
 }
 .sidenav p{
-    padding: 8px;
+    padding: 0px;
     font-size: 16px;
     color: #FFFFFF;
 }
@@ -53,7 +53,9 @@
     font-size: 36px;
     margin-left: 50px;
 }
-
+.sidenav button:hover{
+    opacity: 0.8;
+}
 #main {
     transition: margin-left .5s;
     padding: 16px;
@@ -71,7 +73,7 @@
   display: none; /*hide original SELECT element:*/
 }
 .select-selected {
-  background-color: DodgerBlue;
+  background-color: #23CF9A;
 }
 /*style the arrow inside the select element:*/
 .select-selected:after {
@@ -101,7 +103,7 @@
 /*style items (options):*/
 .select-items {
   position: absolute;
-  background-color: DodgerBlue;
+  background-color: #23CF9A;
   top: 100%;
   left: 0;
   right: 0;
@@ -112,8 +114,16 @@
   display: none;
 }
 .select-items div:hover, .same-as-selected {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(34, 204, 207, 1);
 }
+        .sidenav input{
+            background: transparent;
+            color: #3599FF;
+            border: 2px solid #23CF9A;
+            text-align: center;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
     </style>
 
 </head>
@@ -134,7 +144,7 @@
       <input style="display: none;" name="price_low" value="{{ price_low }}">
       <input style="display: none;" name="price_high" value="{{ price_high }}">
       <input style="display: none;" name="rating" value="{{ rating }}">
-  <button href="{% url 'cart:search_product' %}" style="float: right;
+  <button id="search_button" href="{% url 'cart:search_product' %}" style="float: right;
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
@@ -145,17 +155,20 @@
 <div id="mySidenav" class="sidenav" style="margin-top: 2.5%;">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                <div class="custom-select" style="width:100%;">
-  <select>
-    <option value="0">all</option>
-    <option value="1">static1</option>
+  <select id="c1">
+      {% for i in cat_name %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
 
   </select>
 </div>
     <br>
-  <p style="display: inline;">₹ <input style="width: 20%;" type="number" id="p1"> to <input style="width: 20%;" type="number" id="p2"></p>
-  <br><br><p style="display: inline;">Lesat Seller Rating<input style="width: 20%;" type="number" id="p1"></p>
+  <p style="display: inline;">₹ <input min="1" style="width: 30%;" type="number" id="p1" value="{{ price_low }}"> to
+      <input min="1" style="width: 40%;" type="number" id="p2" value="{{ price_high }}"></p>
+  <br><br><p style="display: inline;">Least Seller Rating <input min="0" style="width: 20%;" type="number" id="r1" value="{{ r1 }}"></p>
     <br><br>
-    <button style="border: 0px;background: #3f51b5;color: #FFFFFF;width: 50%;">Apply</button>
+   <center> <button style="border: 0px;background: #23CF9A;color: #FFFFFF;width: 50%;padding: 8px;height: 60px;cursor: pointer;" onclick="filter()">Apply</button>
+</center>
 </div>
 
 <div id="main" class="main" style="color:white; margin-left: 10px;">
@@ -193,6 +206,7 @@
 <p></p>
 </div>
 <script>
+    //getElementById("c1").value={{ category }};
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
@@ -202,11 +216,16 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft= "0";
 }
-function filter(category,price_low,price_high,rating) {
-    document.forms[0].category.value = category;
-    document.forms[0].price_low.value = price_low;
-    document.forms[0].price_high.value = price_high;
-    document.forms[0].rating.value = rating;
+function filter() {
+    var x=document.getElementById("c1");
+    document.forms[0].category.value = x.value;
+    x=document.getElementById("p1");
+    document.forms[0].price_low.value = x.value;
+    x=document.getElementById("p2");
+    document.forms[0].price_high.value = x.value;
+    x=document.getElementById("r1");
+    document.forms[0].rating.value = x.value;
+    document.getElementById('search_button').click();
 
 }
 var x, i, j, selElmnt, a, b, c;

@@ -201,7 +201,7 @@ h3 { color: #4a89dc; }
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
   </button><input name="quantity" style="width: 50px;height: 48px;border: none;text-align: center;margin-top: 0px;"
-                  type="number" value="1" max="{{ dt.8 }}" required>  <!-- send available quantity here -->
+                  type="number" value="1" max="{{ dt.8 }}" min="1" required>  <!-- send available quantity here -->
             </form></div>
             <div id="na" style="display: none;margin-left: 20%;"><h2 style="color: red;">Out of stock</h2></div>
             <script>stock({{ dt.8 }})</script>
