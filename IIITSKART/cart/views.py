@@ -15,11 +15,8 @@ from rest_framework import viewsets
 from .models import customer, c_review, p_review, Product, category,Order,profile_history,user_wishlist,search_history
 from .serializers import CustomerSerializer, C_reviewSerializer, P_reviewSerializer, ProductSerializer, CategorySerializer
 import base64
-import io
-#from imageio import imread
-
-# Create your views here.
-
+import os, random, string
+import os.path
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -429,12 +426,7 @@ def search_product(request):
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
-
-            try:
-                revobj=c_review.objects.get(s_id=cid)
-                rating=revobj.rating
-            except:
-                rating=0
+            rating=avg_rating(cobj)
             dt.append((i["fields"]["title"][:18], uobj.username, i["fields"]["price"],pobj.pro_pic, i["pk"],rating))#productname,customername,productprice
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
@@ -642,7 +634,6 @@ def customer_activity_buy(request):
         num.append(i["fields"]["title"])
 
     dt.reverse()
-    context = {"dt": dt,"num":len(num)}
     dt1=view_wishlist(request)
     dt1.reverse()
     print(dt1)
@@ -725,17 +716,8 @@ def view_wishlist(request):
             sobj = customer.objects.get(pk=sid)
             uid=sobj.user_id
             uobj1=User.objects.get(pk=uid)
-            revobj=c_review.objects.all().filter(s_id=sobj)
-            #print("rttr",revobj)
-            temp=[]
-            for j in revobj:
-                print(j.rating)
-                temp.append(j.rating)
-            if(len(temp)==0):
-                rating=0
-            else:
-                rating=sum(temp)/len(temp)
-            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic, rating))
+            rating=avg_rating(sobj)
+            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic, rating,pobj.quantity))
     return dt1
 
 
@@ -803,8 +785,11 @@ def edit_product(request):
 
 
 
-
-
+def remove_a_product(request):
+    pid= request.POST.get("pk")
+    pobj = Product.objects.get(pk=pid)
+    pobj.delete()
+    return render(request, 'cart/success.html', {'msg': "Product Successfully Removed"})
 
 
 
@@ -873,6 +858,14 @@ def test_api(request):
         return JsonResponse({"status": "get"})
 
 
+def filename():
+    length = 10
+    chars = "android" + string.digits
+    random.seed = (os.urandom(1024))
+    a = ''.join(random.choice(chars) for i in range(length))
+
+    return '%s%s' % (chars, str(a))
+
 
 @csrf_exempt
 def receiveProduct(request):
@@ -880,12 +873,28 @@ def receiveProduct(request):
         prod = json.loads(request.body)
         uobj = User.objects.get(username=prod['username'])
 
-        # img = prod['image']
-        # b64_bytes = base64.b64encode(img)
-        # b64_string = b64_bytes.decode()
-        #
-        # # reconstruct image as an numpy array
-        # img = imread(io.BytesIO(base64.b64decode(b64_string)))
+        img = str(prod['image'])
+        print(img)
+
+        save_path = os.getcwd()
+        prev_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product")
+        print(prev_dir)
+        filename1 = filename()
+        print(filename1)
+
+        completename = os.path.join(prev_dir, filename1+".png")
+
+        image = open(completename, "wb")
+        image.write(base64.b64decode(img))
+        image.close()
+
+
+
+
+        # fs = FileSystemStorage(location='media/product')
+        # filenameaftersaved = fs.save(filename, androidimage1)
+        # uploaded_file_url = fs.url(filenameaftersaved)
+        # print(uploaded_file_url)
 
         cobj = customer.objects.get(pk=uobj.customer.id)
         pro = cobj.product_set.create(title=prod['title'], quantity=prod['quantity'],
@@ -893,6 +902,7 @@ def receiveProduct(request):
 
         catobj = category.objects.get(name=prod['category'])
         print(catobj.id, pro.p_id)
+        pro.pro_pic = filename1
         pro.cat_id = catobj
         pro.save()
 
@@ -900,7 +910,6 @@ def receiveProduct(request):
     else:
         print('get req')
         return JsonResponse({"status": "get"})
-
 
 
 
