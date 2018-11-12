@@ -44,7 +44,6 @@ class ProductViewSet(viewsets.ModelViewSet):
 #     queryset = login.objects.all()
 #     serializer_class =  LoginSerializer
 
-
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = category.objects.all()
     serializer_class = CategorySerializer
@@ -54,7 +53,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 #     queryset = super_user.objects.all()
 #     serializer_class =  Super_UserSerializer
 
-
+@csrf_exempt
 def home(request):
     if User.is_authenticated == True and User.is_anonymous == False and User.is_active == True:
         return render(request, 'cart/dashboard.html')
@@ -64,19 +63,19 @@ def home(request):
         print(dt)
         return render(request, 'cart/landing.html', {"dt": dt})
 
-
+@csrf_exempt
 def sign_up(request):
     dt = []
     dt.append((User.objects.all().count(), Product.objects.all().count(), Order.objects.all().count()))
     print(dt)
     return render(request, 'cart/landing.html', {"dt": dt})
 
-
+@csrf_exempt
 def dashboard(request):
 
     return render(request, 'cart/dashboard.html')
 
-
+@csrf_exempt
 def login_page(request):
     dt=[]
     dt.append((User.objects.all().count(),Product.objects.all().count(),Order.objects.all().count()))
@@ -84,7 +83,7 @@ def login_page(request):
     return render(request, 'cart/landing.html', {"dt":dt})
 
 
-
+@csrf_exempt
 def logout_view(request):
     logout(request)
     dt = []
@@ -92,7 +91,7 @@ def logout_view(request):
     print(dt)
     return render(request, 'cart/landing.html', {"dt": dt})
 
-
+@csrf_exempt
 def avg_rating(cobj):
     revobj = c_review.objects.filter(s_id=cobj)
     avgrating = []
@@ -104,7 +103,7 @@ def avg_rating(cobj):
         return 0
 
 
-
+@csrf_exempt
 def recently_viewed(request):
     uname = request.user.username
     uobj = User.objects.get(username=uname)
@@ -130,6 +129,7 @@ def recently_viewed(request):
 
     return dt2[:10]
 
+@csrf_exempt
 @login_required
 def go_to_dashboard(request):
         dt2=recently_viewed(request)
@@ -156,7 +156,7 @@ def go_to_dashboard(request):
 
         return render(request, 'cart/dashboard.html', context)
 
-
+@csrf_exempt
 @login_required
 def profile_view(request):
     temp = Product.objects.raw('SELECT * FROM  cart_product')
@@ -167,11 +167,11 @@ def profile_view(request):
         num.append(i["fields"]["title"])
     return render(request, 'cart/profile.html', {"num":len(num)})
 
-
+@csrf_exempt
 def customer_act(request):
     return render(request,'cart/order.html',{})
 
-
+@csrf_exempt
 def profile_val(request):
     try:
         us = request.POST['username']
@@ -185,7 +185,7 @@ def profile_val(request):
     except:
         return render(request, 'cart/error-page.html', {})
 
-
+@csrf_exempt
 def makeuser(request):
     if request.method == 'POST':
         print("in make user")
@@ -216,7 +216,7 @@ def makeuser(request):
             print("else")
             return render(request, 'cart/landing.html', {})
 
-
+@csrf_exempt
 def registration_email_link(request):
     if request.method == 'POST':
 
@@ -263,7 +263,7 @@ def registration_email_link(request):
 
             return render(request, 'cart/landing.html', {})
 
-
+@csrf_exempt
 def activate(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
     try:
 
@@ -279,7 +279,7 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
     else:
         return HttpResponse('Activation link is invalid!')
 
-
+@csrf_exempt
 def register_with_iiits(request, token):
         try:
             token1 = token
@@ -314,7 +314,7 @@ def register_with_iiits(request, token):
         except:
             return render(request, 'cart/landing.html', {"message": 'Please register again.'})
 
-
+@csrf_exempt
 @login_required
 def profile_photo_upload(request):
     if request.method == 'POST' and request.FILES['avatar']:
@@ -335,7 +335,7 @@ def profile_photo_upload(request):
 
     return render(request, 'cart/profile.html')
 
-
+@csrf_exempt
 def profile_data(request):
     temp = User.objects.raw('SELECT * FROM  auth_user')
     data = serializers.serialize('json', temp)
@@ -346,7 +346,7 @@ def profile_data(request):
     # print(c_user)
     return HttpResponse("profile updated")
 
-
+@csrf_exempt
 def add_product(request):
     if request.user.is_authenticated and request.FILES['pro_pic']:
         uobj=User.objects.get(username=request.user.username)
@@ -372,7 +372,7 @@ def add_product(request):
         # pro1.cat_id=catobj.id
         return render(request,'cart/success.html',{'msg':" Product Added Successfully"})
 
-
+@csrf_exempt
 def srch_history(pid,request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
@@ -383,7 +383,7 @@ def srch_history(pid,request):
     srcobj.searchtext=str(pid)
     srcobj.save()
 
-
+@csrf_exempt
 def search_product(request):
     product_name=request.POST.get("name")
 
@@ -445,7 +445,7 @@ def search_product(request):
 
     return render(request, 'cart/search.html', context)
 
-
+@csrf_exempt
 def buy_product(request):
 
     quantity=int(request.POST.get("quantity"))
@@ -477,7 +477,7 @@ def buy_product(request):
     else:
         return render(request, 'cart/error.html', {'msg': "Product Quantity Exceeded"})
 
-
+@csrf_exempt
 def seller_info(request):
     temp = Order.objects.raw('SELECT * FROM cart_order')
     data = serializers.serialize('json', temp)
@@ -500,7 +500,7 @@ def seller_info(request):
 
     return JsonResponse(dit)
 
-
+@csrf_exempt
 def product_detail(request):
     pk = request.POST.get("pk")
     srch_history(pk, request)
@@ -564,7 +564,7 @@ def product_detail(request):
     return render(request, 'cart/product.html', context)
 
 
-
+@csrf_exempt
 def customer_activity_sell(request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
@@ -609,7 +609,7 @@ def customer_activity_sell(request):
     context = {"dt1": dt1,"dt":dt,"num":len(num),"dt2":dt2}
     return render(request, 'cart/addproduct.html', context)
 
-
+@csrf_exempt
 def customer_activity_buy(request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
@@ -647,7 +647,7 @@ def customer_activity_buy(request):
     context = {"dt": dt, "num": len(num),"dt1":dt1}
     return render(request, 'cart/order.html', context)
 
-
+@csrf_exempt
 @transaction.atomic
 def update_profile(request):
 
@@ -665,7 +665,7 @@ def update_profile(request):
     return render(request, 'cart/success.html', {'msg': "Update Successful"})
 
 
-
+@csrf_exempt
 def history_profile(request):
 
     username=request.user.username
@@ -680,7 +680,7 @@ def history_profile(request):
     tobj.email=uobj.email
     tobj.save()
 
-
+@csrf_exempt
 def report_seller(request):
     username=request.POST.get("username")
     uobj=User.objects.get(username=username)
@@ -690,7 +690,7 @@ def report_seller(request):
         uobj.customer.blacklist = True
     return render(request, 'cart/dashboard.html', {})
 
-
+@csrf_exempt
 def add_to_wishlist(request):
     pid=request.POST.get("pk")
     uname=request.user.username
@@ -705,6 +705,7 @@ def add_to_wishlist(request):
 
     return render(request, 'cart/success.html', {'msg': " Added to the wishlist"})
 
+@csrf_exempt
 def view_wishlist(request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
@@ -736,7 +737,7 @@ def view_wishlist(request):
             dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic, rating))
     return dt1
 
-
+@csrf_exempt
 def edit_wishlist(request):
     proid=request.POST.get("pk")
     pobj=Product.objects.get(pk=proid)
@@ -747,7 +748,7 @@ def edit_wishlist(request):
     wl.delete()
     return render(request, 'cart/success.html', {'msg': " Removed from wishlist"})
 
-
+@csrf_exempt
 def add_a_comment(request):
     proid = request.POST.get("pk")
     pobj = Product.objects.get(pk=proid)
@@ -769,7 +770,7 @@ def add_a_comment(request):
     else:
         render(request, 'cart/error.html', {'msg': "person who bought can comment"})
 
-
+@csrf_exempt
 def disp_sell_prod(request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
@@ -780,6 +781,7 @@ def disp_sell_prod(request):
         dt2.append((i.title,i.quantity,i.description,i.pro_pic,i.price,i.p_id))
     return dt2
 
+@csrf_exempt
 def edit_product(request):
     p_id_tmp = request.POST.get("epk")
 
@@ -859,7 +861,7 @@ def receive(request):
         print('get req')
         return JsonResponse({"status": "get"})
 
-
+@csrf_exempt
 def test_api(request):
     if request.method == 'POST':
         prod = json.loads(request.body)
@@ -870,7 +872,7 @@ def test_api(request):
         print('get req')
         return JsonResponse({"status": "get"})
 
-
+@csrf_exempt
 def filename():
     length = 10
     chars = "android" + string.digits
@@ -1047,7 +1049,7 @@ def product_review(request):
 
     return JsonResponse({"status": "get"})
 
-
+@csrf_exempt
 def order_detail(request):
     uname = request.GET.get("username")
     print(uname)
@@ -1101,7 +1103,7 @@ def order_detail(request):
     return JsonResponse(dit)
 
 
-
+@csrf_exempt
 def get_pro_review(request):
     uname = request.GET.get("username")
     proname=request.GET.get("title")
@@ -1109,6 +1111,10 @@ def get_pro_review(request):
     uobj=User.objects.get(username=uname)
     cobj=customer.objects.get(pk=uobj.customer.id)
     pobj=Product.objects.get(c_id=cobj,title=proname)
+    image=pobj.pro_pic
+    #
+    encoded_string = base64.b64encode(image)
+    #print(encoded_string)
     prevobj=p_review.objects.filter(pro_id=pobj)
     tp=[]
     for i in prevobj:
