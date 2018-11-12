@@ -388,14 +388,9 @@ def search_product(request):
     product_name=request.POST.get("name")
 
     category_name=request.POST.get("category")
-    price_low=request.POST.get("price_low")
-    price_high = request.POST.get("price_high")
-    rating=request.POST.get("rating")
-
-    category_name="all"
-    price_low=0
-    price_high=100000000
-    rating=0
+    price_low=int(request.POST.get("price_low"))
+    price_high = int(request.POST.get("price_high"))
+    r1=int(request.POST.get("rating"))
 
     temp= Product.objects.raw('SELECT * FROM cart_product')
     data = serializers.serialize('json', temp)
@@ -421,28 +416,25 @@ def search_product(request):
                 and(int(i["fields"]["price"])>price_low)
                 and (int(i["fields"]["price"])<price_high)
                 and (cat_name==category_name)) :
-            print("yes")
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
             uobj=User.objects.get(pk=uid)
             pobj=Product.objects.get(pk=i["pk"])
-
-            try:
-                revobj=c_review.objects.get(s_id=cid)
-                rating=revobj.rating
-            except:
-                rating=0
+            rating=avg_rating(cobj)
             dt.append((i["fields"]["title"][:18], uobj.username, i["fields"]["price"],pobj.pro_pic, i["pk"],rating))#productname,customername,productprice
 
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
     value = json.loads(data)
     num = []
+    name=[]
+    catobj1=category.objects.all()
+    for k in catobj1:
+        name.append(k.name)
     for i in value:
         num.append(i["fields"]["title"])
-    context={"dt":dt,"query":product_name,"num":len(num)}
-
+    context={"dt":dt,"query":product_name,"num":len(num),"category":category_name,"price_low":price_low,"price_high":price_high,"r1":r1,"cat_name":name}
     return render(request, 'cart/search.html', context)
 
 @csrf_exempt
@@ -640,7 +632,6 @@ def customer_activity_buy(request):
         num.append(i["fields"]["title"])
 
     dt.reverse()
-    context = {"dt": dt,"num":len(num)}
     dt1=view_wishlist(request)
     dt1.reverse()
     print(dt1)
@@ -650,7 +641,6 @@ def customer_activity_buy(request):
 @csrf_exempt
 @transaction.atomic
 def update_profile(request):
-
 
     history_profile(request)
     username=request.user.username
@@ -724,17 +714,8 @@ def view_wishlist(request):
             sobj = customer.objects.get(pk=sid)
             uid=sobj.user_id
             uobj1=User.objects.get(pk=uid)
-            revobj=c_review.objects.all().filter(s_id=sobj)
-            #print("rttr",revobj)
-            temp=[]
-            for j in revobj:
-                print(j.rating)
-                temp.append(j.rating)
-            if(len(temp)==0):
-                rating=0
-            else:
-                rating=sum(temp)/len(temp)
-            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic, rating))
+            rating=avg_rating(sobj)
+            dt1.append((pobj.title, uobj1.username, pobj.price, i["fields"]["wish"], pobj.pro_pic, rating,pobj.quantity))
     return dt1
 
 @csrf_exempt
@@ -802,17 +783,13 @@ def edit_product(request):
     return render(request, 'cart/success.html', {'msg': "Product info Changed"})
 
 
+def remove_a_product(request):
+    pid= request.POST.get("pk")
+    pobj = Product.objects.get(pk=pid)
+    pobj.delete()
+    return render(request, 'cart/success.html', {'msg': "Product Successfully Removed"})
 
 
-
-
-
-
-
-
-
-
-#######################################################################
 @csrf_exempt
 def seller_review(request):
     us = request.POST.get("username")
@@ -903,14 +880,6 @@ def receiveProduct(request):
         image.write(base64.b64decode(img))
         image.close()
 
-
-
-
-        # fs = FileSystemStorage(location='media/product')
-        # filenameaftersaved = fs.save(filename, androidimage1)
-        # uploaded_file_url = fs.url(filenameaftersaved)
-        # print(uploaded_file_url)
-
         cobj = customer.objects.get(pk=uobj.customer.id)
         pro = cobj.product_set.create(title=prod['title'], quantity=prod['quantity'],
                                       description=prod['description'], price=prod["price"])
@@ -925,7 +894,6 @@ def receiveProduct(request):
     else:
         print('get req')
         return JsonResponse({"status": "get"})
-
 
 
 @csrf_exempt
@@ -977,7 +945,6 @@ def send(request):
         return JsonResponse(jsonResponse)
 
 
-
 @csrf_exempt
 def get_userdetails(request):
     sel_usr=request.GET.get("seller_username")
@@ -996,6 +963,7 @@ def get_userdetails(request):
     dit = {"username": uobj.username, "address": uobj.customer.address, "phone": uobj.customer.phone, "result": tp}
     print(dit)
     return JsonResponse(dit)
+
 
 @csrf_exempt
 def seller_review_api(request):
@@ -1116,12 +1084,23 @@ def get_pro_review(request):
     encoded_string = base64.b64encode(image)
     #print(encoded_string)
     prevobj=p_review.objects.filter(pro_id=pobj)
+
+    filename = str(pobj.pro_pic)
+
+    save_path = os.getcwd()
+    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product\\" + filename)
+    print(saved_dir)
+    image = open(saved_dir, "rb")
+    encoded_string = base64.b64encode(image.read())
+    print(encoded_string)
+
     tp=[]
     for i in prevobj:
         dt={"rating":i.rating,"text":i.text}
         tp.append(dt)
-    dit={"result":tp}
+    dit={"image": encoded_string, "result": tp}
     return JsonResponse(dit)
+
 
 @csrf_exempt
 def order_a_product(request):
