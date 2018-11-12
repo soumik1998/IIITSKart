@@ -84,7 +84,6 @@ def login_page(request):
     return render(request, 'cart/landing.html', {"dt":dt})
 
 
-
 def logout_view(request):
     logout(request)
     dt = []
@@ -102,7 +101,6 @@ def avg_rating(cobj):
         return ("%.1f" % (sum(avgrating) / len(avgrating)))
     else:
         return 0
-
 
 
 def recently_viewed(request):
@@ -129,6 +127,7 @@ def recently_viewed(request):
     dt2=list(set(dt2))
 
     return dt2[:10]
+
 
 @login_required
 def go_to_dashboard(request):
@@ -392,12 +391,6 @@ def search_product(request):
     price_high = int(request.POST.get("price_high"))
     r1=int(request.POST.get("rating"))
 
-
-    #category_name="all"
-    #price_low=0
-    #price_high=100000000
-    #rating=0
-
     temp= Product.objects.raw('SELECT * FROM cart_product')
     data = serializers.serialize('json', temp)
     value=json.loads(data)
@@ -562,7 +555,6 @@ def product_detail(request):
     return render(request, 'cart/product.html', context)
 
 
-
 def customer_activity_sell(request):
     uname=request.user.username
     uobj=User.objects.get(username=uname)
@@ -648,7 +640,6 @@ def customer_activity_buy(request):
 @transaction.atomic
 def update_profile(request):
 
-
     history_profile(request)
     username=request.user.username
     uobj=User.objects.get(username=username)
@@ -660,7 +651,6 @@ def update_profile(request):
     uobj.save()
 
     return render(request, 'cart/success.html', {'msg': "Update Successful"})
-
 
 
 def history_profile(request):
@@ -701,6 +691,7 @@ def add_to_wishlist(request):
     wl.save()
 
     return render(request, 'cart/success.html', {'msg': " Added to the wishlist"})
+
 
 def view_wishlist(request):
     uname=request.user.username
@@ -768,6 +759,7 @@ def disp_sell_prod(request):
         dt2.append((i.title,i.quantity,i.description,i.pro_pic,i.price,i.p_id))
     return dt2
 
+
 def edit_product(request):
     p_id_tmp = request.POST.get("epk")
 
@@ -788,7 +780,6 @@ def edit_product(request):
     return render(request, 'cart/success.html', {'msg': "Product info Changed"})
 
 
-
 def remove_a_product(request):
     pid= request.POST.get("pk")
     pobj = Product.objects.get(pk=pid)
@@ -796,12 +787,6 @@ def remove_a_product(request):
     return render(request, 'cart/success.html', {'msg': "Product Successfully Removed"})
 
 
-
-
-
-
-
-#######################################################################
 @csrf_exempt
 def seller_review(request):
     us = request.POST.get("username")
@@ -892,14 +877,6 @@ def receiveProduct(request):
         image.write(base64.b64decode(img))
         image.close()
 
-
-
-
-        # fs = FileSystemStorage(location='media/product')
-        # filenameaftersaved = fs.save(filename, androidimage1)
-        # uploaded_file_url = fs.url(filenameaftersaved)
-        # print(uploaded_file_url)
-
         cobj = customer.objects.get(pk=uobj.customer.id)
         pro = cobj.product_set.create(title=prod['title'], quantity=prod['quantity'],
                                       description=prod['description'], price=prod["price"])
@@ -914,7 +891,6 @@ def receiveProduct(request):
     else:
         print('get req')
         return JsonResponse({"status": "get"})
-
 
 
 @csrf_exempt
@@ -966,7 +942,6 @@ def send(request):
         return JsonResponse(jsonResponse)
 
 
-
 @csrf_exempt
 def get_userdetails(request):
     sel_usr=request.GET.get("seller_username")
@@ -985,6 +960,7 @@ def get_userdetails(request):
     dit = {"username": uobj.username, "address": uobj.customer.address, "phone": uobj.customer.phone, "result": tp}
     print(dit)
     return JsonResponse(dit)
+
 
 @csrf_exempt
 def seller_review_api(request):
@@ -1092,7 +1068,6 @@ def order_detail(request):
     return JsonResponse(dit)
 
 
-
 def get_pro_review(request):
     uname = request.GET.get("username")
     proname=request.GET.get("title")
@@ -1101,12 +1076,23 @@ def get_pro_review(request):
     cobj=customer.objects.get(pk=uobj.customer.id)
     pobj=Product.objects.get(c_id=cobj,title=proname)
     prevobj=p_review.objects.filter(pro_id=pobj)
+
+    filename = str(pobj.pro_pic)
+
+    save_path = os.getcwd()
+    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product\\" + filename)
+    print(saved_dir)
+    image = open(saved_dir, "rb")
+    encoded_string = base64.b64encode(image.read())
+    print(encoded_string)
+
     tp=[]
     for i in prevobj:
         dt={"rating":i.rating,"text":i.text}
         tp.append(dt)
-    dit={"result":tp}
+    dit={"image": encoded_string, "result": tp}
     return JsonResponse(dit)
+
 
 @csrf_exempt
 def order_a_product(request):
