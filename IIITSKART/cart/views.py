@@ -123,7 +123,7 @@ def recently_viewed(request):
             uid=cobj.user_id
             uobj1=User.objects.get(pk=uid)
             rating=avg_rating(cobj)
-            dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid,rating))
+            dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid,rating,uobj.customer.avatar,cobj.avatar))
 
     dt2.reverse()
     dt2=list(set(dt2))
@@ -418,8 +418,8 @@ def search_product(request):
 
         if((product_name.lower() in (str(i["fields"]["title"].lower())))
                 and (i["fields"]["c_id"] != cid_tmp)
-                and(int(i["fields"]["price"])>price_low)
-                and (int(i["fields"]["price"])<price_high)
+                and(int(i["fields"]["price"])>=price_low)
+                and (int(i["fields"]["price"])<=price_high)
                 and (cat_name==category_name)) :
             print("yes")
             cid=i["fields"]["c_id"]
@@ -626,7 +626,7 @@ def customer_activity_buy(request):
                 temp = i["fields"]["order_date"]
                 ind = temp.find("T")
                 date = temp[:ind]
-                dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date, i["fields"]["product_id"]))
+                dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date, i["fields"]["product_id"],pobj.pro_pic))
     temp = Product.objects.raw('SELECT * FROM  cart_product')
     data = serializers.serialize('json', temp)
     value = json.loads(data)
@@ -829,7 +829,7 @@ def profile_val_api(request):
         user = authenticate(username=us, password=pt)
         if user is not None:
             return JsonResponse({"status": "Yes"})
-    return JsonResponse({"status": "No"})
+        return JsonResponse({"status": "No"})
 
 
 @csrf_exempt
