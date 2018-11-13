@@ -362,6 +362,9 @@ select {
 .inputfile-1 + label:hover {
     background-color: #00ffff;
 }
+input {
+
+}
 
 
 

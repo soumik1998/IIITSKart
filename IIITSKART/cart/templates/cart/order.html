@@ -18,6 +18,18 @@
     <script>if(performance.navigation.type == 2){
    location.reload(true);
 }</script>
+    <script>
+
+function stock(x){
+            console.log("texttttttttttttt");
+            console.log(x);
+            if (x<1){
+                document.getElementById("av").style.display ="none";
+            document.getElementById("na").style.display ="block";
+            }
+
+        }
+    </script>
     <style>
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -124,6 +136,10 @@ h3 { color: #4a89dc; }
     <a href="{% url 'cart:add_pro' %}">Sell</a>
     <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
+        <input style="display: none;" name="category" value="all">
+      <input style="display: none;" name="price_low" value="0">
+      <input style="display: none;" name="price_high" value="1000000000">
+      <input style="display: none;" name="rating" value="0">
   <button type="submit" href="{% url 'cart:search_product' %}"
           style="border: 0;background-color: #3C3C3C;cursor:pointer;padding: 0px 0px;" >
       <i class="material-icons" >search</i>
@@ -177,17 +193,18 @@ h3 { color: #4a89dc; }
                 Seller: {{ i.1 }}
             </td>
         <td>
-            <form method="post" action="{% url 'cart:buy_product' %}" >
+            <div id="av"><form method="post" action="{% url 'cart:buy_product' %}" >
                 {% csrf_token %}
                 <input style="display: none" name="pk" value="{{ i.3 }}">
-                <button type="submit"  class="av button buttonBlue" style="width: 100px;">Buy
+                <button type="submit"  class="button buttonBlue" style="width: 100px;">Buy
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
-  </button><input class="av" name="quantity" style="width: 50px;height: 48px;border: none;text-align: center;margin-top: 0px;"
-                  type="number" value="1" max="{{ dt.1 }}" required>
-    <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
-            </form>
+  </button><input name="quantity" style="width: 50px;height: 48px;border: none;text-align: center;margin-top: 0px;"
+                  type="number" value="1" max="{{ dt.8 }}" min="1" required>  <!-- send available quantity here -->
+            </form></div>
+            <div id="na" style="display: none;margin-left: 20%;"><h2 style="color: red;">Out of stock</h2></div>
+            <script>stock({{ dt.8 }})</script>
             <form method="post" action="{% url 'cart:edit_wishlist' %}" >
                 {% csrf_token %}
                 <input style="display: none" name="pk" value="{{ i.3 }}">
@@ -228,7 +245,6 @@ h3 { color: #4a89dc; }
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
-    <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
             </form>
         </td>
     </tr>
