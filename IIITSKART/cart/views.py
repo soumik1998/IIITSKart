@@ -886,7 +886,7 @@ def receiveProduct(request):
 
         catobj = category.objects.get(name=prod['category'])
         print(catobj.id, pro.p_id)
-        pro.pro_pic = filename1
+        pro.pro_pic = str(filename1 + ".png")
         pro.cat_id = catobj
         pro.save()
 
@@ -1081,7 +1081,7 @@ def get_pro_review(request):
     pobj=Product.objects.get(c_id=cobj,title=proname)
     image=pobj.pro_pic
     #
-    encoded_string = base64.b64encode(image)
+    #encoded_string = base64.b64encode(image)
     #print(encoded_string)
     prevobj=p_review.objects.filter(pro_id=pobj)
 
@@ -1091,8 +1091,9 @@ def get_pro_review(request):
     saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product\\" + filename)
     print(saved_dir)
     image = open(saved_dir, "rb")
-    encoded_string = base64.b64encode(image.read())
+    encoded_string = str(base64.b64encode(image.read()))
     print(encoded_string)
+    print(len(encoded_string))
 
     tp=[]
     for i in prevobj:
