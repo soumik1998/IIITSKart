@@ -517,7 +517,7 @@ def product_detail(request):
             rev_text.append((uobj1.username,revobj.text))
 
     vis=[]
-    for _ in range(10000):
+    for _ in range(1000000):
         vis.append(1)
     r_text=[]
     for l,m in enumerate(rev_text):
@@ -977,6 +977,20 @@ def get_userdetails(request):
     return JsonResponse(dit)
 
 
+def cat_names():
+    catobj=category.objects.all()
+    tp=[]
+    names=[]
+    for i in catobj:
+        names.append(i.name)
+    dt={"category_names":names}
+    tp.append(dt)
+    dit={"result":tp}
+    return JsonResponse(dit)
+
+
+
+
 @csrf_exempt
 def get_pro_review(request):
     uname = request.GET.get("username")
@@ -1145,3 +1159,4 @@ def order_a_product(request):
     pobj.quantity=pobj.quantity-int(quantity)
     pobj.save()
     return JsonResponse({"status": "Post"})
+
