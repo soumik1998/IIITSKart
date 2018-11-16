@@ -949,11 +949,23 @@ def send(request):
 
 @csrf_exempt
 def get_userdetails(request):
+    print("fdgfdgfd")
     sel_usr=request.GET.get("seller_username")
     print(sel_usr)
     uobj=User.objects.get(username=sel_usr)
     temp = c_review.objects.raw('SELECT * FROM cart_c_review')
     data = serializers.serialize('json', temp)
+
+    filename = str(uobj.customer.avatar)
+
+    save_path = os.getcwd()
+    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\profile\\" + filename)
+    print(saved_dir)
+    image = open(saved_dir, "rb")
+    encoded_string = str(base64.b64encode(image.read()))
+    print(encoded_string)
+    print(len(encoded_string))
+
     value = json.loads(data)
     tp = []
     dit = {}
@@ -962,7 +974,7 @@ def get_userdetails(request):
                 custRevObj=c_review.objects.get(pk=int(i["pk"]))
                 dt = {"text": custRevObj.text, "rating": custRevObj.rating}
                 tp.append(dt)
-    dit = {"username": uobj.username, "address": uobj.customer.address, "phone": uobj.customer.phone, "result": tp}
+    dit = {"username": uobj.username,"image":encoded_string, "address": uobj.customer.address, "phone": uobj.customer.phone, "result": tp}
     print(dit)
     return JsonResponse(dit)
 
@@ -979,6 +991,38 @@ def cat_names():
     return JsonResponse(dit)
 
 
+
+
+@csrf_exempt
+def get_pro_review(request):
+    uname = request.GET.get("username")
+    proname=request.GET.get("title")
+
+    uobj=User.objects.get(username=uname)
+    cobj=customer.objects.get(pk=uobj.customer.id)
+    pobj=Product.objects.get(c_id=cobj,title=proname)
+    image=pobj.pro_pic
+    #
+    #encoded_string = base64.b64encode(image)
+    #print(encoded_string)
+    prevobj=p_review.objects.filter(pro_id=pobj)
+
+    filename = str(pobj.pro_pic)
+
+    save_path = os.getcwd()
+    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product\\" + filename)
+    print(saved_dir)
+    image = open(saved_dir, "rb")
+    encoded_string = str(base64.b64encode(image.read()))
+    print(encoded_string)
+    print(len(encoded_string))
+
+    tp=[]
+    for i in prevobj:
+        dt={"rating":i.rating,"text":i.text}
+        tp.append(dt)
+    dit={"image": encoded_string, "result": tp}
+    return JsonResponse(dit)
 
 
 @csrf_exempt
@@ -1084,38 +1128,6 @@ def order_detail(request):
                 tp.append(dt)
 
     dit = {"result": tp}
-    return JsonResponse(dit)
-
-
-@csrf_exempt
-def get_pro_review(request):
-    uname = request.GET.get("username")
-    proname=request.GET.get("title")
-
-    uobj=User.objects.get(username=uname)
-    cobj=customer.objects.get(pk=uobj.customer.id)
-    pobj=Product.objects.get(c_id=cobj,title=proname)
-    image=pobj.pro_pic
-    #
-    #encoded_string = base64.b64encode(image)
-    #print(encoded_string)
-    prevobj=p_review.objects.filter(pro_id=pobj)
-
-    filename = str(pobj.pro_pic)
-
-    save_path = os.getcwd()
-    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product\\" + filename)
-    print(saved_dir)
-    image = open(saved_dir, "rb")
-    encoded_string = str(base64.b64encode(image.read()))
-    print(encoded_string)
-    print(len(encoded_string))
-
-    tp=[]
-    for i in prevobj:
-        dt={"rating":i.rating,"text":i.text}
-        tp.append(dt)
-    dit={"image": encoded_string, "result": tp}
     return JsonResponse(dit)
 
 
