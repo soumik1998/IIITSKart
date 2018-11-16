@@ -114,16 +114,18 @@ def recently_viewed(request):
     value = json.loads(data)
     dt2=[]
     for i in value:
-        if(i["fields"]["c_id"]==uobj.customer.id):
-            pid=int(i["fields"]["searchtext"])
-            pobj=Product.objects.get(pk=pid)
-            cid=pobj.c_id_id
-            cobj = customer.objects.get(pk=cid)
-            uid=cobj.user_id
-            uobj1=User.objects.get(pk=uid)
-            rating=avg_rating(cobj)
-            dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid,rating,uobj.customer.avatar,cobj.avatar))
-
+        try:
+            if(i["fields"]["c_id"]==uobj.customer.id):
+                pid=int(i["fields"]["searchtext"])
+                pobj=Product.objects.get(pk=pid)
+                cid=pobj.c_id_id
+                cobj = customer.objects.get(pk=cid)
+                uid=cobj.user_id
+                uobj1=User.objects.get(pk=uid)
+                rating=avg_rating(cobj)
+                dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid,rating,uobj.customer.avatar,cobj.avatar))
+        except:
+            pass
     dt2.reverse()
     dt2=list(set(dt2))
 
@@ -353,7 +355,7 @@ def add_product(request):
         cobj = customer.objects.get(pk=uobj.customer.id)
 
         pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
-                                    description = request.POST.get("description"), price = request.POST.get("price"))
+                                    description = request.POST.get("description"), price = request.POST.get("price"),quality= request.POST.get("quality"))
 
         pro_pic = request.FILES['pro_pic']
         fs = FileSystemStorage(location='media/product')
