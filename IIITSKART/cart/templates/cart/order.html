@@ -17,6 +17,14 @@
   <title>user dashboard</title>
     <script>if(performance.navigation.type == 2){
    location.reload(true);
+   function stock(x){
+            console.log(x);
+            if (x<1){
+                document.getElementById("av").style.display ="none";
+            document.getElementById("na").style.display ="block";
+            }
+
+        }
 }</script>
     <script>
 
@@ -193,7 +201,7 @@ h3 { color: #4a89dc; }
                 Seller: {{ i.1 }}
             </td>
         <td>
-            <div id="av"><form method="post" action="{% url 'cart:buy_product' %}" >
+            <div id="av" style="display: block;"><form method="post" action="{% url 'cart:buy_product' %}" >
                 {% csrf_token %}
                 <input style="display: none" name="pk" value="{{ i.3 }}">
                 <button type="submit"  class="button buttonBlue" style="width: 100px;">Buy
@@ -204,7 +212,7 @@ h3 { color: #4a89dc; }
                   type="number" value="1" max="{{ dt.8 }}" min="1" required>  <!-- send available quantity here -->
             </form></div>
             <div id="na" style="display: none;margin-left: 20%;"><h2 style="color: red;">Out of stock</h2></div>
-            <script>stock({{ dt.8 }})</script>
+            <script>stock({{ dt.8 }});</script>
             <form method="post" action="{% url 'cart:edit_wishlist' %}" >
                 {% csrf_token %}
                 <input style="display: none" name="pk" value="{{ i.3 }}">
@@ -213,7 +221,6 @@ h3 { color: #4a89dc; }
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
   </button>
-    <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
             </form>
         </td>
     </tr>
