@@ -27,7 +27,15 @@
 
         h1 { color: #636363; }
 
-        h3 { color: #4a89dc; }
+        h4 { color: #4a89dc; }
+
+        h6 {
+            display: block;
+            font-size: .67em;
+            margin-left: 0;
+            margin-right: 0;
+            font-weight: bold;
+        }
 
         #overlay {
             width: 480px;
@@ -256,7 +264,7 @@
         <center>
         <form id="overlay" method="post" action="{% url 'cart:add_product' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <h3><b>Product Details</b></h3>
+            <h4><b>Product Details</b></h4>
             <div class="group">
                 <h6 style="margin-bottom: 0px;float: left">Title of Product</h6>
                 <input type="text" name="title" id="title" required><span class="highlight"></span><span class="bar"></span>
@@ -293,7 +301,6 @@
                 <h6 style="margin-bottom: 0px;float: left">Images of Product</h6>
                 <div style="position: relative">
                 <input type="file" id="price" class="inputfile inputfile-1" name="pro_pic" multiple required accept="image/*">
-                <label style="margin-top: 56px;margin-left: -15px;" for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="100"  height="30" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Browse</span></label>
                 </div>
                 <label></label>
             </div>
