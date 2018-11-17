@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/w2"
     tools:context=".Buy">
 
 
@@ -13,9 +14,10 @@
         android:layout_height="41dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
+        android:background="@drawable/com_facebook_auth_dialog_background"
         android:entries="@array/Categories"
         android:prompt="@string/country_prompt"
         app:layout_constraintBottom_toTopOf="@+id/listViewReview"
@@ -27,9 +29,9 @@
         android:id="@+id/textView2"
         android:layout_width="115dp"
         android:layout_height="65dp"
-        android:layout_marginEnd="136dp"
-        android:layout_marginRight="136dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
         android:gravity="center"
         android:text="BUY"
         android:textSize="30sp"
@@ -45,14 +47,15 @@
         android:layout_height="41dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="34dp"
         android:layout_marginRight="34dp"
         android:background="@color/com_facebook_button_border_color_focused"
         app:layout_constraintBottom_toTopOf="@+id/listViewReview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spinner1"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.45" />
 
     <ListView
         android:id="@+id/listViewReview"
@@ -65,9 +68,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/com_facebook_auth_dialog_background"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner1" />
 
