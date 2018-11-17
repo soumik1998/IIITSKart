@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/w2">
 
     <ImageView
         android:id="@+id/imageView"
@@ -36,7 +37,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="317dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="75dp"
         android:orientation="vertical"
@@ -46,7 +47,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchBar"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.413">
 
 
         <LinearLayout
@@ -160,8 +161,10 @@
         android:id="@+id/MyAccount_Button"
         android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/com_facebook_button_send_background"
         android:onClick="show_user"
         android:text="My Account"
         android:textSize="18sp"
@@ -174,8 +177,10 @@
         android:id="@+id/SubmitAd_Button"
         android:layout_width="189dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/com_facebook_button_send_background"
         android:onClick="postAd"
         android:text="Submit a Free Ad"
         android:textSize="18sp"
@@ -193,26 +198,29 @@
         android:layout_marginTop="22dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/com_facebook_button_send_background"
         android:onClick="Logout"
         android:text="Logout"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <SearchView
         android:id="@+id/searchBar"
         android:layout_width="334dp"
         android:layout_height="36dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginLeft="29dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginRight="21dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/com_facebook_button_background_color_disabled"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MyAccount_Button" />
 
@@ -225,9 +233,11 @@
         android:layout_marginTop="22dp"
         android:layout_marginEnd="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/com_facebook_button_send_background"
         android:onClick="showMessages"
         android:text="Messages"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/LogOut"
