@@ -1162,3 +1162,7 @@ def order_a_product(request):
     pobj.save()
     return JsonResponse({"status": "Post"})
 
+def about_us(request):
+    return render(request, 'cart/about_us.html',{})
+
+

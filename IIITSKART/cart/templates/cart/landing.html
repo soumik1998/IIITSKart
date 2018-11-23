@@ -219,8 +219,8 @@
               <img src="{% static 'cart/iiits-logo.png' %}" width="50" height="53">
               <img src="{% static 'cart/cart-logo.png' %}" width="50" height="53">
               <a id="login" onclick="on_login()" style="color: #000;" href="#">Login</a>
-              <a id="newbee" onclick="on_newbee()"style="color: #000;" href="#s">New User</a>
-              <a style="color: #000;" href="#">About Us</a>
+              <a id="newbee" onclick="on_newbee()" style="color: #000;" href="#s">New User</a>
+              <a style="color: #000;" href="{% url 'cart:about_us' %}">About Us</a>
         </div>
 
         <div id="overlay_newbee">

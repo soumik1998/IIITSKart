@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+        {% load staticfiles %}
+		<title>About Us</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{% static 'cart/main.css' %}" />
+        <link rel="icon" type="image/png" href="{% static 'cart/cart-logo.png' %}">
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<img src="{% static 'cart/iiits-logo.png' %}" style="float:left;width:90px;height:90px;">
+					<img src="{% static 'cart/cart-logo.png' %}" style="float:right;width:90px;height:90px;">
+                </div>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<header>
+						<h1>Welcome to IIITS CART!</h1>
+					</header>
+
+					<div class="flex ">
+
+						<div>
+							<span class="icon"></span>
+							<img src="{% static 'cart/buy.png' %}" style="width:90px;height:90px;"/>
+							<h3>BUY</h3>
+						</div>
+
+						<div>
+							<span class="icon "></span>
+							<img src="{% static 'cart/sell-icon.png' %}" style="width:90px;height:90px;"/>
+							<h3>SELL</h3>
+						</div>
+
+						<div>
+							<span class="icon"></span>
+							<img src="{% static 'cart/rent.png' %}" style="width:90px;height:90px;"/>
+							<h3>RENT</h3>
+						</div>
+					</div>
+					<footer>
+						<a href="{% url 'cart:go-to-dashboard' %}" class="button">Get Started</a>
+					</footer>
+				</div>
+			</section>
+
+
+		<!-- Three -->
+			<section id="three" class="wrapper align-center">
+				<div class="inner">
+					<header>
+					<h3>Meet Our Team</h3>
+					</header>
+					<div class="flex flex-2">
+						<article>
+							<div class="image round">
+								<img src="{% static 'cart/Soumik.jpeg' %}" alt="Soumik" style="width:150px;height:150px;"/>
+							</div>
+							<header>
+								<h3>Soumik Mandal</h3>
+							</header>
+							<p>CSE, IIIT Sri City</p>
+						</article>
+
+						<article>
+							<div class="image round">
+								<img src="{% static 'cart/nitin.jpg' %}" alt="Nitin" style="width:150px;height:150px;"/>
+							</div>
+							<header>
+								<h3>Nitin Kumar</h3>
+							</header>
+							<p>CSE, IIIT Sri City</p>
+						</article>
+
+						<article>
+							<div class="image round">
+								<img src="{% static 'cart/sid.jpeg' %}" alt="Siddharth" style="width:150px;height:150px;"/>
+							</div>
+							<header>
+								<h3>Siddharth Kumar</h3>
+							</header>
+							<p>CSE, IIIT Sri City</p>
+						</article>
+
+						<article>
+							<div class="image round">
+								<img src="{% static 'cart/Chinmay.jpeg' %}" alt="Chinmay"style="width:150px;height:150px;"/>
+							</div>
+							<header>
+								<h3>Chinmay Samal</h3>
+							</header>
+							<p>CSE, IIIT Sri City</p>
+						</article>
+						<article>
+								<div class="image round">
+									<img src="{% static 'cart/iti.jpg' %}" alt="Iti" style="width:150px;height:150px;"/ >
+								</div>
+								<header>
+									<h3>Iti Tripathi</h3>
+								</header>
+								<p>ECE, IIIT Sri City</p>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<footer id="footer">
+				<div class="inner">
+					<h3>&copy;ASE GROUP : B-07 </h3>
+
+				</div>
+			</footer>
+	</body>
+</html>
