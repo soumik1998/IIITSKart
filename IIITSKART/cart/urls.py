@@ -53,6 +53,7 @@ urlpatterns = [
     path(r'product_reviewApi/', views.product_review, name="Product_review"),
     path(r'get_order_detail/', views.order_detail, name="Order_Details"),
     path(r'get_productReview/', views.get_pro_review, name="productReview_Details"),
+    path(r'removepro/', views.remove_a_product, name="remove_a_product"),
     path(r'buy_Api/', views.order_a_product, name="Buy"),
     path(r'about_us/', views.about_us, name="about_us"),
     url(r'^callback/(?P<token>.*)/$', views.register_with_iiits, name='register_with_iiits'),
