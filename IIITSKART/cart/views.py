@@ -906,18 +906,17 @@ def get_products(request):
     tp=[]
     dit={}
     for i in value:
-
         cid=i["fields"]["c_id"]
         cobj=customer.objects.get(pk=cid)
         uid=cobj.user_id
         uobj=User.objects.get(pk=uid)
         probj=Product.objects.get(pk=i["pk"])
         catid=probj.cat_id
-        dt = {"quantity":i["fields"]["quantity"],"username":uobj.username,"title":i["fields"]["title"],"description":i["fields"]["description"],"category":str(catid)}
+        dt = {"quantity":i["fields"]["quantity"],"price":i["fields"]["price"],"username":uobj.username,"title":i["fields"]["title"],"description":i["fields"]["description"],"category":str(catid)}
         tp.append(dt)
         # main.append((i["fields"]["quantity"],i["fields"]["title"], uobj.username,i["fields"]["price"]))#productname,customername,productprice
     dit={"result":tp}
-
+    print(dit)
     return JsonResponse(dit)
 
 
