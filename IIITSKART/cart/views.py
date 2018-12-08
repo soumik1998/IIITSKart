@@ -355,7 +355,7 @@ def add_product(request):
         cobj = customer.objects.get(pk=uobj.customer.id)
 
         pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
-                                    description = request.POST.get("description"), price = request.POST.get("price"),quality= request.POST.get("quality"))
+                                    description = request.POST.get("description"), price = request.POST.get("price"))
 
         pro_pic = request.FILES['pro_pic']
         fs = FileSystemStorage(location='media/product')
