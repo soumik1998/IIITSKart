@@ -10,6 +10,12 @@ from django.urls import reverse
 import json
 import requests
 from django.shortcuts import render
+from django.utils.encoding import force_text, force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from .tokens import account_activation_token
+from django.core.mail import send_mail, EmailMessage
+from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from .models import customer, c_review, p_review, Product, category,Order,profile_history,user_wishlist,search_history
@@ -131,6 +137,7 @@ def recently_viewed(request):
 
     return dt2[:10]
 
+
 @csrf_exempt
 @login_required
 def go_to_dashboard(request):
@@ -158,6 +165,7 @@ def go_to_dashboard(request):
 
         return render(request, 'cart/dashboard.html', context)
 
+
 @csrf_exempt
 @login_required
 def profile_view(request):
@@ -169,9 +177,11 @@ def profile_view(request):
         num.append(i["fields"]["title"])
     return render(request, 'cart/profile.html', {"num":len(num)})
 
+
 @csrf_exempt
 def customer_act(request):
     return render(request,'cart/order.html',{})
+
 
 @csrf_exempt
 def profile_val(request):
@@ -186,6 +196,7 @@ def profile_val(request):
 
     except:
         return render(request, 'cart/error-page.html', {})
+
 
 @csrf_exempt
 def makeuser(request):
@@ -217,6 +228,7 @@ def makeuser(request):
         else:
             print("else")
             return render(request, 'cart/landing.html', {})
+
 
 @csrf_exempt
 def registration_email_link(request):
@@ -265,6 +277,7 @@ def registration_email_link(request):
 
             return render(request, 'cart/landing.html', {})
 
+
 @csrf_exempt
 def activate(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
     try:
@@ -277,9 +290,10 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
         user.is_active = True
         user.save()
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.Please close this window.')
     else:
         return HttpResponse('Activation link is invalid!')
+
 
 @csrf_exempt
 def register_with_iiits(request, token):
@@ -315,6 +329,7 @@ def register_with_iiits(request, token):
                     return render(request, 'cart/landing.html', {})
         except:
             return render(request, 'cart/landing.html', {"message": 'Please register again.'})
+
 
 @csrf_exempt
 @login_required
