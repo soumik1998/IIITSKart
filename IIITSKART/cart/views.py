@@ -14,7 +14,8 @@ from django.utils.encoding import force_text, force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from .tokens import account_activation_token
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
+from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
@@ -462,14 +463,15 @@ def buy_product(request):
 
     print(type(pk),type(quantity))
     pobj=Product.objects.get(pk=pk)
-    if(pobj.quantity>=quantity):
-        uname=request.user.username
-        uobj=User.objects.get(username=uname)
+
+    if pobj.quantity >= quantity:
+        uname = request.user.username
+        uobj = User.objects.get(username=uname)
         cobj = customer.objects.get(pk=uobj.customer.id)
-        t_amt=quantity*pobj.price
+        t_amt = quantity*pobj.price
         orderobj = Order()
 
-        uobj1=User.objects.get(username=pobj.c_id)
+        uobj1 = User.objects.get(username=pobj.c_id)
         sobj = customer.objects.get(pk=uobj1.customer.id)
 
         orderobj.customer_id = cobj
@@ -479,6 +481,20 @@ def buy_product(request):
         orderobj.unitprice=pobj.price
         orderobj.quantity=quantity
         orderobj.save()
+
+        mail_subject = 'Order Details'
+        message = render_to_string('details_send_seller_order.html', {
+            'user': uobj.username,
+            'seller': uobj1.username,
+            'contact': uobj1.email,
+            'phone': sobj.phone,
+        })
+        to_email = uobj.email
+        # print(to_email)
+        email = EmailMessage(
+            mail_subject, message, to=[to_email]
+        )
+        email.send()
 
         pobj.quantity=pobj.quantity-quantity
         pobj.save()
