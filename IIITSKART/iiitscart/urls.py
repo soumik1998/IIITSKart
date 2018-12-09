@@ -22,7 +22,7 @@ from iiitscart import settings
 
 urlpatterns = [
    path('cart/', include('cart.urls')),
-   path('rent/', include('rent.urls')),
+   path('rent/', include('rental.urls')),
    path('', views.home , name = 'home'),
    path('signup/', views.sign_up, name='signup'),
    path('lout/',views.logout_view,name='lout'),
