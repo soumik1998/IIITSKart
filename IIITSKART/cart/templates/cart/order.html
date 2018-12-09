@@ -166,6 +166,10 @@ h3 { color: #4a89dc; }
       <input style="display: none;" name="pk" value="">
     <textarea rows="4" cols="50" name="review" placeholder="type here...">
 </textarea>
+      <div class="group">
+    <input style="width: 60%;" type="number" name="rating" id="quantity" placeholder="from 1 to 5" max="5" min="1" required><span class="highlight"></span><span class="bar"></span>
+    <label><b>Rating</b></label>
+  </div>
   <button type="submit" class="button buttonBlue">Submit
       <input type="hidden" name="next" value="{{ next }}" />
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
@@ -248,7 +252,7 @@ h3 { color: #4a89dc; }
                 Seller: {{ i.3 }}
             </td>
         <td>
-                <button onclick="on_edit({{ i.5 }})" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit Review
+                <button onclick="on_edit({{ i.5 }})" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Review
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
   </button>

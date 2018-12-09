@@ -212,11 +212,11 @@ input[type=number]::-webkit-outer-spin-button {
 </table>
 </center>
 
-<h3 style="color: #3f51b5;"><b>Reviews on seller :</b></h3>
+<h2 style="color: #3f51b5;"><b>Reviews :</b></h2>
 {% for i in rev_text  %}
-    <p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;"><b>{{ i.0 }} : </b></p>
+    <p style="font-size:26px;font-family: Bahnschrift;color: #3160B6;">{{ i.0 }} : </p>
     {% for j in i.1  %}
-    <p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;">{{ j }}</p>
+    <p style="padding: 0px;margin: 0px;font-size:18px;font-family: Bahnschrift;color: #3C3C3C;">{{ j.0 }} <div style="color: #3C3C3C;display: inline;font-size: 10px;margin: 0px;padding: 0px;">[{{ j.1 }}]</div> </p>
     {% endfor %}
     <!-- loop here in i.1 to show review-->
 {% endfor %}
