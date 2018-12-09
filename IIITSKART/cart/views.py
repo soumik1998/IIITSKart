@@ -910,7 +910,7 @@ def receiveProduct(request):
         print(img)
 
         save_path = os.getcwd()
-        prev_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product")
+        prev_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/IIITSKART/media/product")
         print(prev_dir)
         filename1 = filename()
         print(filename1)
@@ -997,7 +997,7 @@ def get_userdetails(request):
     filename = str(uobj.customer.avatar)
 
     save_path = os.getcwd()
-    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\profile\\" + filename)
+    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/IIITSKART/media/profile/" + filename)
     print(saved_dir)
     image = open(saved_dir, "rb")
     encoded_string = str(base64.b64encode(image.read()))

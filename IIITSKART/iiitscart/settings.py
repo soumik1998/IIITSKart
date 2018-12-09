@@ -163,3 +163,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'iiitscartb07@gmail.com'
 EMAIL_HOST_PASSWORD = 'XdXXd@45'
 DEFAULT_FROM_EMAIL = 'iiitscartb07@gmail.com'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE=5242880
