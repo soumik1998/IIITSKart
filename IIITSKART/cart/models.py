@@ -95,6 +95,7 @@ class c_review(models.Model):
     text = models.TextField()
     b_id = models.ForeignKey(customer, related_name="BUYER", on_delete=models.CASCADE)
     s_id = models.ForeignKey(customer, related_name="SELLER", on_delete=models.CASCADE)
+    review_on = models.DateTimeField(default=datetime.now(), blank=False)
 
     def __str__(self):
         return self.text +" "+ str(self.id)
