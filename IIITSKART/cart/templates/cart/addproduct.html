@@ -315,7 +315,7 @@
     </div>
 
 
-<div id="overlay_login" >
+<div id="overlay_login">
 <center>
   <form id="overlay" method="post" action="{% url 'cart:edit_product' %}" enctype="multipart/form-data">
 {% csrf_token %}
@@ -350,8 +350,9 @@
     <label>Everything has a price</label>
   </div>
       <div class="group">
-          <h3 style="margin-bottom: 0px"><b>Images of product</b></h3>
+          <h3 style="margin-bottom: 0px"><b>Image of product</b></h3>
     <input type="file" name="pro_pic" value="" accept="image/*">
+      </div>
 
   <button type="submit" class="button buttonBlue">Put it online
       <input type="hidden" name="next" value="{{ next }}" />
@@ -361,7 +362,7 @@
 
 
   <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Discard changes</button>
-</form>
+      </form>
 </center>
 </div>
 
@@ -404,8 +405,13 @@
                 <div style="color: #4CAF50;"> ₹ {{ i.4 }} </div>Quantity left: {{ i.1 }}<br>
             </td>
         <td>
-            <button type="submit" onclick="on_login({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #C70000;text-align: center;border-bottom: 3px solid #980202;">Edit info</button>
+            <button type="submit" onclick="on_login({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #3160B6;text-align: center;border-bottom: 3px solid white;">Edit info</button>
     <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
+            </form>
+            <form style="border: none;padding: 0px;background: transparent;"  method="post" action="{% url 'cart:remove_a_product' %}" enctype="multipart/form-data">
+{% csrf_token %}
+                <input name="pk" style="display: none;">
+                <button onclick="remove({{ i.5 }})" type="submit" onclick="on_login({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #ED2A00;text-align: center;border-bottom: 3px solid #980202;">Remove</button>
             </form>
         </td>
     </tr>
@@ -458,16 +464,21 @@ function off_edit() {
     document.getElementById("overlay_edit").style.display = "none";
 }
 function on_login(pk,title,desc,price,quantity,pic) {
+
     document.forms[2].epk.value = pk;
     document.forms[2].title.value = title;
     document.forms[2].desc.value = desc;
     document.forms[2].price.value = price;
     document.forms[2].quantity.value = quantity;
-    document.forms[2].pro_pic.value = pic;
+    //document.forms[2].pro_pic.value = pic;
     document.getElementById("overlay_login").style.display = "block";
 
-}
 
+}
+function remove(pk) {
+    document.forms[3].pk.value = pk;
+}
+    document.forms[2].epk.value = pk;
 function off_login() {
     document.getElementById("overlay_login").style.display = "none";
 }

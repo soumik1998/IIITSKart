@@ -118,14 +118,16 @@ input[type=number]::-webkit-outer-spin-button {
 /*for responsive media queries*/
 .navbar input { width:50%; }
 .main form {margin: 1%;}
-.pic td{width: 40%;}
 #mobile{display: none;}
+#b2 button{width: 35%;}
+
 /* Tabled Portrait */
 @media screen and (max-width: 768px) {
     .navbar input { width:100%; }
     #back{display: none;}
     #mobile{display: block;}
-
+    #b2 button{width: 100%;}
+    .buttonBlue button{width: 100%;}
 
 }
 
@@ -144,7 +146,11 @@ input[type=number]::-webkit-outer-spin-button {
     <a href="{% url 'cart:add_pro' %}">Sell</a>
   <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
-  <button onclick="" style="float: right;
+      <input style="display: none;" name="category" value="all">
+      <input style="display: none;" name="price_low" value="0">
+      <input style="display: none;" name="price_high" value="1000000000">
+      <input style="display: none;" name="rating" value="0">
+  <button style="float: right;
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
@@ -160,11 +166,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 
   <tr>
-    <td class="pic"><div class="imgBox" style="width: 100%;">
+   <td class="pic"><div class="imgBox" style="width: 100%;">
         <img src="{{ MEDIA_URL }}product/{{ dt.5 }}"  style="width: 100%;height: 400px;"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
     </div>
     </td>
-    <td>
+    <td style="padding-left: 10%;">
         <p style="color: dodgerblue;font-size: 30px;font-family: 'Lucida Bright';margin-bottom: 0px;margin-top: 0px;text-overflow: ellipsis">{{ dt.0 }}</p>
         <h2 style="color: #969696;">Seller: {{ dt.4 }}
             <div class="tooltip">
@@ -194,7 +200,7 @@ input[type=number]::-webkit-outer-spin-button {
     <form method="post" action="{% url 'cart:add_to_wishlist' %}" >
     {% csrf_token %}
       <input style="display: none" name="pk" value="{{dt.8}}">
-        <button type="submit"  class="button buttonBlue" style="width: 35%;">Add to Cart
+        <button type="submit"  id="b2" class="button buttonBlue" style="width: 35%;">Add to Cart
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
   </button>
@@ -218,17 +224,21 @@ input[type=number]::-webkit-outer-spin-button {
 <style>
     @media all and (max-width: 768px) {
 
+    .pic td{
+        display:block;
+        width:100%;
 
+    }
     td{
         display:block;
         width:100%;
-    }
 
+    }
     tr{
         display:block;
         margin-bottom:30px;
     }
-    .pic td{width: 100%;}
+    #b2 button{width: 100%;}
     .buttonBlue button{width: 100%;}
 
 
