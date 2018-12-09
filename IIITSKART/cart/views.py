@@ -547,9 +547,10 @@ def product_detail(request):
             cobj = customer.objects.get(pk=bid)
             uid=cobj.user_id
             uobj1=User.objects.get(pk=uid)
-            time=revobj.review_on
+            time=i["fields"]["review_on"]
             tmp=time.find("T")
             time=time[:tmp]
+            print(time)
             rev_text.append((uobj1.username,revobj.text,time))
 
     vis=[]

@@ -260,7 +260,7 @@
         <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
     </div>
 
-    <div id="overlay_edit" >
+    <div id="overlay_login" >
         <center>
         <form id="overlay" method="post" action="{% url 'cart:add_product' %}" enctype="multipart/form-data">
             {% csrf_token %}
@@ -309,13 +309,13 @@
             <input type="hidden" name="next" value="{{ next }}" />
             <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
             </button>
-            <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Back to Dashboard!</button>
+            <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >close</button>
         </form>
         </center>
     </div>
 
 
-<div id="overlay_login">
+<div id="overlay_edit">
 <center>
   <form id="overlay" method="post" action="{% url 'cart:edit_product' %}" enctype="multipart/form-data">
 {% csrf_token %}
@@ -361,7 +361,7 @@
   </button>
 
 
-  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_login()" type="button" >Discard changes</button>
+  <button style="border: 0;color:#3599FF;background-color: transparent;cursor:pointer;" onclick="off_edit()" type="button" >Discard changes</button>
       </form>
 </center>
 </div>
@@ -369,7 +369,7 @@
 <div class="main" style="color:#000000;">
 
  <br>
-    <button onclick="on_edit()"  class="button buttonBlue" style="width: 15%;margin-left: 10%; margin-top: 0.5%;height: 60px;border-radius: 10px;font-size: large">
+    <button onclick="on_login()"  class="button buttonBlue" style="width: 15%;margin-left: 10%; margin-top: 0.5%;height: 60px;border-radius: 10px;font-size: large">
          Sell something</button>
 
          <h2 style="color: #2A5FDB;margin-left: 10%"><b> Sold products:</b></h2>
@@ -405,7 +405,7 @@
                 <div style="color: #4CAF50;"> ₹ {{ i.4 }} </div>Quantity left: {{ i.1 }}<br>
             </td>
         <td>
-            <button type="submit" onclick="on_login({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #3160B6;text-align: center;border-bottom: 3px solid white;">Edit info</button>
+            <button type="submit" onclick="on_edit({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #3160B6;text-align: center;border-bottom: 3px solid white;">Edit info</button>
     <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
             </form>
             <form style="border: none;padding: 0px;background: transparent;"  method="post" action="{% url 'cart:remove_a_product' %}" enctype="multipart/form-data">
@@ -456,14 +456,14 @@ $(window, document, undefined).ready(function() {
   });
 
 });
-function on_edit() {
-    document.getElementById("overlay_edit").style.display = "block";
+function on_login() {
+    document.getElementById("overlay_login").style.display = "block";
 }
 
 function off_edit() {
     document.getElementById("overlay_edit").style.display = "none";
 }
-function on_login(pk,title,desc,price,quantity,pic) {
+function on_edit(pk,title,desc,price,quantity,pic) {
 
     document.forms[2].epk.value = pk;
     document.forms[2].title.value = title;
@@ -471,18 +471,17 @@ function on_login(pk,title,desc,price,quantity,pic) {
     document.forms[2].price.value = price;
     document.forms[2].quantity.value = quantity;
     //document.forms[2].pro_pic.value = pic;
-    document.getElementById("overlay_login").style.display = "block";
+    document.getElementById("overlay_edit").style.display = "block";
 
 
 }
 function remove(pk) {
     document.forms[3].pk.value = pk;
 }
-    document.forms[2].epk.value = pk;
+
 function off_login() {
     document.getElementById("overlay_login").style.display = "none";
 }
-
 
 $(document).keyup(function(e) {
   if (e.keyCode == 27) { off_edit();off_login();}   // esc
