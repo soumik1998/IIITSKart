@@ -617,7 +617,7 @@ def customer_activity_sell(request):
             uobj1=User.objects.get(pk=cobj1.user_id)
             ind = temp.find("T")
             date = temp[:ind]
-            dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date,pobj.pro_pic))
+            dt.append((pobj.title, i["fields"]["quantity"], i["fields"]["total_amount"], uobj1.username, date,pobj.pro_pic, i["fields"]["product_id"]))
 
 
     temp = category.objects.raw('SELECT * FROM  cart_category')
