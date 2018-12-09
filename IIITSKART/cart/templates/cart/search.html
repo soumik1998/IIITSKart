@@ -185,6 +185,11 @@
    document.getElementById("p2").value = {{ price_high }};
 </script>
 {% endif %}
+{% if price_low != 0 %}
+{<script>
+   document.getElementById("p1").value = {{ price_low }};
+</script>
+{% endif %}
   <br><br><p style="display: inline;">Least Seller Rating <input min="0" max="5" style="width: 20%;" type="number" id="r1" value="{{ r1 }}"></p>
     <br><br>
    <center> <button style="border: 0px;background: #05D881;color: #FFFFFF;width: 50%;padding: 8px;height: 50px;cursor: pointer;" onclick="filter()"><b>Apply</b></button>
