@@ -130,7 +130,8 @@ def recently_viewed(request):
                 uid=cobj.user_id
                 uobj1=User.objects.get(pk=uid)
                 rating=avg_rating(cobj)
-                dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid,rating,uobj.customer.avatar,cobj.avatar))
+                if(pobj.quantity>0):
+                    dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid,rating,uobj.customer.avatar,cobj.avatar))
         except:
             pass
     dt2.reverse()
@@ -158,7 +159,7 @@ def go_to_dashboard(request):
             pobj = Product.objects.get(pk=i["pk"])
             rating=avg_rating(cobj)
 
-            if(uobj.username not in request.user.username):
+            if(uobj.username not in request.user.username and pobj.quantity>0):
                 dt1.append((i["fields"]["title"][:18], uobj.username, i["fields"]["price"], pobj.pro_pic,int(i["pk"]),rating))
         dt1.reverse()
         context = {"num": len(dt),"dt1":dt1[:10],"dt2":dt2}
@@ -369,9 +370,12 @@ def add_product(request):
     if request.user.is_authenticated and request.FILES['pro_pic']:
         uobj=User.objects.get(username=request.user.username)
         cobj = customer.objects.get(pk=uobj.customer.id)
-
-        pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
+        if cobj.phone:
+            pro=cobj.product_set.create(title=request.POST.get("title"), quantity = request.POST.get("quantity"),
                                     description = request.POST.get("description"), price = request.POST.get("price"))
+        else:
+            return  render(request,'cart/error.html',{'msg':"Please first add your phone number in profile"})
+
 
         pro_pic = request.FILES['pro_pic']
         fs = FileSystemStorage(location='media/product')
@@ -414,7 +418,6 @@ def search_product(request):
     data = serializers.serialize('json', temp)
     value=json.loads(data)
     dt=[]
-    # return HttpResponse(value)
     uobj_tmp=User.objects.get(username=request.user.username)
     cid_tmp=uobj_tmp.customer.id
     cobj_temp= customer.objects.get(pk=cid_tmp)
@@ -433,7 +436,8 @@ def search_product(request):
                 and (i["fields"]["c_id"] != cid_tmp)
                 and(int(i["fields"]["price"])>=price_low)
                 and (int(i["fields"]["price"])<=price_high)
-                and (cat_name==category_name)) :
+                and (cat_name==category_name)
+                and (i["fields"]["quantity"]>0)):
             cid=i["fields"]["c_id"]
             cobj=customer.objects.get(pk=cid)
             uid=cobj.user_id
@@ -580,7 +584,7 @@ def product_detail(request):
         avg_rating=0.0
         rating=0
 
-
+    print(r_text)
     dt=[]
     rate=[]
     d_rate=[]
