@@ -410,14 +410,17 @@ def search_product(request):
     product_name=request.POST.get("name")
 
     category_name=request.POST.get("category")
-    price_low=int(request.POST.get("price_low"))
-    price_high = int(request.POST.get("price_high"))
-    if(price_high=="high"):
-        price_high=10000000
-    if(price_low=="low"):
-        price_low=0
+    p_low=request.POST.get("price_low")
+    p_high = request.POST.get("price_high")
     r1=int(request.POST.get("rating"))
-
+    if(p_high=="high"):
+        price_high=100000
+    else:
+        price_high=int(p_high)
+    if (p_low == "low"):
+        price_low =0
+    else:
+        price_low = int(p_low)
     temp= Product.objects.raw('SELECT * FROM cart_product')
     data = serializers.serialize('json', temp)
     value=json.loads(data)
