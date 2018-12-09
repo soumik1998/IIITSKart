@@ -178,8 +178,8 @@
   </select>
 </div>
     <br>
-  <p style="display: inline;">₹ <input style="width: 30%;" type="text" placeholder="low" id="p1"> to
-      <input min="1" style="width: 40%;" type="text" placeholder="high" id="p2" ></p>
+  <p style="display: inline;">₹ <input style="width: 30%;" type="text" placeholder="low" id="p1" value="low"> to
+      <input min="1" style="width: 40%;" type="text" placeholder="high" id="p2" value="high"></p>
 {% if price_high != 100000 %}
 {<script>
    document.getElementById("p2").value = {{ price_high }};
