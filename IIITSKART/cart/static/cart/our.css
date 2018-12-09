@@ -362,7 +362,10 @@ select {
 .inputfile-1 + label:hover {
     background-color: #00ffff;
 }
-input {
+/*for responsive media queries*/
+/* Tabled Portrait */
+@media screen and (max-width: 768px) {
+    .navbar input { width:100%; }
 
 }
 

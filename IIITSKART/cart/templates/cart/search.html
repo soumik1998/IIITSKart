@@ -4,7 +4,10 @@
   {% load staticfiles %}
 
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
   <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -116,14 +119,23 @@
 .select-items div:hover, .same-as-selected {
   background-color: rgba(34, 204, 207, 1);
 }
-        .sidenav input{
-            background: transparent;
-            color: #3599FF;
-            border: 1px solid #23CF9A;
-            text-align: center;
-            padding-top: 8px;
-            padding-bottom: 8px;
-        }
+.sidenav input{
+                background: transparent;
+                color: #3599FF;
+                border: 1px solid #23CF9A;
+                text-align: center;
+                padding-top: 8px;
+                padding-bottom: 8px;
+            }
+/*for responsive media queries*/
+.navbar input { width:50%; }
+.main form {margin: 1%;}
+/* Tabled Portrait */
+@media screen and (max-width: 768px) {
+    .navbar input { width:100%; }
+    .main form {margin-left: 10%;}
+
+}
     </style>
 
 </head>

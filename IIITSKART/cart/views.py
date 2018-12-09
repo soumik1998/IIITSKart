@@ -598,7 +598,6 @@ def customer_activity_sell(request):
     temp = Order.objects.raw('SELECT * FROM cart_order')
     data = serializers.serialize('json', temp)
     value = json.loads(data)
-
     dt=[]
     for i in value:
         if(i["fields"]["seller_id"]==id):
