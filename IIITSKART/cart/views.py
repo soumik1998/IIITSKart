@@ -422,7 +422,7 @@ def search_product(request):
         try:
             catobj=category.objects.get(pk=i["fields"]["cat_id"])
         except:
-            catobj = category.objects.get(name="miscellaneous")
+            catobj = category.objects.get(name="others")
 
         if(category_name=="all"):
             cat_name="all"

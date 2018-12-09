@@ -19,6 +19,9 @@ class items(models.Model):
     type_id = models.ForeignKey(item_type, on_delete=models.CASCADE)
     rental_price = models.FloatField(default=0)
     quantity = models.IntegerField(default=0)
+    rate=models.FloatField(default=0)
+    days=models.FloatField(default=1)
+    pro_pic = models.ImageField(storage='/media/product', default='product/product_default.png')
     sold_by = models.ForeignKey(customer, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -28,11 +31,11 @@ class items(models.Model):
 class rent_details(models.Model):
     c_id = models.ForeignKey(customer, on_delete=models.CASCADE, related_name='RentedBy')
     rented_by = models.ForeignKey(customer, on_delete=models.CASCADE, related_name="Rented")
-    itemtype_id = models.ForeignKey(item_type, on_delete=models.CASCADE)
+    item_pro = models.ForeignKey(item, on_delete=models.CASCADE)
     comment = models.CharField(max_length=100)
     quantity = models.IntegerField(default=0)
     unit_price = models.FloatField(default=0)
-    rate = models.FloatField(default=0)
+    amount = models.FloatField(default=0)
     is_active = models.BooleanField(default=True)
     rented_on = models.DateTimeField(default=datetime.now(), blank=False)
     return_date = models.DateTimeField(default=datetime.now(), blank=False)
