@@ -4,7 +4,9 @@
   {% load staticfiles %}
 
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
   <link rel="stylesheet" type="text/css" href="{% static 'cart/w3.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'cart/our.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -113,7 +115,19 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
+/*for responsive media queries*/
+.navbar input { width:50%; }
+.main form {margin: 1%;}
+.pic td{width: 40%;}
+#mobile{display: none;}
+/* Tabled Portrait */
+@media screen and (max-width: 768px) {
+    .navbar input { width:100%; }
+    #back{display: none;}
+    #mobile{display: block;}
 
+
+}
 
 
     </style>
@@ -134,23 +148,23 @@ input[type=number]::-webkit-outer-spin-button {
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="width:50%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
 </form>
-    <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
+    <a id="back" style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
 
 <div class="main" style="color:white; margin: 5%;">
-
+<div id="mobile"><br><br><br><br><br><br></div>
  <center>
-    <table border="0" style="width:100%;height: 450px;background: rgba(0, 0, 0, 0);">
-    <col width="40%">
+    <table style="width:100%;height: 450px;background: rgba(0, 0, 0, 0);">
+
 
   <tr>
-    <center><td style="position: absolute"><div class="imgBox"> <img src="{{ MEDIA_URL }}product/{{ dt.5 }}"  width="400" height="400"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';"></div><br><br>
-
-
-    </td></center>
-    <td  colspan="2" style="padding-left: 140px;padding-right: 0px;">
+    <td class="pic"><div class="imgBox" style="width: 100%;">
+        <img src="{{ MEDIA_URL }}product/{{ dt.5 }}"  style="width: 100%;height: 400px;"  onerror="this.src='{{ MEDIA_URL }}product/product_default.png';">
+    </div>
+    </td>
+    <td>
         <p style="color: dodgerblue;font-size: 30px;font-family: 'Lucida Bright';margin-bottom: 0px;margin-top: 0px;text-overflow: ellipsis">{{ dt.0 }}</p>
         <h2 style="color: #969696;">Seller: {{ dt.4 }}
             <div class="tooltip">
@@ -161,23 +175,14 @@ input[type=number]::-webkit-outer-spin-button {
         <span class="fa fa-star "></span>
         {% endfor %}
                 <span class="tooltiptext">{{ dt.9 }}</span></div>
-        <br><b>₹ {{ dt.2 }}</b></h2>
+        <br><b>₹ {{ dt.2 }}<br>Left in Stock : {{ dt.1 }}</b></h2>
+
         <h2 style="color: #5A5A5A;font-size: 25px;">Description: {{ dt.3 }}<br></h2>
-    </td></tr>
-  <tr><td style="padding-left: 55%;">
-    <form style="float: right" method="post" action="{% url 'cart:add_to_wishlist' %}" >
-    {% csrf_token %}
-      <input style="display: none" name="pk" value="{{dt.8}}">
-  <button class="buttonBlue button" type="submit" style="cursor:pointer;
-  padding: 0px 0px;height: 45px;" ><i class="material-icons" >add_shopping_cart</i>
-  </button>
-    </form></td>
-      <td style="padding-left: 5%;">
-          <div id="av" style="display: block;">
+    <div id="av" style="display: block;">
     <form method="post" action="{% url 'cart:buy_product' %}" >
     {% csrf_token %}
         <input style="display: none" name="pk" value="{{dt.8}}">
-      <button type="submit"  class="button buttonBlue" style="width: 35%;margin-left: 147px;">Buy
+      <button type="submit"  class="button buttonBlue" style="width: 35%;">Buy
 
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
  <input type="hidden" name="next" value="{{ next }}" />
@@ -185,12 +190,23 @@ input[type=number]::-webkit-outer-spin-button {
 
    </form></div>
           <div id="na" style="display: none;margin-left: 20%;"><h2 style="color: red;">Out of stock</h2></div>
-   </td></tr>
+
+    <form method="post" action="{% url 'cart:add_to_wishlist' %}" >
+    {% csrf_token %}
+      <input style="display: none" name="pk" value="{{dt.8}}">
+        <button type="submit"  class="button buttonBlue" style="width: 35%;">Add to Cart
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+ <input type="hidden" name="next" value="{{ next }}" />
+  </button>
+    </form>
+
+    </td></tr>
+
  <script>stock({{ dt.1 }});</script>
 </table>
 </center>
 
-<h3 style="color: #3a3a3a"><b>Reviews on seller :</b></h3>
+<h3 style="color: #3f51b5;"><b>Reviews on seller :</b></h3>
 {% for i in rev_text  %}
     <p style="font-size:18px;font-family: Bahnschrift;color: #3C3C3C;"><b>{{ i.0 }} : </b></p>
     {% for j in i.1  %}
@@ -199,7 +215,25 @@ input[type=number]::-webkit-outer-spin-button {
     <!-- loop here in i.1 to show review-->
 {% endfor %}
 </div>
+<style>
+    @media all and (max-width: 768px) {
 
+
+    td{
+        display:block;
+        width:100%;
+    }
+
+    tr{
+        display:block;
+        margin-bottom:30px;
+    }
+    .pic td{width: 100%;}
+    .buttonBlue button{width: 100%;}
+
+
+}
+</style>
 </body>
 
 

@@ -3,7 +3,7 @@
 <head>
   {% load staticfiles %}
 
-  <meta charset="utf-8" />
+
   <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -130,10 +130,13 @@
 /*for responsive media queries*/
 .navbar input { width:50%; }
 .main form {margin: 1%;}
+#mobile{display: none;}
 /* Tabled Portrait */
 @media screen and (max-width: 768px) {
     .navbar input { width:100%; }
     .main form {margin-left: 10%;}
+    #back{display: none;}
+    #mobile{display: block;}
 
 }
     </style>
@@ -160,9 +163,9 @@
   display: block;border: 0;background-color: transparent;cursor:pointer;
   padding: 0px 0px;" ><i class="material-icons" >search</i>
   <input type="hidden" name="next" value="{{ next }}" /></button>
-  <input style="width:50%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
+  <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" value="{{ query }}" required>
 </form>
-<a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
+<a id="back" style="padding: 0px 0px;cursor: pointer;" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
 </div>
 <div id="mySidenav" class="sidenav" style="margin-top: 2.5%;">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -184,12 +187,12 @@
 </div>
 
 <div id="main" class="main" style="color:white; margin-left: 10px;">
-
+<div id="mobile"><br><br><br></div>
  <br><br>
     <div style="height:100%;width: 3%;background: transparent;float: left;position: fixed;" onmouseover="openNav()"></div>
 <div id="noresult" style="display: none"><h1 style="color: #E12B2B; margin-left: 30%">We don't have that ! Hit the search again.</h1></div>
 {% for i in dt %}
-     <form style="cursor: pointer;border: none;padding: 0px;width: 250px;height: 300px;margin:1%;display: inline;"
+     <form style="cursor: pointer;border: none;padding: 0px;width: 250px;height: 300px;display: inline;"
            method="post" action="{% url 'cart:product_detail' %}" >
     {% csrf_token %}
     <input style="display: none" name="pk" value="{{ i.4 }}">
