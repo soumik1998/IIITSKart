@@ -1048,7 +1048,7 @@ def get_pro_review(request):
     filename = str(pobj.pro_pic)
 
     save_path = os.getcwd()
-    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "\IIITSKART\media\product\\" + filename)
+    saved_dir = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/IIITSKART/media/product/" + filename)
     print(saved_dir)
     image = open(saved_dir, "rb")
     encoded_string = str(base64.b64encode(image.read()))
