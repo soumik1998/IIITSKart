@@ -81,7 +81,7 @@ def search_pro(request):
     prname=[]
     pobj=items.objects.all()
     for i in pobj:
-        if(query in i.title and category==str(i.type_id) and i.rental_price>=pri_l and i.rental_price<=pri_h):
+        if(query in i.title and category==str(i.type_id) and i.rental_price>=pri_l and i.rental_price<=pri_h and i.quantity>0):
             prname.append(i.id)
     tp=[]
     for j in prname:

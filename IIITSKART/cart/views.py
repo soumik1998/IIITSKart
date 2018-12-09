@@ -412,6 +412,10 @@ def search_product(request):
     category_name=request.POST.get("category")
     price_low=int(request.POST.get("price_low"))
     price_high = int(request.POST.get("price_high"))
+    if(price_high=="high"):
+        price_high=10000000
+    if(price_low=="low"):
+        price_low=0
     r1=int(request.POST.get("rating"))
 
     temp= Product.objects.raw('SELECT * FROM cart_product')
