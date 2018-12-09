@@ -130,7 +130,7 @@ def recently_viewed(request):
                 uid=cobj.user_id
                 uobj1=User.objects.get(pk=uid)
                 rating=avg_rating(cobj)
-                if(pobj.quantity>0):
+                if(uobj1.username not in request.user.username and pobj.quantity>0):
                     dt2.append((pobj.title[:18],uobj1.username,pobj.price,pobj.pro_pic,pid,rating,uobj.customer.avatar,cobj.avatar))
         except:
             pass
