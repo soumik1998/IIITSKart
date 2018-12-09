@@ -223,6 +223,17 @@
             outline: none;
             cursor: inherit;
         }
+        /*for responsive media queries*/
+.navbar input { width:50%; }
+.main form {margin: 1%;}
+#mobile{display: none;}
+/* Tabled Portrait */
+@media screen and (max-width: 768px) {
+    .navbar input { width:100%; }
+    .main form {margin-left: 10%;}
+     #mobile{display: block;}
+
+}
     </style>
 </head>
 
@@ -245,7 +256,7 @@
                 <i class="material-icons" >search</i>
                 <input type="hidden" name="next" value="{{ next }}" />
             </button>
-            <input style="width:57.2%;border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
+            <input style="border:0px solid #fff;" type="text" name="name" placeholder="Search among {{ num }} products" required>
         </form>
         <a style="padding: 0px 0px;cursor: pointer" ><i class="material-icons" onclick="window.history.go(-1); return false;" >arrow_back</i></a>
     </div>
