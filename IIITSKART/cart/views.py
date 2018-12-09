@@ -547,7 +547,10 @@ def product_detail(request):
             cobj = customer.objects.get(pk=bid)
             uid=cobj.user_id
             uobj1=User.objects.get(pk=uid)
-            rev_text.append((uobj1.username,revobj.text))
+            time=revobj.review_on
+            tmp=time.find("T")
+            time=time[:tmp]
+            rev_text.append((uobj1.username,revobj.text,time))
 
     vis=[]
     for _ in range(1000000):
@@ -555,11 +558,12 @@ def product_detail(request):
     r_text=[]
     for l,m in enumerate(rev_text):
         t=[]
+        tm=[]
         if(vis[l]):
             vis[l]=0
             for n,o in enumerate(rev_text):
                 if(o[0]==m[0]):
-                    t.append(o[1])
+                    t.append((o[1],o[2]))
                     vis[n]=0
             r_text.append((m[0],t))
     print(r_text)
@@ -776,7 +780,7 @@ def add_a_comment(request):
         revobj=c_review()
         revobj.b_id=cobj
         revobj.s_id=sobj
-        revobj.rating=5#request.POST.get('rating')
+        revobj.rating=request.POST.get('rating')
         revobj.text=request.POST.get("review")
         revobj.save()
         return render(request, 'cart/success.html', {'msg': "Review added"})
