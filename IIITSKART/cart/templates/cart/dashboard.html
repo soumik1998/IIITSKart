@@ -42,8 +42,8 @@
     <form method="post" action="{% url 'cart:search_product' %}" >
     {% csrf_token %}
         <input style="display: none;" name="category" value="all">
-      <input style="display: none;" name="price_low" value="0">
-      <input style="display: none;" name="price_high" value="1000000000">
+      <input style="display: none;" name="price_low" value="low">
+      <input style="display: none;" name="price_high" value="high">
       <input style="display: none;" name="rating" value="0">
   <button  style="float: right;
   display: block;border: 0;background-color: transparent;cursor:pointer;
