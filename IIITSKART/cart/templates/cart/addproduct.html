@@ -433,11 +433,11 @@
         <td>
             <button type="submit" onclick="on_edit({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #3160B6;text-align: center;border-bottom: 3px solid white;">Edit info</button>
     <h2 style="color: firebrick;display: none"id="na">Out of stock</h2>
-            </form>
+
             <form style="border: none;padding: 0px;background: transparent;"  method="post" action="{% url 'cart:remove_a_product' %}" enctype="multipart/form-data">
 {% csrf_token %}
-                <input name="pk" style="display: none;">
-                <button onclick="remove({{ i.5 }})" type="submit" onclick="on_login({{ i.5 }},'{{ i.0 }}','{{ i.2 }}',{{ i.4 }},{{ i.1 }},'{{ i.3 }}')" class="button" style="width: 160px;background: #ED2A00;text-align: center;border-bottom: 3px solid #980202;">Remove</button>
+                <input name="pk" id="remove_id" style="display: none;">
+                <button onclick="remove({{ i.5 }})" type="submit" class="button" style="width: 160px;background: #ED2A00;text-align: center;border-bottom: 3px solid #980202;">Remove</button>
             </form>
         </td>
     </tr>
@@ -502,7 +502,9 @@ function on_edit(pk,title,desc,price,quantity,pic) {
 
 }
 function remove(pk) {
-    document.forms[3].pk.value = pk;
+    //alert(pk);
+   // document.forms[6].pk.value = pk;
+    document.getElementById("remove_id").value =pk;
 }
 
 function off_login() {
